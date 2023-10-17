@@ -12,4 +12,8 @@ exclusive APIs', such as: `chrome.runtime`, `chrome.devtools`, etc.
 
 ## Quick Start
 
-1. Run in root of the project `yarn install`
+1. Run at the root `yarn install`
+2. `cd ./packages/v4fire-devtools-core`
+3. `yarn dev`
+4. Open new terminal and run `yarn start`
+5. Open browser at `http://localhost:3333`

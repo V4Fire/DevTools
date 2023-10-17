@@ -1,0 +1,7 @@
+- namespace [%fileName%]
+
+- include 'components/super/i-static-page/i-static-page.html.ss'|b as placeholder
+
+- template index(params) extends ['i-static-page.html'].index
+	- deps = include('src/pages/p-root/deps')
+
