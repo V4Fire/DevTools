@@ -1,0 +1,19 @@
+{
+  "name": "@v4fire/devtools-extension",
+  "version": "0.0.0",
+  "scripts": {
+    "build": "yarn build:tsconfig && npx webpack",
+    "build:tsconfig": "yarn build:link-node-modules && node node_modules/@v4fire/core/build/build-tsconfig",
+    "build:link-node-modules": "node ../devtools-core/build/link-node-modules",
+    "dev": "yarn build:tsconfig && npx webpack --watch",
+    "start": "node webview.app",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "packageManager": "yarn@3.6.4",
+  "dependencies": {
+    "@config/config": "npm:config@1.31.0",
+    "@v4fire/client": "4.0.0-beta.31",
+    "@v4fire/core": "4.0.0-alpha.11",
+    "@v4fire/devtools-core": "workspace:^"
+  }
+}
