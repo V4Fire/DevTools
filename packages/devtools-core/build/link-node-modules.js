@@ -14,8 +14,7 @@ const
 	path = require('upath'),
 	fs = require('node:fs');
 
-const linkPath = path.resolve(__dirname, '../node_modules');
+const linkPath = path.resolve(process.cwd(), 'node_modules');
 if (!fs.existsSync(linkPath)) {
 	fs.symlinkSync(path.resolve(__dirname, '../../../node_modules'), linkPath);
-
 }

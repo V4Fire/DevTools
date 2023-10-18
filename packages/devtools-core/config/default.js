@@ -18,6 +18,15 @@ const
 module.exports = config.createConfig({dirs: [__dirname, 'client']}, {
 	__proto__: config,
 
+	appName: o('app-name', {
+		env: true,
+		default: 'V4Fire DevTools',
+		coerce(value) {
+			globalThis['APP_NAME'] = value;
+			return value;
+		}
+	}),
+
 	api: {
 		proxy() {
 			return o('api-proxy', {

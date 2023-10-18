@@ -8,29 +8,13 @@
 
 'use strict';
 
-// @ts-check
-
-require('sugar').extend();
-
-const
-	config = require('@config/config'),
-	{api} = config;
-
-const app = createProxyServer();
-
-module.exports = app.listen(api.port);
-console.log('App launched');
-console.log(`http://localhost:${api.port}`);
-
 /**
- * Creates proxy server
+ * Create proxy server for development
  *
- * @param {object} options
- * @param {Function[]} options.middleWare
- *
- * @returns {import('http').Server}
+ * @param {object} root0
+ * @returns {import('express')}
  */
-function createProxyServer({
+module.exports = function createProxyServer({
 	middleWare = []
 } = {}) {
 	const
@@ -108,4 +92,4 @@ function createProxyServer({
 	});
 
 	return app;
-}
+};
