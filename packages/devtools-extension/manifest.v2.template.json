@@ -1,0 +1,12 @@
+{
+  "manifest_version": 2,
+  "name": "V4Fire Developer Tools",
+  "description": "Adds V4Fire debugging tools to the Chrome Developer Tools.",
+  "permissions": [
+    "storage",
+    "scripting"
+  ],
+  "host_permissions": [
+    "<all_urls>"
+  ]
+}
