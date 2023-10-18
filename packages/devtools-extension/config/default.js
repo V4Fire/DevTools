@@ -9,10 +9,36 @@
 'use strict';
 
 const
-	config = require('@v4fire/devtools-core/config/default');
+	config = require('@v4fire/devtools-core/config/default'),
+	o = require('@v4fire/config/options').option;
 
 module.exports = config.createConfig({dirs: [__dirname, 'client']}, {
 	__proto__: config,
+
+	/**
+	 * Extension manifest version
+	 *
+	 * @cli extension-manifest-version
+	 * @env EXTENSION_MANIFEST_VERSION
+	 */
+	extensionManifestVersion: o('extension-manifest-version', {
+		env: true,
+		default: '3',
+		validate(value) {
+			return ['2', '3'].includes(value);
+		}
+	}),
+
+	/**
+	 * Extension version
+	 * @returns {string}
+	 */
+	version() {
+		return o('version', {
+			default: include('package.json').version,
+			env: false
+		});
+	},
 
 	webpack: {
 		externalizeInline() {
