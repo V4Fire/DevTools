@@ -68,7 +68,7 @@ module.exports = class ExtensionManifest {
 	 * Path to the devtools
 	 * @type {string}
 	 */
-	devtoolsPath = this.getRelativePath('p-root.html');
+	devtoolsPath = this.getRelativePath('p-devtools.html');
 
 	// /**
 	//  * Path to the extension's service worker
