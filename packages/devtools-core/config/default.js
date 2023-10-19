@@ -72,5 +72,11 @@ module.exports = config.createConfig({dirs: [__dirname, 'client']}, {
 			...super.runtime(),
 			debug: false
 		};
+	},
+
+	build: {
+		loadDummyComponents(def = false) {
+			return super.loadDummyComponents(def);
+		}
 	}
 });
