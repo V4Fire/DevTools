@@ -8,6 +8,8 @@
 
 'use strict';
 
+const config = require('@config/config');
+
 /**
  * Create proxy server for development
  *
@@ -26,7 +28,7 @@ module.exports = function createProxyServer({
 		proxy = require('express-http-proxy');
 
 	const
-		{src} = config,
+		{src, api} = config,
 		app = express();
 
 	if (api.proxy()) {
