@@ -1,0 +1,4 @@
+- namespace [%fileName%]
+
+- template index()
+

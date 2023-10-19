@@ -1,5 +1,5 @@
 {
-  "hash": "a076ac72a6831e43b1db3c44fc5d9e931b16b5930892c3b8b081ac34b2b02ad8",
+  "hash": "d4037a24cdae85fe96b7d828867e8a7bf32e046e9825960b9fabefa0fd6267c8",
   "data": {
     "%data": "%data:Map",
     "%data:Map": [
@@ -2181,6 +2181,36 @@
           ],
           "tpl": null,
           "etpl": null
+        }
+      ],
+      [
+        "p-devtools",
+        {
+          "index": "src/pages/p-devtools/index.js",
+          "declaration": {
+            "name": "p-devtools",
+            "parent": "i-static-page",
+            "dependencies": [],
+            "libs": []
+          },
+          "name": "p-devtools",
+          "parent": "i-static-page",
+          "dependencies": [],
+          "libs": [],
+          "resolvedLibs": {
+            "%data": "%data:Set",
+            "%data:Set": []
+          },
+          "resolvedOwnLibs": {
+            "%data": "%data:Set",
+            "%data:Set": []
+          },
+          "type": "page",
+          "mixin": false,
+          "logic": null,
+          "styles": [],
+          "tpl": "src/pages/p-devtools/p-devtools.ss",
+          "etpl": "src/pages/p-devtools/p-devtools.ess"
         }
       ],
       [
