@@ -2279,6 +2279,16 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/chrome@npm:0.0.248":
+  version: 0.0.248
+  resolution: "@types/chrome@npm:0.0.248"
+  dependencies:
+    "@types/filesystem": "*"
+    "@types/har-format": "*"
+  checksum: 3e3c193af1ee46e753d02367ba1e4e0800f8a7784ed47fa5906b6874a28c14475346235490bc92d6575e8d8c2622d11210a7c5cfe832be2d341f8ec601c5cfb1
+  languageName: node
+  linkType: hard
+
 "@types/eslint-scope@npm:^3.7.3":
   version: 3.7.5
   resolution: "@types/eslint-scope@npm:3.7.5"
@@ -2313,6 +2323,22 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/filesystem@npm:*":
+  version: 0.0.34
+  resolution: "@types/filesystem@npm:0.0.34"
+  dependencies:
+    "@types/filewriter": "*"
+  checksum: ad9843a28636962214ab2d2c4ba46d3d26c2b4174a9659bd2fc062aaf98fe1e8cedaffe00fb1a740780f0dd1ed20711d8a14429c0a7567981f0a4b2777dd736f
+  languageName: node
+  linkType: hard
+
+"@types/filewriter@npm:*":
+  version: 0.0.31
+  resolution: "@types/filewriter@npm:0.0.31"
+  checksum: 51411a886ece680af8763195d68fad5ec22d367109e6472f154a07038572eada4fcc051d48a231754163a6166f935aaf63c354b966529b23566d26377e9665b4
+  languageName: node
+  linkType: hard
+
 "@types/glob@npm:*":
   version: 8.1.0
   resolution: "@types/glob@npm:8.1.0"
@@ -2330,6 +2356,13 @@ __metadata:
     "@types/minimatch": "*"
     "@types/node": "*"
   checksum: 6ae717fedfdfdad25f3d5a568323926c64f52ef35897bcac8aca8e19bc50c0bd84630bbd063e5d52078b2137d8e7d3c26eabebd1a2f03ff350fff8a91e79fc19
+  languageName: node
+  linkType: hard
+
+"@types/har-format@npm:*":
+  version: 1.2.14
+  resolution: "@types/har-format@npm:1.2.14"
+  checksum: 62f6b75ce976b29da900c5e51299e4fa4ac87ab7e2e90cd6a7f2c04cad5628a5c5b8642b5d20b302678e22a720fb1856a222b07336fbb5972846b05691a18291
   languageName: node
   linkType: hard
 
@@ -3108,6 +3141,7 @@ __metadata:
   resolution: "@v4fire/devtools-extension@workspace:packages/devtools-extension"
   dependencies:
     "@config/config": "npm:config@1.31.0"
+    "@types/chrome": 0.0.248
     "@v4fire/client": 4.0.0-beta.31
     "@v4fire/core": 4.0.0-alpha.11
     "@v4fire/devtools-core": "workspace:^"
