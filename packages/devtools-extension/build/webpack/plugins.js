@@ -7,8 +7,9 @@
  */
 'use strict';
 
-const path = require('path');
-const CopyPlugin = require('copy-webpack-plugin');
+const
+	path = require('path'),
+	CopyPlugin = require('copy-webpack-plugin');
 
 const
 	parent = include('@super/build/webpack/plugins', __dirname),
