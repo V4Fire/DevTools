@@ -1,5 +1,5 @@
 {
-  "hash": "581f75a6964e5ea8de2cc064d581eace66b21862c9b6a8a7444249744173dd72",
+  "hash": "44fe991713ca8db5dee58c9313684a40a5529465cd01ff5e2c7697a11a66cc7a",
   "data": {
     "%data": "%data:Map",
     "%data:Map": [
@@ -2184,18 +2184,56 @@
         }
       ],
       [
+        "p-components",
+        {
+          "index": "src/pages/p-components/index.js",
+          "declaration": {
+            "name": "p-components",
+            "parent": "i-dynamic-page",
+            "dependencies": [],
+            "libs": []
+          },
+          "name": "p-components",
+          "parent": "i-dynamic-page",
+          "dependencies": [],
+          "libs": [],
+          "resolvedLibs": {
+            "%data": "%data:Set",
+            "%data:Set": []
+          },
+          "resolvedOwnLibs": {
+            "%data": "%data:Set",
+            "%data:Set": []
+          },
+          "type": "page",
+          "mixin": false,
+          "logic": "src/pages/p-components/p-components.ts",
+          "styles": [
+            "src/pages/p-components/p-components.styl"
+          ],
+          "tpl": "src/pages/p-components/p-components.ss",
+          "etpl": null
+        }
+      ],
+      [
         "p-root",
         {
           "index": "src/pages/p-root/index.js",
           "declaration": {
             "name": "p-root",
             "parent": "i-static-page",
-            "dependencies": [],
+            "dependencies": [
+              "b-dynamic-page",
+              "b-router"
+            ],
             "libs": []
           },
           "name": "p-root",
           "parent": "i-static-page",
-          "dependencies": [],
+          "dependencies": [
+            "b-dynamic-page",
+            "b-router"
+          ],
           "libs": [],
           "resolvedLibs": {
             "%data": "%data:Set",
