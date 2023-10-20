@@ -1,5 +1,5 @@
 {
-  "hash": "44fe991713ca8db5dee58c9313684a40a5529465cd01ff5e2c7697a11a66cc7a",
+  "hash": "184d8e3fe49dd2c6dfe8cf3c2a263b18d32efa7b4f8da982d9d426bef5e7763f",
   "data": {
     "%data": "%data:Map",
     "%data:Map": [
@@ -588,6 +588,42 @@
             "node_modules/@v4fire/client/src/components/friends/vdom/test/b-friends-vdom-dummy/b-friends-vdom-dummy.styl"
           ],
           "tpl": "node_modules/@v4fire/client/src/components/friends/vdom/test/b-friends-vdom-dummy/b-friends-vdom-dummy.ss",
+          "etpl": null
+        }
+      ],
+      [
+        "b-header",
+        {
+          "index": "src/widgets/b-header/index.js",
+          "declaration": {
+            "name": "b-header",
+            "parent": "i-block",
+            "dependencies": [
+              "b-button"
+            ],
+            "libs": []
+          },
+          "name": "b-header",
+          "parent": "i-block",
+          "dependencies": [
+            "b-button"
+          ],
+          "libs": [],
+          "resolvedLibs": {
+            "%data": "%data:Set",
+            "%data:Set": []
+          },
+          "resolvedOwnLibs": {
+            "%data": "%data:Set",
+            "%data:Set": []
+          },
+          "type": "block",
+          "mixin": false,
+          "logic": "src/widgets/b-header/b-header.ts",
+          "styles": [
+            "src/widgets/b-header/b-header.styl"
+          ],
+          "tpl": "src/widgets/b-header/b-header.ss",
           "etpl": null
         }
       ],
@@ -2216,6 +2252,38 @@
         }
       ],
       [
+        "p-profiler",
+        {
+          "index": "src/pages/p-profiler/index.js",
+          "declaration": {
+            "name": "p-profiler",
+            "parent": "i-dynamic-page",
+            "dependencies": [],
+            "libs": []
+          },
+          "name": "p-profiler",
+          "parent": "i-dynamic-page",
+          "dependencies": [],
+          "libs": [],
+          "resolvedLibs": {
+            "%data": "%data:Set",
+            "%data:Set": []
+          },
+          "resolvedOwnLibs": {
+            "%data": "%data:Set",
+            "%data:Set": []
+          },
+          "type": "page",
+          "mixin": false,
+          "logic": "src/pages/p-profiler/p-profiler.ts",
+          "styles": [
+            "src/pages/p-profiler/p-profiler.styl"
+          ],
+          "tpl": "src/pages/p-profiler/p-profiler.ss",
+          "etpl": null
+        }
+      ],
+      [
         "p-root",
         {
           "index": "src/pages/p-root/index.js",
@@ -2224,7 +2292,8 @@
             "parent": "i-static-page",
             "dependencies": [
               "b-dynamic-page",
-              "b-router"
+              "b-router",
+              "b-header"
             ],
             "libs": []
           },
@@ -2232,7 +2301,8 @@
           "parent": "i-static-page",
           "dependencies": [
             "b-dynamic-page",
-            "b-router"
+            "b-router",
+            "b-header"
           ],
           "libs": [],
           "resolvedLibs": {
