@@ -12,5 +12,8 @@ export default <StaticRoutes>{
 	components: {
 		component: 'p-components',
 		default: true
+	},
+	profiler: {
+		component: 'p-profiler'
 	}
 };
