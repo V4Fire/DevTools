@@ -3133,6 +3133,7 @@ __metadata:
     "@v4fire/core": 4.0.0-alpha.11
     express: ^4.17.1
     express-http-proxy: ^1.6.2
+    path-to-regexp: 3.2.0
   languageName: unknown
   linkType: soft
 
