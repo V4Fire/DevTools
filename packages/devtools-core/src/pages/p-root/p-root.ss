@@ -10,7 +10,11 @@
 				:initialRoute = "components" |
 				:engine = routerEngine
 			.
+
+
 	- block body
+		- block header
+			< b-header
 		- block page
 				< b-dynamic-page.&__page &
 					ref = page
