@@ -6,5 +6,10 @@
  * https://github.com/V4Fire/DevTools/blob/main/LICENSE
  */
 
+'use strict';
+
 package('p-root')
-	.extends('i-static-page');
+	.extends('i-static-page')
+	.dependencies(
+		...require('@config/config').componentDependencies()['p-root'] ?? []
+	);

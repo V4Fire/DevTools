@@ -27,6 +27,18 @@ module.exports = config.createConfig({dirs: [__dirname, 'client']}, {
 		}
 	}),
 
+	componentDependencies() {
+		return {
+			'p-root': [
+				'p-components',
+				'p-profiler',
+				'b-dynamic-page',
+				'b-router',
+				'b-header'
+			]
+		};
+	},
+
 	api: {
 		proxy() {
 			return o('api-proxy', {

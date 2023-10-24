@@ -11,7 +11,5 @@
 package('p-root')
 	.extends('i-static-page')
 	.dependencies(
-		'b-dynamic-page',
-		'b-router',
-		'b-header'
+		...require('@config/config').componentDependencies()['p-root'] ?? []
 	);
