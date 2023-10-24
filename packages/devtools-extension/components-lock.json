@@ -1,5 +1,5 @@
 {
-  "hash": "d4037a24cdae85fe96b7d828867e8a7bf32e046e9825960b9fabefa0fd6267c8",
+  "hash": "51a5c31dfa6fe7b5fbe4ed64aff86efb19ebe7a08e55bdf0bf537cdf560d145f",
   "data": {
     "%data": "%data:Map",
     "%data:Map": [
@@ -588,6 +588,42 @@
             "node_modules/@v4fire/client/src/components/friends/vdom/test/b-friends-vdom-dummy/b-friends-vdom-dummy.styl"
           ],
           "tpl": "node_modules/@v4fire/client/src/components/friends/vdom/test/b-friends-vdom-dummy/b-friends-vdom-dummy.ss",
+          "etpl": null
+        }
+      ],
+      [
+        "b-header",
+        {
+          "index": "node_modules/@v4fire/devtools-core/src/widgets/b-header/index.js",
+          "declaration": {
+            "name": "b-header",
+            "parent": "i-block",
+            "dependencies": [
+              "b-button"
+            ],
+            "libs": []
+          },
+          "name": "b-header",
+          "parent": "i-block",
+          "dependencies": [
+            "b-button"
+          ],
+          "libs": [],
+          "resolvedLibs": {
+            "%data": "%data:Set",
+            "%data:Set": []
+          },
+          "resolvedOwnLibs": {
+            "%data": "%data:Set",
+            "%data:Set": []
+          },
+          "type": "block",
+          "mixin": false,
+          "logic": "node_modules/@v4fire/devtools-core/src/widgets/b-header/b-header.ts",
+          "styles": [
+            "node_modules/@v4fire/devtools-core/src/widgets/b-header/b-header.styl"
+          ],
+          "tpl": "node_modules/@v4fire/devtools-core/src/widgets/b-header/b-header.ss",
           "etpl": null
         }
       ],
@@ -1381,7 +1417,7 @@
           },
           "type": "block",
           "mixin": false,
-          "logic": "node_modules/@v4fire/client/src/components/base/b-tree/b-tree.ts",
+          "logic": "node_modules/@v4fire/devtools-core/src/components/base/b-tree/b-tree.ts",
           "styles": [
             "node_modules/@v4fire/client/src/components/base/b-tree/b-tree.styl"
           ],
@@ -2184,6 +2220,42 @@
         }
       ],
       [
+        "p-components",
+        {
+          "index": "node_modules/@v4fire/devtools-core/src/pages/p-components/index.js",
+          "declaration": {
+            "name": "p-components",
+            "parent": "i-dynamic-page",
+            "dependencies": [
+              "b-tree"
+            ],
+            "libs": []
+          },
+          "name": "p-components",
+          "parent": "i-dynamic-page",
+          "dependencies": [
+            "b-tree"
+          ],
+          "libs": [],
+          "resolvedLibs": {
+            "%data": "%data:Set",
+            "%data:Set": []
+          },
+          "resolvedOwnLibs": {
+            "%data": "%data:Set",
+            "%data:Set": []
+          },
+          "type": "page",
+          "mixin": false,
+          "logic": "src/pages/p-components/p-components.ts",
+          "styles": [
+            "node_modules/@v4fire/devtools-core/src/pages/p-components/p-components.styl"
+          ],
+          "tpl": "node_modules/@v4fire/devtools-core/src/pages/p-components/p-components.ss",
+          "etpl": null
+        }
+      ],
+      [
         "p-devtools",
         {
           "index": "src/pages/p-devtools/index.js",
@@ -2214,18 +2286,62 @@
         }
       ],
       [
+        "p-profiler",
+        {
+          "index": "node_modules/@v4fire/devtools-core/src/pages/p-profiler/index.js",
+          "declaration": {
+            "name": "p-profiler",
+            "parent": "i-dynamic-page",
+            "dependencies": [],
+            "libs": []
+          },
+          "name": "p-profiler",
+          "parent": "i-dynamic-page",
+          "dependencies": [],
+          "libs": [],
+          "resolvedLibs": {
+            "%data": "%data:Set",
+            "%data:Set": []
+          },
+          "resolvedOwnLibs": {
+            "%data": "%data:Set",
+            "%data:Set": []
+          },
+          "type": "page",
+          "mixin": false,
+          "logic": "node_modules/@v4fire/devtools-core/src/pages/p-profiler/p-profiler.ts",
+          "styles": [
+            "node_modules/@v4fire/devtools-core/src/pages/p-profiler/p-profiler.styl"
+          ],
+          "tpl": "node_modules/@v4fire/devtools-core/src/pages/p-profiler/p-profiler.ss",
+          "etpl": null
+        }
+      ],
+      [
         "p-root",
         {
           "index": "src/pages/p-root/index.js",
           "declaration": {
             "name": "p-root",
             "parent": "i-static-page",
-            "dependencies": [],
+            "dependencies": [
+              "p-components",
+              "p-profiler",
+              "b-dynamic-page",
+              "b-router",
+              "b-header"
+            ],
             "libs": []
           },
           "name": "p-root",
           "parent": "i-static-page",
-          "dependencies": [],
+          "dependencies": [
+            "p-components",
+            "p-profiler",
+            "b-dynamic-page",
+            "b-router",
+            "b-header"
+          ],
           "libs": [],
           "resolvedLibs": {
             "%data": "%data:Set",

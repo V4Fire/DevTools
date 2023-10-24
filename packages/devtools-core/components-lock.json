@@ -1417,7 +1417,7 @@
           },
           "type": "block",
           "mixin": false,
-          "logic": "node_modules/@v4fire/client/src/components/base/b-tree/b-tree.ts",
+          "logic": "src/components/base/b-tree/b-tree.ts",
           "styles": [
             "node_modules/@v4fire/client/src/components/base/b-tree/b-tree.styl"
           ],
