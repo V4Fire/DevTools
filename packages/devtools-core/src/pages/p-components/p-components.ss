@@ -4,10 +4,10 @@
 
 - template index() extends ['i-dynamic-page'].index
 	- block body
-		< ul
-			< li
-				Component 1
-			< li
-				Component 2
-			< li
-				Component 3
+		< b-tree &
+			:items = tree |
+			:folded = false |
+			:theme = 'demo'
+		.
+			< template #default = {item}
+       {{ item.label }} value={{ item.value }}

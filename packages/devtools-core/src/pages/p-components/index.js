@@ -9,4 +9,7 @@
 'use strict';
 
 package('p-components')
-	.extends('i-dynamic-page');
+	.extends('i-dynamic-page')
+	.dependencies(
+		'b-tree'
+	);
