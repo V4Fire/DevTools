@@ -1,5 +1,5 @@
 {
-  "hash": "184d8e3fe49dd2c6dfe8cf3c2a263b18d32efa7b4f8da982d9d426bef5e7763f",
+  "hash": "259be7cc81f597f84b81f64779b6f77724b053b4c5f24d7cd19c56168c2aad40",
   "data": {
     "%data": "%data:Map",
     "%data:Map": [
@@ -2226,12 +2226,16 @@
           "declaration": {
             "name": "p-components",
             "parent": "i-dynamic-page",
-            "dependencies": [],
+            "dependencies": [
+              "b-tree"
+            ],
             "libs": []
           },
           "name": "p-components",
           "parent": "i-dynamic-page",
-          "dependencies": [],
+          "dependencies": [
+            "b-tree"
+          ],
           "libs": [],
           "resolvedLibs": {
             "%data": "%data:Set",
@@ -2291,6 +2295,8 @@
             "name": "p-root",
             "parent": "i-static-page",
             "dependencies": [
+              "p-components",
+              "p-profiler",
               "b-dynamic-page",
               "b-router",
               "b-header"
@@ -2300,6 +2306,8 @@
           "name": "p-root",
           "parent": "i-static-page",
           "dependencies": [
+            "p-components",
+            "p-profiler",
             "b-dynamic-page",
             "b-router",
             "b-header"
