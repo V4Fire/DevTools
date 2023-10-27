@@ -13,9 +13,12 @@
 
 
 	- block body
-		- block header
-			< b-header
-		- block page
-				< b-dynamic-page.&__page &
-					ref = page
-				.
+		< h1 v-if = placeholder
+			{{ placeholder }}
+		< template v-else
+			- block header
+				< b-header
+			- block page
+					< b-dynamic-page.&__page &
+						ref = page
+					.
