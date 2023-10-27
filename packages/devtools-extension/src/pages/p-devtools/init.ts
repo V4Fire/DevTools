@@ -8,6 +8,8 @@
 
 import Async from '@v4fire/core/core/async';
 import { browserAPI } from 'shared/lib';
+
+import type pRoot from 'pages/p-root/p-root';
 import { CouldNotFindV4FireOnThePageError, detectV4Fire } from 'pages/p-devtools/modules/detect-v4fire';
 
 const $a = new Async();
@@ -60,7 +62,7 @@ function mountDevToolsWhenV4FireHasLoaded() {
 		);
 
 		if (shouldUpdateRoot) {
-			// TODO: re-render root
+			setRootPlaceholder(null);
 			shouldUpdateRoot = false;
 		}
 	};
@@ -99,8 +101,8 @@ function performInTabNavigationCleanup() {
  *
  * @param text
  */
-function setRootPlaceholder(text: string) {
+function setRootPlaceholder(text: string | null) {
 	if (root != null) {
-		root.innerHTML = `<h1 style="font-family: monospace;">${text}</h1>`;
+		(<{component: pRoot} & Element>root).component.placeholder = text ?? '';
 	}
 }
