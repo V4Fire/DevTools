@@ -6,9 +6,11 @@
  * https://github.com/V4Fire/DevTools/blob/main/LICENSE
  */
 
-import Super, { component, hook, field } from '@super/pages/p-components/p-components';
+import { expandedParse } from 'core/json';
+import Super, { component, hook, field, ComponentInterface, ComponentMeta } from '@super/pages/p-components/p-components';
 
-import type { Item } from 'components/base/b-tree/b-tree';
+// FIXME: incorrectly derived type when importing from `components/base...`
+import type { Item } from '@v4fire/client/components/base/b-tree/b-tree';
 
 import { devtoolsEval } from 'shared/lib';
 
@@ -25,12 +27,86 @@ export default class pComponents extends Super {
 	loadComponentsTree(): void {
 		devtoolsEval(evalComponentsTree)
 			.then((result) => {
-				this.field.set('tree', result);
+				this.field.set('components', result);
 				this.field.set('error', null);
 			})
 			.catch((error) => {
 				this.field.set('error', error.message);
 			});
+	}
+
+	override async loadSelectedComponentMeta(): Promise<void> {
+		const value = this.selectedComponentId!;
+		const item = this.$refs.tree?.getItemByValue(value);
+
+		const serializedData = await devtoolsEval(evalComponentMeta, [value, <string>item?.componentName]);
+
+		if (serializedData == null) {
+			// TODO: show toast or alert in devtools
+			stderr('No data');
+			return;
+		}
+
+		const data: Pick<
+			ComponentMeta, 'componentName' | 'props' | 'fields' | 'computedFields'
+		> & { values: Dictionary } = JSON.parse(serializedData, expandedParse);
+
+		const
+			meta: Item[] = [];
+
+		const
+			[block, ...rest] = data.componentName.split('-'),
+			selfRegex = new RegExp(`^(i|${block})-${rest.join('-')}-?`);
+
+		['props', 'fields', 'computedFields'].forEach((name) => {
+			const dict = data[name];
+			const map = new Map<string, Item[]>();
+			const children: Item[] = [];
+
+			Object.keys(dict).forEach((key) => {
+				// FIXME: correct component meta typings
+				const {src} = (<{src: string}><unknown>dict[key]);
+				const isSelf = src.match(selfRegex) != null;
+
+				if (isSelf) {
+					children.push({label: key, data: data.values[key]});
+				} else {
+					let parentSrc = src.camelize(false);
+
+					// Normalize parent src
+					const matches = /^(i-block|i-data)/.exec(src);
+					if (matches != null) {
+						parentSrc = matches[1].camelize(false);
+					}
+
+					if (!map.has(parentSrc)) {
+						map.set(parentSrc, []);
+					}
+
+					map.get(parentSrc)?.push({
+						label: key,
+						data: data.values[key]
+					});
+				}
+			});
+
+			for (const [parent, items] of map.entries()) {
+				children.push({
+					label: parent,
+					folded: true,
+					children: items
+				});
+			}
+
+			meta.push({
+				label: name.camelize(true),
+				value: name,
+				folded: false,
+				children
+			});
+		});
+
+		this.selectedComponentMeta = meta;
 	}
 }
 
@@ -49,6 +125,7 @@ function evalComponentsTree(): Item[] {
 			children: [],
 
 			// Specific props
+			componentName: component.meta.componentName,
 			renderCount: component.renderCount
 		};
 
@@ -63,4 +140,73 @@ function evalComponentsTree(): Item[] {
 	const root = map.values().next().value;
 
 	return root != null ? [root] : [];
+}
+
+// TODO: create container type
+function evalComponentMeta(value: string, name?: string): Nullable<string> {
+	let node = document.querySelector(`.i-block-helper.${value}`);
+
+	if (node == null && name != null) {
+		// Maybe it's a functional component
+		const nodes = document.querySelectorAll(`.i-block-helper.${name}`);
+		node = Array.prototype.find.call(nodes, (node) => node.component?.componentId === value);
+	}
+
+	if (node == null) {
+		return null;
+	}
+
+	const {component} = <{component?: ComponentInterface} & Element>node;
+
+	if (component == null) {
+		throw new Error('DOM node doesn\'t have component property');
+	}
+
+	// TODO: support system fields
+	const {componentName, props, fields, computedFields} = component.unsafe.meta;
+
+	const values = {};
+
+	[props, fields, computedFields].forEach((dict) => {
+		Object.keys(dict).forEach((key) => {
+			values[key] = component[key];
+		});
+	});
+
+	const result = {componentName, props, fields, computedFields, values};
+
+	return JSON.stringify(
+		result,
+		expandedStringify
+	);
+
+	// FIXME: temporary solution
+	function expandedStringify(_: string, value: unknown): unknown {
+		const
+			typeRgxp = /^\[object (.*)]$/,
+			type = typeRgxp.exec({}.toString.call(value))![1];
+
+		switch (type) {
+			case 'Date':
+				return customSerialize((<Date>value).valueOf());
+
+			case 'BigInt':
+				return customSerialize((<{toString(): string}>value).toString());
+			case 'Function':
+				return (<{toString(): string}>value).toString();
+
+			case 'Map':
+			case 'Set':
+				return customSerialize([...(<Iterable<any>>value)]);
+			default:
+				return value;
+		}
+
+		function customSerialize(value: unknown) {
+			return {
+				__DATA__: `__DATA__:${type}`,
+				[`__DATA__:${type}`]: value
+			};
+		}
+	}
 }
