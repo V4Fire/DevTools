@@ -44,7 +44,7 @@ function checkIfV4FireIsPresentInInspectedWindow(
 ): void {
 	browserAPI.devtools.inspectedWindow.eval<boolean>(
 		// TODO: improve detection
-		"typeof window.TPLS === 'object' && window.TPLS['i-block'] != null",
+		"typeof window.TPLS === 'object' && document.querySelector('.i-block-helper') != null",
 		(pageHasV4Fire, exceptionInfo) => {
 			// eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
 			if (exceptionInfo != null) {
