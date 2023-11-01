@@ -3151,6 +3151,7 @@ __metadata:
     "@types/chrome": 0.0.248
     "@v4fire/client": 4.0.0-beta.31
     "@v4fire/core": 4.0.0-alpha.11
+    "@v4fire/devtools-backend": "workspace:^"
     "@v4fire/devtools-core": "workspace:^"
     copy-webpack-plugin: 11.0.0
   languageName: unknown
