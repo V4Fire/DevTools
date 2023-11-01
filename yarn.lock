@@ -3124,6 +3124,12 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@v4fire/devtools-backend@workspace:^, @v4fire/devtools-backend@workspace:packages/devtools-backend":
+  version: 0.0.0-use.local
+  resolution: "@v4fire/devtools-backend@workspace:packages/devtools-backend"
+  languageName: unknown
+  linkType: soft
+
 "@v4fire/devtools-core@workspace:^, @v4fire/devtools-core@workspace:packages/devtools-core":
   version: 0.0.0-use.local
   resolution: "@v4fire/devtools-core@workspace:packages/devtools-core"

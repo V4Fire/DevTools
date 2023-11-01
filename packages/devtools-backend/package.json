@@ -1,0 +1,15 @@
+{
+  "name": "@v4fire/devtools-backend",
+  "version": "0.1.0",
+  "packageManager": "yarn@3.6.4",
+  "scripts": {
+    "build": "npx tsc",
+    "dev": "npx tsc -w"
+  },
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist/*"
+  ],
+  "license": "MIT"
+}
