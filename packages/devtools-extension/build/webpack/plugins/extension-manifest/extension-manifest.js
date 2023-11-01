@@ -70,11 +70,11 @@ module.exports = class ExtensionManifest {
 	 */
 	devtoolsPath = this.getRelativePath('p-devtools.html');
 
-	// /**
-	//  * Path to the extension's service worker
-	//  * @type {string}
-	//  */
-	// backroundScriptPath = this.getRelativePath('sw.standalone.js');
+	/**
+	 * Path to the extension's service worker
+	 * @type {string}
+	 */
+	backroundScriptPath = this.getRelativePath('service.worker.js');
 
 	/**
 	 * Allowed icon sizes
@@ -120,7 +120,7 @@ module.exports = class ExtensionManifest {
 		manifest.content_security_policy = this.csp;
 
 		manifest.background ??= {};
-		// manifest.background.service_worker = this.backroundScriptPath;
+		manifest.background.service_worker = this.backroundScriptPath;
 
 		manifest.action ??= {};
 		manifest.devtools_page = this.devtoolsPath;
