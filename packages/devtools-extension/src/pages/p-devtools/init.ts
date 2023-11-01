@@ -29,6 +29,11 @@ let root: Element | null = null;
  */
 let shouldUpdateRoot = false;
 
+/**
+ * Port to the background service worker
+ */
+let port: chrome.runtime.Port | null = null;
+
 // Init
 (() => {
 	// In case when multiple navigation events emitted in a short period of time.
@@ -41,8 +46,10 @@ let shouldUpdateRoot = false;
 	// Cleanup previous page state and remount everything on navigation
 	browserAPI.devtools.network.onNavigated.addListener(debouncedOnNavigatedListener);
 
-	// Try to mount devtools
 	mountDevToolsWhenV4FireHasLoaded();
+	connectDevToolsPort();
+
+	globalThis.addEventListener('beforeunload', performFullCleanup);
 })();
 
 /**
@@ -60,6 +67,8 @@ function mountDevToolsWhenV4FireHasLoaded() {
 				});
 			}
 		);
+
+		injectBackend(browserAPI.devtools.inspectedWindow.tabId);
 
 		if (shouldUpdateRoot) {
 			setRootPlaceholder(null);
@@ -106,3 +115,55 @@ function setRootPlaceholder(text: string | null) {
 		(<{component: pRoot} & Element>root).component.placeholder = text ?? '';
 	}
 }
+
+function connectDevToolsPort() {
+	if (port) {
+		throw new Error('DevTools port was already connected');
+	}
+
+	const {tabId} = browserAPI.devtools.inspectedWindow;
+
+	port = browserAPI.runtime.connect({
+		name: String(tabId)
+	});
+
+	// This port may be disconnected by Chrome at some point, this callback
+	// will be executed only if this port was disconnected from the other end
+	// so, when we call `port.disconnect()` from this script,
+	// this should not trigger this callback and port reconnection
+	port.onDisconnect.addListener(() => {
+		port = null;
+		connectDevToolsPort();
+	});
+}
+
+function performFullCleanup() {
+	// If user closed the browser DevTools before v4fire has been loaded
+	if (detectV4FirePromise != null) {
+		$a.cancelPromise(detectV4FirePromise);
+	}
+
+	root = null;
+
+	try {
+		port?.disconnect();
+	} catch (error) {
+		// eslint-disable-next-line no-console
+		console.log('Failed to disconnect, reason:', error.message);
+	} finally {
+		port = null;
+	}
+}
+
+function injectBackend(tabId: number): void {
+	browserAPI.runtime.sendMessage({
+		source: 'devtools-page',
+		payload: {
+			type: 'inject-backend',
+			tabId
+		}
+	})
+		// eslint-disable-next-line no-console
+		.catch(console.error);
+}
+
