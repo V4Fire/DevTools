@@ -6,8 +6,10 @@
  * https://github.com/V4Fire/DevTools/blob/main/LICENSE
  */
 
-import BrowserTabManager from './browser/browser-tab-manager';
-import RuntimeMessageHandler from './browser/runtime-message-handler';
+import 'sw/init/inject-content-scripts';
+
+import BrowserTabManager from 'sw/browser/browser-tab-manager';
+import RuntimeMessageHandler from 'sw/browser/runtime-message-handler';
 
 const
 	browserTabManager = new BrowserTabManager(),
