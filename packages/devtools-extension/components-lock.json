@@ -2417,7 +2417,7 @@
           },
           "type": "page",
           "mixin": false,
-          "logic": "node_modules/@v4fire/devtools-core/src/pages/p-root/p-root.ts",
+          "logic": "src/pages/p-root/p-root.ts",
           "styles": [
             "node_modules/@v4fire/devtools-core/src/pages/p-root/p-root.styl"
           ],
