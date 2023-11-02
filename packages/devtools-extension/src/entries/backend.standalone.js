@@ -8,4 +8,4 @@
 
 'use strict';
 
-import '../backend';
+import '../scripts/backend';
