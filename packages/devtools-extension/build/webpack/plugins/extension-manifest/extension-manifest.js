@@ -71,6 +71,11 @@ module.exports = class ExtensionManifest {
 	devtoolsPath = this.getRelativePath('p-devtools.html');
 
 	/**
+	 * Path to the extension default popup
+	 */
+	popupPath = this.getRelativePath('p-popup-disabled.html');
+
+	/**
 	 * Path to the extension's service worker
 	 * @type {string}
 	 */
@@ -123,10 +128,12 @@ module.exports = class ExtensionManifest {
 		manifest.background.service_worker = this.backroundScriptPath;
 
 		manifest.action ??= {};
+		manifest.action.default_popup = this.popupPath;
+
 		manifest.devtools_page = this.devtoolsPath;
 
 		manifest.icons = this.iconsPathBySize;
-		manifest.action.default_icons = this.iconSizes.reduce((acc, size) => {
+		manifest.action.default_icon = this.iconSizes.reduce((acc, size) => {
 			acc[size] = this.getRelativePath(`assets/icons/disabled/${size}.png`);
 			return acc;
 		}, {});
@@ -151,10 +158,11 @@ module.exports = class ExtensionManifest {
 		manifest.content_security_policy = this.csp.extension_pages;
 
 		manifest.background ??= {};
-		// manifest.background.scripts = [this.backroundScriptPath];
+		manifest.background.scripts = [this.backroundScriptPath];
 		manifest.background.persistent = false;
 
 		manifest.browser_action ??= {};
+		manifest.browser_action.default_popup = this.popupPath;
 		manifest.devtools_page = this.devtoolsPath;
 
 		manifest.icons = this.iconsPathBySize;
