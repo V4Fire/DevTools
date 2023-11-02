@@ -7,6 +7,7 @@
  */
 
 import { browserAPI } from 'shared/lib';
+import { updateExtensionTray } from 'sw/helpers';
 
 export default class RuntimeMessageHandler {
 	/**
@@ -14,10 +15,18 @@ export default class RuntimeMessageHandler {
 	 */
 	listen(): void {
 		// TODO: refactor
-		browserAPI.runtime.onMessage.addListener((message) => {
+		browserAPI.runtime.onMessage.addListener((message, sender) => {
 			switch (message.source) {
-				case 'devtools-page':
+				case 'v4fire-devtools-page':
 					this.handleDevtoolsMessage(message.payload);
+					break;
+
+				case 'v4fire-devtools-detect':
+					if (sender.tab?.id != null) {
+						// NOTE: might need to handle different versions of the build: prod, dev, debug, etc.
+						updateExtensionTray('enabled', sender.tab.id);
+					}
+
 					break;
 
 				default:
@@ -40,6 +49,5 @@ export default class RuntimeMessageHandler {
 				// eslint-disable-next-line no-console
 				.catch(console.error);
 		}
-
 	}
 }

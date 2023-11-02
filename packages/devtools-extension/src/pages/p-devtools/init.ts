@@ -68,6 +68,7 @@ function mountDevToolsWhenV4FireHasLoaded() {
 			}
 		);
 
+		// Inject backend only when the v4fire is mounted
 		injectBackend(browserAPI.devtools.inspectedWindow.tabId);
 
 		if (shouldUpdateRoot) {
@@ -157,13 +158,12 @@ function performFullCleanup() {
 
 function injectBackend(tabId: number): void {
 	browserAPI.runtime.sendMessage({
-		source: 'devtools-page',
+		source: 'v4fire-devtools-page',
 		payload: {
 			type: 'inject-backend',
 			tabId
 		}
 	})
-		// eslint-disable-next-line no-console
-		.catch(console.error);
+		.catch(stderr);
 }
 
