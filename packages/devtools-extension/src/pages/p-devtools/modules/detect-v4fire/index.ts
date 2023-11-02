@@ -6,7 +6,7 @@
  * https://github.com/V4Fire/DevTools/blob/main/LICENSE
  */
 
-import { browserAPI } from 'shared/lib';
+import { devtoolsEval, pageHasV4Fire } from 'shared/lib';
 import CouldNotFindV4FireOnThePageError from './error';
 
 export { CouldNotFindV4FireOnThePageError };
@@ -19,10 +19,6 @@ export { CouldNotFindV4FireOnThePageError };
 export function detectV4Fire(
 	maxAttempts: number
 ): Promise<void> {
-
-	// eslint-disable-next-line no-console
-	console.log('trying to detect v4fire');
-
 	const poll = (attempt: number) => new Promise(
 		(resolve, reject) => checkIfV4FireIsPresentInInspectedWindow(resolve, reject)
 	)
@@ -42,32 +38,20 @@ function checkIfV4FireIsPresentInInspectedWindow(
 	onSuccess: Function,
 	onError: (error: Error) => void
 ): void {
-	browserAPI.devtools.inspectedWindow.eval<boolean>(
-		// TODO: improve detection
-		"typeof window.TPLS === 'object' && document.querySelector('.i-block-helper') != null",
-		(pageHasV4Fire, exceptionInfo) => {
-			// eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
-			if (exceptionInfo != null) {
-				const {code, description, isError, isException, value} = exceptionInfo;
-
-				if (isException) {
-					return onError(
-						new Error(`Received error while checking if V4Fire has loaded: ${value}`)
-					);
-				}
-
-				if (isError) {
-					return onError(
-						new Error(`Received error with code ${code} while checking if V4Fire has loaded: "${description}"`)
-					);
-				}
+	devtoolsEval(pageHasV4Fire)
+		.then((result) => {
+			if (result) {
+				onSuccess();
+			} else {
+				onError(new CouldNotFindV4FireOnThePageError());
 			}
-
-			if (pageHasV4Fire) {
-				return onSuccess();
-			}
-
-			onError(new CouldNotFindV4FireOnThePageError());
-		}
-	);
+		})
+		.catch((error) => {
+			onError(
+				new Error(
+					`Received error while checking if V4Fire has loaded: ${error.message}`,
+					{cause: error}
+				)
+			);
+		});
 }
