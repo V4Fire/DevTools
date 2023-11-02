@@ -22,8 +22,9 @@ module.exports = async function output({buildId}) {
 				return '[name].js';
 			}
 
-			if (/backend\.standalone/.test(pathData.runtime)) {
-				return 'backend.js';
+			const matches = /(.*?)\.standalone/.exec(pathData.runtime);
+			if (matches != null) {
+				return `${matches[1]}.js`;
 			}
 		}
 
