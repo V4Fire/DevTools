@@ -6,13 +6,17 @@
  * https://github.com/V4Fire/DevTools/blob/main/LICENSE
  */
 
-import { expandedParse } from 'core/json';
+import { deserialize } from '@v4fire/devtools-backend';
 import Super, { component, hook, field, ComponentInterface, ComponentMeta } from '@super/pages/p-components/p-components';
 
 // FIXME: incorrectly derived type when importing from `components/base...`
 import type { Item } from '@v4fire/client/components/base/b-tree/b-tree';
 
 import { devtoolsEval } from 'shared/lib';
+
+type ComponentData = Pick<
+	ComponentMeta, 'componentName' | 'props' | 'fields' | 'computedFields'
+> & { values: Dictionary };
 
 @component()
 export default class pComponents extends Super {
@@ -47,9 +51,7 @@ export default class pComponents extends Super {
 			return;
 		}
 
-		const data: Pick<
-			ComponentMeta, 'componentName' | 'props' | 'fields' | 'computedFields'
-		> & { values: Dictionary } = JSON.parse(serializedData, expandedParse);
+		const data = deserialize<ComponentData>(serializedData);
 
 		const
 			meta: Item[] = [];
@@ -90,6 +92,7 @@ export default class pComponents extends Super {
 				}
 			});
 
+			// TODO: make sorted
 			for (const [parent, items] of map.entries()) {
 				children.push({
 					label: parent,
@@ -175,38 +178,5 @@ function evalComponentMeta(value: string, name?: string): Nullable<string> {
 
 	const result = {componentName, props, fields, computedFields, values};
 
-	return JSON.stringify(
-		result,
-		expandedStringify
-	);
-
-	// FIXME: temporary solution
-	function expandedStringify(_: string, value: unknown): unknown {
-		const
-			typeRgxp = /^\[object (.*)]$/,
-			type = typeRgxp.exec({}.toString.call(value))![1];
-
-		switch (type) {
-			case 'Date':
-				return customSerialize((<Date>value).valueOf());
-
-			case 'BigInt':
-				return customSerialize((<{toString(): string}>value).toString());
-			case 'Function':
-				return (<{toString(): string}>value).toString();
-
-			case 'Map':
-			case 'Set':
-				return customSerialize([...(<Iterable<any>>value)]);
-			default:
-				return value;
-		}
-
-		function customSerialize(value: unknown) {
-			return {
-				__DATA__: `__DATA__:${type}`,
-				[`__DATA__:${type}`]: value
-			};
-		}
-	}
+	return globalThis.__V4FIRE_DEVTOOLS_BACKEND__.serialize(result);
 }

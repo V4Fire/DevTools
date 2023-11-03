@@ -6,5 +6,6 @@
  * https://github.com/V4Fire/DevTools/blob/main/LICENSE
  */
 
-export * from 'shared/lib/browser-api';
-export { default as pageHasV4Fire } from 'shared/lib/page-has-v4fire';
+'use strict';
+
+import '../scripts/proxy';

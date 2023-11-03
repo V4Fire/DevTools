@@ -90,5 +90,23 @@ module.exports = config.createConfig({dirs: [__dirname, 'client']}, {
 		loadDummyComponents(def = false) {
 			return super.loadDummyComponents(def);
 		}
+	},
+
+	/**
+	 * Returns a version of the used ECMAScript specification
+	 *
+	 * @cli es
+	 * @env ES
+	 *
+	 * @returns {string}
+	 */
+	es() {
+		return o('es', {
+			env: true,
+			default: 'ES2020',
+			coerce(value) {
+				return value.toUpperCase();
+			}
+		});
 	}
 });

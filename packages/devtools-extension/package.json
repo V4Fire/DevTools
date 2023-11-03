@@ -5,7 +5,7 @@
     "build": "yarn build:tsconfig && npx webpack --env public-path",
     "build:tsconfig": "yarn build:link-node-modules && node node_modules/@v4fire/core/build/build-tsconfig",
     "build:link-node-modules": "node ../devtools-core/build/link-node-modules",
-    "dev": "yarn build:tsconfig && npx webpack --watch --env public-path",
+    "dev": "yarn build:tsconfig && npx webpack --watch --env public-path --env managed-libs=\"@v4fire/devtools-backend\"",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "packageManager": "yarn@3.6.4",
@@ -13,10 +13,12 @@
     "@config/config": "npm:config@1.31.0",
     "@v4fire/client": "4.0.0-beta.31",
     "@v4fire/core": "4.0.0-alpha.11",
+    "@v4fire/devtools-backend": "workspace:^",
     "@v4fire/devtools-core": "workspace:^"
   },
   "devDependencies": {
     "@types/chrome": "0.0.248",
     "copy-webpack-plugin": "11.0.0"
-  }
+  },
+  "license": "MIT"
 }

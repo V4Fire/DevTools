@@ -1,5 +1,5 @@
 {
-  "hash": "51a5c31dfa6fe7b5fbe4ed64aff86efb19ebe7a08e55bdf0bf537cdf560d145f",
+  "hash": "37f96d9f4890b8a11b6744b3788105fcb098256029a5389beb1f1437f5f51385",
   "data": {
     "%data": "%data:Map",
     "%data:Map": [
@@ -2286,6 +2286,70 @@
         }
       ],
       [
+        "p-popup-disabled",
+        {
+          "index": "src/pages/popups/p-popup-disabled/index.js",
+          "declaration": {
+            "name": "p-popup-disabled",
+            "parent": null,
+            "dependencies": [],
+            "libs": []
+          },
+          "name": "p-popup-disabled",
+          "parent": null,
+          "dependencies": [],
+          "libs": [],
+          "resolvedLibs": {
+            "%data": "%data:Set",
+            "%data:Set": []
+          },
+          "resolvedOwnLibs": {
+            "%data": "%data:Set",
+            "%data:Set": []
+          },
+          "type": "page",
+          "mixin": false,
+          "logic": null,
+          "styles": [
+            "src/pages/popups/p-popup-disabled/p-popup-disabled.styl"
+          ],
+          "tpl": null,
+          "etpl": "src/pages/popups/p-popup-disabled/p-popup-disabled.ess"
+        }
+      ],
+      [
+        "p-popup-enabled",
+        {
+          "index": "src/pages/popups/p-popup-enabled/index.js",
+          "declaration": {
+            "name": "p-popup-enabled",
+            "parent": null,
+            "dependencies": [],
+            "libs": []
+          },
+          "name": "p-popup-enabled",
+          "parent": null,
+          "dependencies": [],
+          "libs": [],
+          "resolvedLibs": {
+            "%data": "%data:Set",
+            "%data:Set": []
+          },
+          "resolvedOwnLibs": {
+            "%data": "%data:Set",
+            "%data:Set": []
+          },
+          "type": "page",
+          "mixin": false,
+          "logic": null,
+          "styles": [
+            "src/pages/popups/p-popup-enabled/p-popup-enabled.styl"
+          ],
+          "tpl": null,
+          "etpl": "src/pages/popups/p-popup-enabled/p-popup-enabled.ess"
+        }
+      ],
+      [
         "p-profiler",
         {
           "index": "node_modules/@v4fire/devtools-core/src/pages/p-profiler/index.js",
@@ -2353,7 +2417,7 @@
           },
           "type": "page",
           "mixin": false,
-          "logic": "node_modules/@v4fire/devtools-core/src/pages/p-root/p-root.ts",
+          "logic": "src/pages/p-root/p-root.ts",
           "styles": [
             "node_modules/@v4fire/devtools-core/src/pages/p-root/p-root.styl"
           ],

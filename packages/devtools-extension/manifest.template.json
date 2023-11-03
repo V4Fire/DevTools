@@ -1,5 +1,6 @@
 {
   "manifest_version": 3,
+  "minimum_chrome_version": "102",
   "name": "V4Fire Developer Tools",
   "description": "Adds V4Fire debugging tools to the Chrome Developer Tools.",
   "permissions": [

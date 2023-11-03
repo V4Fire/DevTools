@@ -4,4 +4,4 @@
 
 - template index(params) extends ['i-static-page.html'].index
 	- deps = include('src/pages/p-root/deps')
-
+	- attachFavicons = false

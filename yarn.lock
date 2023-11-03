@@ -3124,6 +3124,12 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@v4fire/devtools-backend@workspace:^, @v4fire/devtools-backend@workspace:packages/devtools-backend":
+  version: 0.0.0-use.local
+  resolution: "@v4fire/devtools-backend@workspace:packages/devtools-backend"
+  languageName: unknown
+  linkType: soft
+
 "@v4fire/devtools-core@workspace:^, @v4fire/devtools-core@workspace:packages/devtools-core":
   version: 0.0.0-use.local
   resolution: "@v4fire/devtools-core@workspace:packages/devtools-core"
@@ -3145,6 +3151,7 @@ __metadata:
     "@types/chrome": 0.0.248
     "@v4fire/client": 4.0.0-beta.31
     "@v4fire/core": 4.0.0-alpha.11
+    "@v4fire/devtools-backend": "workspace:^"
     "@v4fire/devtools-core": "workspace:^"
     copy-webpack-plugin: 11.0.0
   languageName: unknown
