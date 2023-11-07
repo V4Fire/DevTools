@@ -14,11 +14,64 @@ const
 // TODO: create container type for serialized value
 
 /**
- * Serializes a value
+ * Returns type of the value
+ *
  * @param value
+ *
+ * @example
+ * ```
+ * getType(() => {}) // 'Function'
+ * getType({}) // 'Object'
+ * getType([]) // 'Array'
+ * ```
  */
-export function serialize<T = unknown>(value: T): string {
+export function getType<T = unknown>(value: T): string {
+	return typeRgxp.exec({}.toString.call(value))![1];
+}
+
+/**
+ * Serializes a value
+ *
+ * @param value
+ * @param [isRestrictedKey]
+ */
+export function serialize<T = unknown>(
+	value: T,
+	isRestrictedKey?: (key: string) => boolean
+): string {
 	return JSON.stringify(value, expandedStringify);
+
+	function expandedStringify(key: string, value: unknown): unknown {
+		if (isRestrictedKey?.(key)) {
+			return '*restricted*';
+		}
+
+		const type = getType(value);
+		switch (type) {
+			case 'Date':
+				return serializeComplexData(type, (<Date>value).valueOf());
+
+			case 'BigInt':
+			case 'Function':
+				return serializeComplexData(type, (<{toString(): string}>value).toString());
+
+			case 'Map':
+			case 'Set':
+				return serializeComplexData(type, [...(<Iterable<any>>value)]);
+
+			case 'Array':
+				return value;
+
+			default:
+				// Do not serialize non-plain objects, instead return constructor name
+				if (typeof value === 'object' && value?.constructor !== Object) {
+					// eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
+					return value?.constructor?.name ?? value;
+				}
+
+				return value;
+		}
+	}
 }
 
 /**
@@ -38,25 +91,6 @@ function serializeComplexData(type: string, value: unknown): SerializedData {
 
 function isSerializedData(value: unknown): value is SerializedData {
 	return (value != null && typeof value === 'object' && '__DATA__' in value);
-}
-
-function expandedStringify(_: string, value: unknown): unknown {
-	const type = typeRgxp.exec({}.toString.call(value))![1];
-
-	switch (type) {
-		case 'Date':
-			return serializeComplexData(type, (<Date>value).valueOf());
-
-		case 'BigInt':
-		case 'Function':
-			return serializeComplexData(type, (<{toString(): string}>value).toString());
-
-		case 'Map':
-		case 'Set':
-			return serializeComplexData(type, [...(<Iterable<any>>value)]);
-		default:
-			return value;
-	}
 }
 
 function expandedParse(key: string, value: unknown | SerializedData): unknown {
