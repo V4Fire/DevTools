@@ -7,16 +7,12 @@
  */
 
 import { deserialize } from '@v4fire/devtools-backend';
-import Super, { component, hook, field, ComponentInterface, ComponentMeta } from '@super/pages/p-components/p-components';
+import Super, { component, hook, field, ComponentInterface } from '@super/pages/p-components/p-components';
 
 // FIXME: incorrectly derived type when importing from `components/base...`
 import type { Item } from '@v4fire/client/components/base/b-tree/b-tree';
 
 import { devtoolsEval } from 'shared/lib';
-
-type ComponentData = Pick<
-	ComponentMeta, 'componentName' | 'props' | 'fields' | 'computedFields'
-> & { values: Dictionary };
 
 @component()
 export default class pComponents extends Super {
@@ -39,7 +35,7 @@ export default class pComponents extends Super {
 			});
 	}
 
-	override async loadSelectedComponentMeta(): Promise<void> {
+	override async loadSelectedComponentData(): Promise<void> {
 		const value = this.selectedComponentId!;
 		const item = this.$refs.tree?.getItemByValue(value);
 
@@ -51,65 +47,7 @@ export default class pComponents extends Super {
 			return;
 		}
 
-		const data = deserialize<ComponentData>(serializedData);
-
-		const
-			meta: Item[] = [];
-
-		const
-			[block, ...rest] = data.componentName.split('-'),
-			selfRegex = new RegExp(`^(i|${block})-${rest.join('-')}-?`);
-
-		['props', 'fields', 'computedFields'].forEach((name) => {
-			const dict = data[name];
-			const map = new Map<string, Item[]>();
-			const children: Item[] = [];
-
-			Object.keys(dict).forEach((key) => {
-				// FIXME: correct component meta typings
-				const {src} = (<{src: string}><unknown>dict[key]);
-				const isSelf = src.match(selfRegex) != null;
-
-				if (isSelf) {
-					children.push({label: key, data: data.values[key]});
-				} else {
-					let parentSrc = src.camelize(false);
-
-					// Normalize parent src
-					const matches = /^(i-block|i-data)/.exec(src);
-					if (matches != null) {
-						parentSrc = matches[1].camelize(false);
-					}
-
-					if (!map.has(parentSrc)) {
-						map.set(parentSrc, []);
-					}
-
-					map.get(parentSrc)?.push({
-						label: key,
-						data: data.values[key]
-					});
-				}
-			});
-
-			// TODO: make sorted
-			for (const [parent, items] of map.entries()) {
-				children.push({
-					label: parent,
-					folded: true,
-					children: items
-				});
-			}
-
-			meta.push({
-				label: name.camelize(true),
-				value: name,
-				folded: false,
-				children
-			});
-		});
-
-		this.selectedComponentMeta = meta;
+		this.selectedComponentData = deserialize(serializedData);
 	}
 }
 
@@ -135,6 +73,7 @@ function evalComponentsTree(): Item[] {
 		map.set(component.componentId, descriptor);
 
 		const parentId = component.$parent?.componentId;
+
 		if (parentId != null) {
 			map.get(parentId).children.push(descriptor);
 		}
@@ -147,6 +86,17 @@ function evalComponentsTree(): Item[] {
 
 // TODO: create container type
 function evalComponentMeta(value: string, name?: string): Nullable<string> {
+	const restricted = new Set([
+		'r',
+		'self',
+		'unsafe',
+		'window',
+		'document',
+		'console',
+		'router',
+		'LANG_PACKS'
+	]);
+
 	let node = document.querySelector(`.i-block-helper.${value}`);
 
 	if (node == null && name != null) {
@@ -165,18 +115,27 @@ function evalComponentMeta(value: string, name?: string): Nullable<string> {
 		throw new Error('DOM node doesn\'t have component property');
 	}
 
-	// TODO: support system fields
-	const {componentName, props, fields, computedFields} = component.unsafe.meta;
+	const {componentName, props, fields, computedFields, systemFields} = component.unsafe.meta;
 
 	const values = {};
 
-	[props, fields, computedFields].forEach((dict) => {
+	[props, fields, computedFields, systemFields].forEach((dict) => {
 		Object.keys(dict).forEach((key) => {
-			values[key] = component[key];
+			if (!restricted.has(key)) {
+				values[key] = component[key];
+			}
 		});
 	});
 
-	const result = {componentName, props, fields, computedFields, values};
+	const hierarchy: string[] = [];
 
-	return globalThis.__V4FIRE_DEVTOOLS_BACKEND__.serialize(result);
+	let parent = component.unsafe.meta.parentMeta;
+	while (parent != null) {
+		hierarchy.push(parent.componentName);
+		parent = parent.parentMeta;
+	}
+
+	const result = {componentName, props, fields, computedFields, systemFields, hierarchy, values};
+
+	return globalThis.__V4FIRE_DEVTOOLS_BACKEND__.serialize(result, (key) => key.startsWith('$') || restricted.has(key));
 }

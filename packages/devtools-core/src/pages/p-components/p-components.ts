@@ -11,6 +11,7 @@ import iDynamicPage, { component, field, computed, watch } from 'components/supe
 
 import type bTree from '@v4fire/client/components/base/b-tree/b-tree';
 import type { Item } from 'components/base/b-tree/b-tree';
+import type { ComponentData } from 'features/components/b-components-panel';
 
 export * from 'components/super/i-dynamic-page/i-dynamic-page';
 
@@ -39,8 +40,11 @@ export default class pComponents extends iDynamicPage {
 	 * Selected component meta
 	 */
 	@field()
-	selectedComponentMeta: Item[] = [];
+	selectedComponentData: ComponentData | null = null;
 
+	/**
+	 * Selected component's name
+	 */
 	@computed()
 	get selectedComponentName(): string | null {
 		return <string>this.$refs.tree?.getItemByValue(this.selectedComponentId)?.componentName;
@@ -55,11 +59,11 @@ export default class pComponents extends iDynamicPage {
 	@watch('?$refs.tree:change')
 	onComponentSelect(_: unknown, componentId: string): void {
 		this.selectedComponentId = componentId;
-		this.selectedComponentMeta = [];
+		this.selectedComponentData = null;
 
 		const load = this.async.debounce(async () => {
 			try {
-				await this.loadSelectedComponentMeta();
+				await this.loadSelectedComponentData();
 			} catch (error) {
 				// TODO: show alert
 				stderr(error);
@@ -70,9 +74,9 @@ export default class pComponents extends iDynamicPage {
 	}
 
 	/**
-	 * Loads selected component meta
+	 * Loads selected component data
 	 */
-	loadSelectedComponentMeta(): CanPromise<void> {
+	loadSelectedComponentData(): CanPromise<void> {
 		// Override
 	}
 

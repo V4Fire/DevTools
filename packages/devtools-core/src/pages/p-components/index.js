@@ -11,5 +11,6 @@
 package('p-components')
 	.extends('i-dynamic-page')
 	.dependencies(
-		'b-tree'
+		'b-tree',
+		'b-components-panel'
 	);

@@ -16,20 +16,13 @@
 					{{ item.label }} value={{ item.value }}
 
 			< template v-if = selectedComponentId
-				< template v-if = selectedComponentMeta.length > 0
-					< div
-						< bold
-							{{ selectedComponentName }}
-						< b-tree &
-							ref = panel |
-							:items = selectedComponentMeta |
-							:theme = 'demo' |
-							:cancelable = true
-						.
-							< template #default = {item}
-								{{ item.label }}
-								< template v-if = item.data !== undefined
-									= {{ item.data }}
+				< template v-if = selectedComponentData != null
+					< b-components-panel &
+						ref = panel |
+						:componentData = selectedComponentData |
+						:theme = 'demo' |
+						:cancelable = true
+					.
 				< p v-else
 					< i
 						Loading...
