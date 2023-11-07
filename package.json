@@ -1,0 +1,15 @@
+{
+  "workspaces": [
+    "packages/*"
+  ],
+  "scripts": {
+    "lint": "npx eslint ./packages"
+  },
+  "license": "MIT",
+  "packageManager": "yarn@3.6.4",
+  "devDependencies": {
+    "@v4fire/cli": "^2.1.0",
+    "@v4fire/linters": "git+https://github.com/v4fire/linters#rework_rules",
+    "typescript": "4.6.2"
+  }
+}

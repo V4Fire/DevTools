@@ -1,0 +1,15 @@
+- namespace [%fileName%]
+
+- include 'components/super/i-static-page/i-static-page.html.ss'|b as placeholder
+
+- template index() extends ['i-static-page.html'].index
+	- attachFavicons = false
+
+	- block assets
+	- block varsDecl
+	- block headStyles
+	- block viewport
+	- block meta
+	- block title
+	- block body
+	- block styles

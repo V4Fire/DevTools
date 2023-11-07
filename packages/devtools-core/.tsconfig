@@ -1,0 +1,15 @@
+{
+  "extends": "@v4fire/client/.tsconfig",
+	"ts-node": {
+    "preferTsExts": true
+  },
+  "include": [
+    "./node_modules/@v4fire/core/*",
+    "./node_modules/@v4fire/client/*",
+    "src/**/*.ts",
+    "tests/**/*.ts"
+  ],
+  "files": [
+    "./index.d.ts"
+  ]
+}

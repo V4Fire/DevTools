@@ -1,0 +1,10 @@
+- namespace [%fileName%]
+
+- template index()
+	< html
+		< head
+			< link rel="stylesheet" type="text/css" href="/p-popup-disabled_style.css"
+		< body
+			< p
+				< b
+					This page doesn't seem to be using V4Fire.

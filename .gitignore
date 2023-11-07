@@ -1,0 +1,26 @@
+# Dependencies
+node_modules
+
+# Build && test
+/coverage
+/.nyc_output
+dist
+.env
+*.tgz
+
+# IDE
+.idea
+.vscode
+
+# Operating System Files
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Yarn
+.yarn/*
+!.yarn/patches
+!.yarn/plugins
+!.yarn/releases
+!.yarn/sdks
+!.yarn/versions
