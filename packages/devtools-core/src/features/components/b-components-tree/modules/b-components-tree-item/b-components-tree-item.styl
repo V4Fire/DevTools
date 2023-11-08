@@ -1,0 +1,16 @@
+@import "components/super/i-block/i-block.styl"
+
+b-components-tree-item extends i-block
+	&__details
+		visibility hidden
+		opacity 0
+
+		&_warn_true
+			visibility visible
+			opacity 1
+			color red
+
+	&:hover
+		& ^[0]__details
+			visibility visible
+			opacity 1
