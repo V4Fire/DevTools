@@ -7,12 +7,13 @@
  */
 
 import { deserialize } from '@v4fire/devtools-backend';
+import { devtoolsEval } from 'shared/lib';
+
+import type iBlock from 'components/super/i-block/i-block';
+
 import Super, { component, hook, field, ComponentInterface } from '@super/pages/p-components/p-components';
 
-// FIXME: incorrectly derived type when importing from `components/base...`
-import type { Item } from '@v4fire/client/components/base/b-tree/b-tree';
-
-import { devtoolsEval } from 'shared/lib';
+import type { Item } from 'features/components/b-components-tree/b-components-tree';
 
 @component()
 export default class pComponents extends Super {
@@ -52,22 +53,38 @@ export default class pComponents extends Super {
 }
 
 function evalComponentsTree(): Item[] {
-	const nodes = Array.prototype.filter.call(
+	const nodes: Array<{component: iBlock}> = Array.prototype.filter.call(
 		document.getElementsByClassName('i-block-helper'),
 		(node) => node.component !== undefined
 	);
 
 	const map = new Map();
 
+	// Calc min renderCounter
+	let minRenderCounter = Number.MAX_SAFE_INTEGER;
+
 	nodes.forEach(({component}) => {
-		const descriptor = {
+		const {$renderCounter} = component.unsafe;
+
+		if ($renderCounter < minRenderCounter) {
+			minRenderCounter = $renderCounter;
+		}
+	});
+
+	// Build tree
+	nodes.forEach(({component}) => {
+		const {meta, $renderCounter} = component.unsafe;
+
+		const descriptor: Item = {
 			value: component.componentId,
-			label: component.meta.name,
+			label: meta.componentName,
 			children: [],
 
 			// Specific props
-			componentName: component.meta.componentName,
-			renderCount: component.renderCount
+			componentName: meta.componentName,
+			renderCounterProp: $renderCounter,
+			isFunctionalProp: component.isFunctional,
+			showWarning: $renderCounter > minRenderCounter
 		};
 
 		map.set(component.componentId, descriptor);

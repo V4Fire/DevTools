@@ -1,5 +1,5 @@
 {
-  "hash": "ec14f220316aafd0592f44090d20afbe5da8775705f89be83cec4250da2f9b07",
+  "hash": "3766184c6f98862e72dd780dcd8ee7147e17e9521ed9e31621cc60193ca2d12a",
   "data": {
     "%data": "%data:Map",
     "%data:Map": [
@@ -176,6 +176,74 @@
           "logic": "node_modules/@v4fire/devtools-core/src/features/components/b-components-panel/modules/b-components-panel-item/b-components-panel-item.ts",
           "styles": [],
           "tpl": "node_modules/@v4fire/devtools-core/src/features/components/b-components-panel/modules/b-components-panel-item/b-components-panel-item.ss",
+          "etpl": null
+        }
+      ],
+      [
+        "b-components-tree",
+        {
+          "index": "node_modules/@v4fire/devtools-core/src/features/components/b-components-tree/index.js",
+          "declaration": {
+            "name": "b-components-tree",
+            "parent": "b-tree",
+            "dependencies": [
+              "b-components-tree-item"
+            ],
+            "libs": []
+          },
+          "name": "b-components-tree",
+          "parent": "b-tree",
+          "dependencies": [
+            "b-components-tree-item"
+          ],
+          "libs": [],
+          "resolvedLibs": {
+            "%data": "%data:Set",
+            "%data:Set": []
+          },
+          "resolvedOwnLibs": {
+            "%data": "%data:Set",
+            "%data:Set": []
+          },
+          "type": "block",
+          "mixin": false,
+          "logic": "node_modules/@v4fire/devtools-core/src/features/components/b-components-tree/b-components-tree.ts",
+          "styles": [
+            "node_modules/@v4fire/devtools-core/src/features/components/b-components-tree/b-components-tree.styl"
+          ],
+          "tpl": "node_modules/@v4fire/devtools-core/src/features/components/b-components-tree/b-components-tree.ss",
+          "etpl": null
+        }
+      ],
+      [
+        "b-components-tree-item",
+        {
+          "index": "node_modules/@v4fire/devtools-core/src/features/components/b-components-tree/modules/b-components-tree-item/index.js",
+          "declaration": {
+            "name": "b-components-tree-item",
+            "parent": "i-block",
+            "dependencies": [],
+            "libs": []
+          },
+          "name": "b-components-tree-item",
+          "parent": "i-block",
+          "dependencies": [],
+          "libs": [],
+          "resolvedLibs": {
+            "%data": "%data:Set",
+            "%data:Set": []
+          },
+          "resolvedOwnLibs": {
+            "%data": "%data:Set",
+            "%data:Set": []
+          },
+          "type": "block",
+          "mixin": false,
+          "logic": "node_modules/@v4fire/devtools-core/src/features/components/b-components-tree/modules/b-components-tree-item/b-components-tree-item.ts",
+          "styles": [
+            "node_modules/@v4fire/devtools-core/src/features/components/b-components-tree/modules/b-components-tree-item/b-components-tree-item.styl"
+          ],
+          "tpl": "node_modules/@v4fire/devtools-core/src/features/components/b-components-tree/modules/b-components-tree-item/b-components-tree-item.ss",
           "etpl": null
         }
       ],
@@ -1485,7 +1553,7 @@
           },
           "type": "block",
           "mixin": false,
-          "logic": "node_modules/@v4fire/devtools-core/src/components/base/b-tree/b-tree.ts",
+          "logic": "node_modules/@v4fire/client/src/components/base/b-tree/b-tree.ts",
           "styles": [
             "node_modules/@v4fire/client/src/components/base/b-tree/b-tree.styl"
           ],
@@ -2296,7 +2364,8 @@
             "parent": "i-dynamic-page",
             "dependencies": [
               "b-tree",
-              "b-components-panel"
+              "b-components-panel",
+              "b-components-tree"
             ],
             "libs": []
           },
@@ -2304,7 +2373,8 @@
           "parent": "i-dynamic-page",
           "dependencies": [
             "b-tree",
-            "b-components-panel"
+            "b-components-panel",
+            "b-components-tree"
           ],
           "libs": [],
           "resolvedLibs": {

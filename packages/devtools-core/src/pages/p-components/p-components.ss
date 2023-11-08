@@ -5,16 +5,13 @@
 - template index() extends ['i-dynamic-page'].index
 	- block body
 		< .&__content
-			< b-tree &
+			< b-components-tree &
 				ref = tree |
 				:items = components |
 				:folded = false |
 				:theme = 'demo' |
 				:cancelable = true
 			.
-				< template #default = {item}
-					{{ item.label }} value={{ item.value }}
-
 			< template v-if = selectedComponentId
 				< template v-if = selectedComponentData != null
 					< b-components-panel &
