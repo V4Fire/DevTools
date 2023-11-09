@@ -10,7 +10,7 @@
 				:items = components |
 				:folded = false |
 				:theme = 'demo' |
-				:cancelable = true
+				:cancelable = false
 			.
 			< template v-if = selectedComponentId
 				< template v-if = selectedComponentData != null
@@ -20,11 +20,11 @@
 						:theme = 'demo' |
 						:cancelable = true
 					.
-				< p v-else
+				< p.&__placeholder v-else
 					< i
 						Loading...
 
-			< p v-else
+			< p.&__placeholder v-else
 				< i
 					Select a component
 

@@ -2,5 +2,14 @@
 
 p-components extends i-dynamic-page
 	&__content
-		display grid
-		grid-template-columns  2fr 1fr
+		display flex
+
+		> :first-child
+			flex 0 0 60%
+			border-right solid 1px black
+
+		> :nth-child(2)
+			flex 1 1 40%
+
+	&__placeholder
+		padding 8px
