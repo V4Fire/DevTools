@@ -6,11 +6,7 @@
  * https://github.com/V4Fire/DevTools/blob/main/LICENSE
  */
 
-'use strict';
-
-package('b-components-tree')
-	.extends('b-tree')
-	.dependencies(
-		'b-components-tree-item',
-		'b-input'
-	);
+export interface NamePart {
+	text: string;
+	highlight?: boolean;
+}

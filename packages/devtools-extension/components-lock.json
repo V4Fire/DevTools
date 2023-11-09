@@ -1,5 +1,5 @@
 {
-  "hash": "3766184c6f98862e72dd780dcd8ee7147e17e9521ed9e31621cc60193ca2d12a",
+  "hash": "72319302cfffb62653320ad0395ceba6149458c82d3e8b4c2b89c1059b117b40",
   "data": {
     "%data": "%data:Map",
     "%data:Map": [
@@ -187,14 +187,16 @@
             "name": "b-components-tree",
             "parent": "b-tree",
             "dependencies": [
-              "b-components-tree-item"
+              "b-components-tree-item",
+              "b-input"
             ],
             "libs": []
           },
           "name": "b-components-tree",
           "parent": "b-tree",
           "dependencies": [
-            "b-components-tree-item"
+            "b-components-tree-item",
+            "b-input"
           ],
           "libs": [],
           "resolvedLibs": {

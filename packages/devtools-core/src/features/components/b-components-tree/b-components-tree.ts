@@ -6,14 +6,41 @@
  * https://github.com/V4Fire/DevTools/blob/main/LICENSE
  */
 
-import bTree, { component, system } from 'components/base/b-tree/b-tree';
+import symbolGenerator from 'core/symbol';
+import { debounce } from 'core/functools';
+
+import bTree, { component, system, field, watch, computed, hook } from 'components/base/b-tree/b-tree';
 import type { Item } from 'features/components/b-components-tree/interface';
 
 export * from 'features/components/b-components-tree/interface';
 
+const $$ = symbolGenerator();
+
 @component()
 export default class bComponentsTree extends bTree {
 	override readonly Item!: Item;
+
+	override readonly $refs!: bTree['$refs'] & {
+		wrapper?: HTMLElement;
+	};
+
+	/**
+	 * Search text for components
+	 */
+	@field()
+	searchText: string = '';
+
+	/**
+	 * Prepared search statement from `searchText`
+	 */
+	@field()
+	searchQuery: RegExp | string | null = null;
+
+	/**
+	 * Values of matching items
+	 */
+	@field()
+	searchMatches: unknown[] = [];
 
 	@system()
 	override readonly item: string = 'b-components-tree-item';
@@ -21,10 +48,74 @@ export default class bComponentsTree extends bTree {
 	@system()
 	override childrenTreeComponent: string = 'b-components-tree';
 
+	@computed({dependencies: ['searchMatches', 'active']})
+	get searchPosition(): number {
+		return this.searchMatches.findIndex((value) => value === this.active) + 1;
+	}
+
+	/**
+	 * Makes item active and scrolls to it if needed
+	 *
+	 * @param [value]
+	 * @param [dir]
+	 */
+	gotoItem(value?: this['Item']['value'], dir: -1 | 1 = 1): void {
+		const {wrapper} = this.$refs;
+		if (wrapper == null) {
+			return;
+		}
+
+		if (value == null) {
+			const currIndex = (this.searchPosition - 1);
+			let nextIndex = currIndex + dir;
+
+			if (nextIndex >= this.searchMatches.length) {
+				nextIndex = 0;
+
+			} else if (nextIndex < 0) {
+				nextIndex = this.searchMatches.length - 1;
+			}
+
+			value = this.searchMatches[nextIndex];
+		}
+
+		if (value == null) {
+			return;
+		}
+
+		if (value !== this.active) {
+			this.setActive(value);
+		}
+
+		const el = this.findItemElement(value);
+
+		if (el != null) {
+			this.async.requestAnimationFrame(() => {
+				const
+					{offsetTop} = el,
+					{clientHeight = 0} = el.querySelector(`.${this.block!.getFullElementName('item-wrapper')}`) ?? {},
+					offsetBottom = offsetTop + clientHeight;
+
+				if (offsetBottom > (wrapper.scrollTop + wrapper.clientHeight)) {
+					wrapper.scrollTo(0, offsetBottom - wrapper.clientHeight);
+
+				} else if (wrapper.scrollTop > offsetTop) {
+					wrapper.scrollTo(0, offsetTop);
+				}
+			});
+		}
+	}
+
+	protected gotoNextItem(dir: -1 | 1): void {
+		this.gotoItem(null, dir);
+	}
+
 	protected override getItemProps(item: this['Item'], i: number): Dictionary {
 		const
 			op = this.itemProps,
-			props = Object.reject(item, ['children', 'folded', 'componentName', 'value', 'parentValue']);
+			props: Dictionary = Object.reject(item, ['children', 'folded', 'componentName', 'parentValue']);
+
+		props.treeState = this.top;
 
 		if (op == null) {
 			return props;
@@ -38,5 +129,38 @@ export default class bComponentsTree extends bTree {
 			}) :
 
 			Object.assign(props, op);
+	}
+
+	@watch('searchText')
+	@debounce(25)
+	protected setSearchQuery(): void {
+		this.searchMatches = [];
+
+		if (this.searchText === '') {
+			this.searchQuery = null;
+			return;
+		}
+
+		// Unwrapping proxy for performance benefits
+		let string = Object.unwrapProxy(this.searchText);
+
+		if (string.startsWith('/')) {
+			string = string.slice(1);
+
+			if (string.endsWith('/')) {
+				string = string.slice(0, string.length - 1);
+			}
+
+			try {
+				this.searchQuery = new RegExp(string, 'i');
+
+			} catch (err) {
+				// Bad regex. Make it not match anything.
+				this.searchQuery = /.^/;
+			}
+
+		} else {
+			this.searchQuery = string;
+		}
 	}
 }
