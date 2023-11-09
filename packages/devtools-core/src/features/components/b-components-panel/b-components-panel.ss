@@ -14,4 +14,5 @@
 				@change = showEmptyChange
 			.
 
-		- super
+		< .&__body
+			- super
