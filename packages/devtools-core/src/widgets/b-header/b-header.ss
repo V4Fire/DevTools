@@ -5,7 +5,7 @@
 - template index() extends ['i-block'].index
 	- block body
 		< .&__tabs
-			< b-button @click = r.router.push('components')
+			< b-button.&__tab @click = r.router.push('components')
 				Components
-			< b-button @click = r.router.push('profiler')
+			< b-button.&__tab @click = r.router.push('profiler')
 				Profiler
