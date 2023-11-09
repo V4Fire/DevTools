@@ -7,6 +7,7 @@
  */
 
 import type { Item as Super } from 'components/base/b-tree/b-tree';
+import type bComponentsTree from 'features/components/b-components-tree/b-components-tree';
 
 export interface Item extends Super {
 	componentName: string;
@@ -16,3 +17,7 @@ export interface Item extends Super {
 	isFunctionalProp: boolean;
 }
 
+export type ComponentsTreeState = Pick<
+	bComponentsTree,
+	'active' | 'searchQuery' | 'searchMatches' | 'gotoItem'
+>;
