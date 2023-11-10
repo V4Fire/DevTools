@@ -15,7 +15,7 @@
 		.
 			< template #icon
 				< template v-if = searchText != ''
-					{{ searchPosition }}&nbsp;|&nbsp;{{ searchMatches.length }}
+					{{ currentSearchIndex + 1 }}&nbsp;|&nbsp;{{ searchMatches.length }}
 
 		< div &
 			ref = wrapper |

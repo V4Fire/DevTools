@@ -6,15 +6,12 @@
  * https://github.com/V4Fire/DevTools/blob/main/LICENSE
  */
 
-import symbolGenerator from 'core/symbol';
 import { debounce } from 'core/functools';
 
-import bTree, { component, system, field, watch, computed, hook } from 'components/base/b-tree/b-tree';
+import bTree, { component, system, field, watch, computed } from 'components/base/b-tree/b-tree';
 import type { Item } from 'features/components/b-components-tree/interface';
 
 export * from 'features/components/b-components-tree/interface';
-
-const $$ = symbolGenerator();
 
 @component()
 export default class bComponentsTree extends bTree {
@@ -48,42 +45,40 @@ export default class bComponentsTree extends bTree {
 	@field()
 	searchMatchesIndices: Map<this['Item']['value'], [number, number]> = new Map();
 
+	/**
+	 * Current index of search matches
+	 */
+	@field()
+	currentSearchIndex: number = -1;
+
 	@system()
 	override readonly item: string = 'b-components-tree-item';
 
 	@system()
 	override childrenTreeComponent: string = 'b-components-tree';
 
-	@computed({dependencies: ['searchMatches', 'active']})
-	get searchPosition(): number {
-		return this.searchMatches.findIndex((value) => value === this.active) + 1;
-	}
-
 	/**
 	 * Makes item active and scrolls to it if needed
 	 *
-	 * @param [value]
 	 * @param [dir]
 	 */
-	gotoItem(value?: this['Item']['value'], dir: -1 | 1 = 1): void {
+	gotoNextItem(dir: -1 | 1 = 1): void {
 		const {wrapper} = this.$refs;
 		if (wrapper == null) {
 			return;
 		}
 
-		if (value == null) {
-			const currIndex = (this.searchPosition - 1);
-			let nextIndex = currIndex + dir;
+		let nextIndex = this.currentSearchIndex + dir;
 
-			if (nextIndex >= this.searchMatches.length) {
-				nextIndex = 0;
+		if (nextIndex >= this.searchMatches.length) {
+			nextIndex = 0;
 
-			} else if (nextIndex < 0) {
-				nextIndex = this.searchMatches.length - 1;
-			}
-
-			value = this.searchMatches[nextIndex];
+		} else if (nextIndex < 0) {
+			nextIndex = this.searchMatches.length - 1;
 		}
+
+		const value = this.searchMatches[nextIndex];
+		this.currentSearchIndex = nextIndex;
 
 		if (value == null) {
 			return;
@@ -112,10 +107,6 @@ export default class bComponentsTree extends bTree {
 		}
 	}
 
-	protected gotoNextItem(dir: -1 | 1): void {
-		this.gotoItem(null, dir);
-	}
-
 	protected override getItemProps(item: this['Item'], i: number): Dictionary {
 		const
 			op = this.itemProps,
@@ -141,6 +132,7 @@ export default class bComponentsTree extends bTree {
 	@debounce(25)
 	protected setSearchQuery(): void {
 		this.searchMatches = [];
+		this.currentSearchIndex = -1;
 
 		if (this.searchText === '') {
 			this.searchQuery = null;
@@ -191,7 +183,7 @@ export default class bComponentsTree extends bTree {
 
 				// Go to the first match
 				if (this.searchMatches.length === 1) {
-					this.gotoItem(item.value);
+					this.gotoNextItem();
 				}
 			}
 

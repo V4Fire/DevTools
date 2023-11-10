@@ -50,11 +50,11 @@ export default class bComponentsTreeItem extends iBlock {
 	treeState!: ComponentsTreeState;
 
 	/**
-	 * Returns `true` if item is selected
+	 * Returns `true` if item is current search match
 	 */
-	@computed({dependencies: ['value', 'treeState.active']})
-	get selected(): boolean {
-		return this.treeState.active === this.value;
+	@computed({dependencies: ['value', 'treeState.currentSearchIndex']})
+	get isCurrentSearchMatch(): boolean {
+		return this.treeState.searchMatches[this.treeState.currentSearchIndex] === this.value;
 	}
 
 	/**
