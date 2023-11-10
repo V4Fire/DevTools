@@ -17,7 +17,6 @@ import type { Item } from 'features/components/b-components-tree/b-components-tr
 
 @component()
 export default class pComponents extends Super {
-
 	/**
 	 * Displays an error on the page
 	 */
@@ -38,13 +37,15 @@ export default class pComponents extends Super {
 
 	override async loadSelectedComponentData(): Promise<void> {
 		const value = this.selectedComponentId!;
-		const item = this.$refs.tree?.getItemByValue(value);
+		// FIXME: bad encapsulation
+		const item = this.$refs.components?.$refs.tree?.getItemByValue(value);
 
 		const serializedData = await devtoolsEval(evalComponentMeta, [value, <string>item?.componentName]);
 
 		if (serializedData == null) {
-			// TODO: show toast or alert in devtools
-			stderr('No data');
+			// TODO: show custom toast or alert in devtools
+			// eslint-disable-next-line no-alert
+			globalThis.alert('No data');
 			return;
 		}
 
