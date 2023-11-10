@@ -217,4 +217,9 @@ export default class bComponentsTree extends iBlock {
 
 		return [startIndex, stopIndex];
 	}
+
+	@watch('?$refs.tree:change')
+	protected onTreeChange(_: unknown, componentId: string): void {
+		this.emit('change', componentId);
+	}
 }
