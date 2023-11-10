@@ -9,8 +9,9 @@
 'use strict';
 
 package('b-components-panel')
-	.extends('b-tree')
+	.extends('i-block')
 	.dependencies(
 		'b-components-panel-item',
+		'b-tree',
 		'b-checkbox'
 	);

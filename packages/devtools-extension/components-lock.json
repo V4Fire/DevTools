@@ -1,5 +1,5 @@
 {
-  "hash": "cc1383acb9c86adfb6612b9b536b0edbeea154850a4977dcf86af991c062d18b",
+  "hash": "7d07ef89472e9b72d528eb16ee2c2c32c2ac06754510cdfae143afa2dbfcdf3f",
   "data": {
     "%data": "%data:Map",
     "%data:Map": [
@@ -117,17 +117,19 @@
           "index": "node_modules/@v4fire/devtools-core/src/features/components/b-components-panel/index.js",
           "declaration": {
             "name": "b-components-panel",
-            "parent": "b-tree",
+            "parent": "i-block",
             "dependencies": [
               "b-components-panel-item",
+              "b-tree",
               "b-checkbox"
             ],
             "libs": []
           },
           "name": "b-components-panel",
-          "parent": "b-tree",
+          "parent": "i-block",
           "dependencies": [
             "b-components-panel-item",
+            "b-tree",
             "b-checkbox"
           ],
           "libs": [],

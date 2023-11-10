@@ -1,8 +1,8 @@
 - namespace [%fileName%]
 
-- include 'components/base/b-tree'|b as placeholder
+- include 'components/super/i-block'|b as placeholder
 
-- template index() extends ['b-tree'].index
+- template index() extends ['i-block'].index
 	- block body
 		< .&__header
 			< b
@@ -15,4 +15,10 @@
 			.
 
 		< .&__body
-			- super
+			< b-tree &
+				:items = items |
+				:item = 'b-components-panel-item' |
+				:theme = 'demo' |
+				:cancelable = true |
+				:lazyRender = true
+			.

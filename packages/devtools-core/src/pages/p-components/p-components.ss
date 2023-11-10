@@ -13,9 +13,7 @@
 				< template v-if = selectedComponentData != null
 					< b-components-panel &
 						ref = panel |
-						:componentData = selectedComponentData |
-						:theme = 'demo' |
-						:cancelable = true
+						:componentData = selectedComponentData
 					.
 				< . v-else
 					< p.&__placeholder

@@ -12,6 +12,8 @@ export interface Item extends Super {
 	data?: unknown;
 
 	path?: string;
+
+	children?: Item[];
 }
 
 export type ComponentData = {
