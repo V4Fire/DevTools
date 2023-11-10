@@ -20,12 +20,14 @@
 						:theme = 'demo' |
 						:cancelable = true
 					.
-				< p.&__placeholder v-else
-					< i
-						Loading...
+				< . v-else
+					< p.&__placeholder
+						< i
+							Loading...
 
-			< p.&__placeholder v-else
-				< i
-					Select a component
+			< . v-else
+				< p.&__placeholder
+					< i
+						Select a component
 
 
