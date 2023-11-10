@@ -7,11 +7,12 @@
  */
 
 import symbolGenerator from 'core/symbol';
-import iDynamicPage, { component, field, computed, watch } from 'components/super/i-dynamic-page/i-dynamic-page';
+import iDynamicPage, { component, field, watch } from 'components/super/i-dynamic-page/i-dynamic-page';
 
-import type bTree from '@v4fire/client/components/base/b-tree/b-tree';
 import type { Item } from 'components/base/b-tree/b-tree';
 import type { ComponentData } from 'features/components/b-components-panel';
+import type bComponentsTree from 'features/components/b-components-tree/b-components-tree';
+import type bComponentsPanel from 'features/components/b-components-panel/b-components-panel';
 
 export * from 'components/super/i-dynamic-page/i-dynamic-page';
 
@@ -20,8 +21,8 @@ const $$ = symbolGenerator();
 @component()
 export default class pComponents extends iDynamicPage {
 	override readonly $refs!: iDynamicPage['$refs'] & {
-		tree?: bTree;
-		panel?: bTree;
+		components?: bComponentsTree;
+		panel?: bComponentsPanel;
 	};
 
 	/**
@@ -41,14 +42,6 @@ export default class pComponents extends iDynamicPage {
 	 */
 	@field()
 	selectedComponentData: ComponentData | null = null;
-
-	/**
-	 * Selected component's name
-	 */
-	@computed()
-	get selectedComponentName(): string | null {
-		return <string>this.$refs.tree?.getItemByValue(this.selectedComponentId)?.componentName;
-	}
 
 	/**
 	 * Handle component select

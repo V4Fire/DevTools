@@ -1,13 +1,11 @@
 - namespace [%fileName%]
 
-- include 'components/base/b-tree'|b as placeholder
+- include 'components/super/i-block'|b as placeholder
 
-- template index() extends ['b-tree'].index
+- template index() extends ['i-block'].index
 	- block body
-		< b-input &
-			v-if = level == 0 |
+		< b-input.&__input &
 			placeholder = Search (text or /regex/) |
-			:class = provide.elementClasses({ input: true }) |
 			v-model = searchText |
 			/// FIXME: use keydown
 			@keyup.enter.exact = () => gotoNextItem(1) |
@@ -17,10 +15,15 @@
 				< template v-if = searchText != ''
 					{{ currentSearchIndex + 1 }}&nbsp;|&nbsp;{{ searchMatches.length }}
 
-		< div &
-			ref = wrapper |
-			:class = provide.elementClasses({ wrapper: { active: level == 0 } })
-		.
-			- super
+		< .&__wrapper ref = wrapper
+			< b-tree &
+				ref = tree |
+				:items = items |
+				:item = 'b-components-tree-item' |
+				:itemProps = itemProps |
+				:folded = false |
+				:theme = 'demo' |
+				:cancelable = false
+			.
 
 

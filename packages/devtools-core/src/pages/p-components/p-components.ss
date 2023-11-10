@@ -7,10 +7,7 @@
 		< .&__content
 			< b-components-tree &
 				ref = tree |
-				:items = components |
-				:folded = false |
-				:theme = 'demo' |
-				:cancelable = false
+				:items = components
 			.
 			< template v-if = selectedComponentId
 				< template v-if = selectedComponentData != null

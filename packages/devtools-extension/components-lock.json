@@ -1,5 +1,5 @@
 {
-  "hash": "72319302cfffb62653320ad0395ceba6149458c82d3e8b4c2b89c1059b117b40",
+  "hash": "cc1383acb9c86adfb6612b9b536b0edbeea154850a4977dcf86af991c062d18b",
   "data": {
     "%data": "%data:Map",
     "%data:Map": [
@@ -185,17 +185,19 @@
           "index": "node_modules/@v4fire/devtools-core/src/features/components/b-components-tree/index.js",
           "declaration": {
             "name": "b-components-tree",
-            "parent": "b-tree",
+            "parent": "i-block",
             "dependencies": [
               "b-components-tree-item",
+              "b-tree",
               "b-input"
             ],
             "libs": []
           },
           "name": "b-components-tree",
-          "parent": "b-tree",
+          "parent": "i-block",
           "dependencies": [
             "b-components-tree-item",
+            "b-tree",
             "b-input"
           ],
           "libs": [],
@@ -1557,7 +1559,7 @@
           "mixin": false,
           "logic": "node_modules/@v4fire/client/src/components/base/b-tree/b-tree.ts",
           "styles": [
-            "node_modules/@v4fire/client/src/components/base/b-tree/b-tree.styl"
+            "node_modules/@v4fire/devtools-core/src/components/base/b-tree/b-tree.styl"
           ],
           "tpl": "node_modules/@v4fire/client/src/components/base/b-tree/b-tree.ss",
           "etpl": null

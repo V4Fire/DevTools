@@ -8,18 +8,25 @@
 
 import { debounce } from 'core/functools';
 
-import bTree, { component, system, field, watch, computed } from 'components/base/b-tree/b-tree';
+import iBlock, { component, prop, field, watch } from 'components/super/i-block/i-block';
+
+import type bTree from 'components/base/b-tree/b-tree';
 import type { Item } from 'features/components/b-components-tree/interface';
 
 export * from 'features/components/b-components-tree/interface';
 
 @component()
-export default class bComponentsTree extends bTree {
-	override readonly Item!: Item;
-
-	override readonly $refs!: bTree['$refs'] & {
+export default class bComponentsTree extends iBlock {
+	override readonly $refs!: iBlock['$refs'] & {
 		wrapper?: HTMLElement;
+		tree?: bTree;
 	};
+
+	/**
+	 * Items for `b-tree`
+	 */
+	@prop({type: Array, required: true})
+	items!: Item[];
 
 	/**
 	 * Search text for components
@@ -43,7 +50,7 @@ export default class bComponentsTree extends bTree {
 	 * Indices of matching text in items' labels
 	 */
 	@field()
-	searchMatchesIndices: Map<this['Item']['value'], [number, number]> = new Map();
+	searchMatchesIndices: Map<Item['value'], [number, number]> = new Map();
 
 	/**
 	 * Current index of search matches
@@ -51,20 +58,14 @@ export default class bComponentsTree extends bTree {
 	@field()
 	currentSearchIndex: number = -1;
 
-	@system()
-	override readonly item: string = 'b-components-tree-item';
-
-	@system()
-	override childrenTreeComponent: string = 'b-components-tree';
-
 	/**
 	 * Makes item active and scrolls to it if needed
 	 *
 	 * @param [dir]
 	 */
 	gotoNextItem(dir: -1 | 1 = 1): void {
-		const {wrapper} = this.$refs;
-		if (wrapper == null) {
+		const {wrapper, tree} = this.$refs;
+		if (wrapper == null || tree == null) {
 			return;
 		}
 
@@ -84,17 +85,18 @@ export default class bComponentsTree extends bTree {
 			return;
 		}
 
-		if (value !== this.active) {
-			this.setActive(value);
+		if (value !== tree.active) {
+			tree.setActive(value);
 		}
 
-		const el = this.findItemElement(value);
+		// It's ugly but we need to scroll to this element
+		const el = tree.unsafe.findItemElement(value);
 
 		if (el != null) {
 			this.async.requestAnimationFrame(() => {
 				const
 					{offsetTop} = el,
-					{clientHeight = 0} = el.querySelector(`.${this.block!.getFullElementName('item-wrapper')}`) ?? {},
+					{clientHeight = 0} = el.querySelector(`.${tree.unsafe.block!.getFullElementName('item-wrapper')}`) ?? {},
 					offsetBottom = offsetTop + clientHeight;
 
 				if (offsetBottom > (wrapper.scrollTop + wrapper.clientHeight)) {
@@ -107,25 +109,19 @@ export default class bComponentsTree extends bTree {
 		}
 	}
 
-	protected override getItemProps(item: this['Item'], i: number): Dictionary {
-		const
-			op = this.itemProps,
-			props: Dictionary = Object.reject(item, ['children', 'folded', 'componentName', 'parentValue']);
+	/**
+	 * This method is passed as `itemProps` prop to the `b-tree`
+	 * @param item
+	 */
+	protected itemProps(item: Item): Dictionary {
+		const props: Dictionary = Object.reject(
+			item,
+			['children', 'folded', 'componentName', 'parentValue']
+		);
 
-		props.treeState = this.top;
+		props.treeState = this;
 
-		if (op == null) {
-			return props;
-		}
-
-		return Object.isFunction(op) ?
-			op(item, i, {
-				key: this.getItemKey(item, i),
-				ctx: this,
-				...props
-			}) :
-
-			Object.assign(props, op);
+		return props;
 	}
 
 	@watch('searchText')
@@ -174,7 +170,7 @@ export default class bComponentsTree extends bTree {
 
 		const searchMatchesIndices = new Map();
 
-		const traverse = (item: bComponentsTree['Item']) => {
+		const traverse = (item: Item) => {
 			const indices = this.matchSearch(item, searchQuery);
 
 			if (indices.every((x) => x !== -1)) {
@@ -201,7 +197,7 @@ export default class bComponentsTree extends bTree {
 	 * @param item
 	 * @param searchQuery
 	 */
-	protected matchSearch(item: this['Item'], searchQuery: RegExp | string): [number, number] {
+	protected matchSearch(item: Item, searchQuery: RegExp | string): [number, number] {
 		let
 			startIndex = -1,
 			stopIndex = -1;

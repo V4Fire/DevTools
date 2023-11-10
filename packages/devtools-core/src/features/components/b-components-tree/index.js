@@ -9,8 +9,9 @@
 'use strict';
 
 package('b-components-tree')
-	.extends('b-tree')
+	.extends('i-block')
 	.dependencies(
 		'b-components-tree-item',
+		'b-tree',
 		'b-input'
 	);
