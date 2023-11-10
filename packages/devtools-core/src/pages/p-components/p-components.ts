@@ -49,7 +49,7 @@ export default class pComponents extends iDynamicPage {
 	 * @param _
 	 * @param componentId
 	 */
-	@watch('?$refs.tree:change')
+	@watch('?$refs.components:change')
 	onComponentSelect(_: unknown, componentId: string): void {
 		this.selectedComponentId = componentId;
 		this.selectedComponentData = null;

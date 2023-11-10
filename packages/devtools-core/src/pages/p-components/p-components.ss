@@ -6,7 +6,7 @@
 	- block body
 		< .&__content
 			< b-components-tree &
-				ref = tree |
+				ref = components |
 				:items = components
 			.
 			< template v-if = selectedComponentId
