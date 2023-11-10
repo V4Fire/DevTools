@@ -15,9 +15,14 @@ export interface Item extends Super {
 	renderCounterProp: number;
 
 	isFunctionalProp: boolean;
+
+	/**
+	 * Nested items
+	 */
+	children?: Item[];
 }
 
 export type ComponentsTreeState = Pick<
 	bComponentsTree,
-	'active' | 'searchQuery' | 'searchMatches' | 'gotoItem'
+	'active' | 'searchMatchesIndices' | 'searchMatches'
 >;

@@ -42,6 +42,12 @@ export default class bComponentsTree extends bTree {
 	@field()
 	searchMatches: unknown[] = [];
 
+	/**
+	 * Indices of matching text in items' labels
+	 */
+	@field()
+	searchMatchesIndices: Map<this['Item']['value'], [number, number]> = new Map();
+
 	@system()
 	override readonly item: string = 'b-components-tree-item';
 
@@ -138,6 +144,7 @@ export default class bComponentsTree extends bTree {
 
 		if (this.searchText === '') {
 			this.searchQuery = null;
+			this.searchMatchesIndices = new Map();
 			return;
 		}
 
@@ -162,5 +169,64 @@ export default class bComponentsTree extends bTree {
 		} else {
 			this.searchQuery = string;
 		}
+
+		this.updateSearchMatches();
+	}
+
+	protected updateSearchMatches(): void {
+		const {searchQuery} = this;
+
+		if (searchQuery == null) {
+			return;
+		}
+
+		const searchMatchesIndices = new Map();
+
+		const traverse = (item: bComponentsTree['Item']) => {
+			const indices = this.matchSearch(item, searchQuery);
+
+			if (indices.every((x) => x !== -1)) {
+				searchMatchesIndices.set(item.value, indices);
+				this.searchMatches.push(item.value);
+
+				// Go to the first match
+				if (this.searchMatches.length === 1) {
+					this.gotoItem(item.value);
+				}
+			}
+
+			item.children?.forEach(traverse);
+		};
+
+		this.items.forEach(traverse);
+		this.searchMatchesIndices = searchMatchesIndices;
+	}
+
+	/**
+	 * Checks if item's label matches the search query.
+	 * Returns match indices.
+	 *
+	 * @param item
+	 * @param searchQuery
+	 */
+	protected matchSearch(item: this['Item'], searchQuery: RegExp | string): [number, number] {
+		let
+			startIndex = -1,
+			stopIndex = -1;
+
+		if (Object.isString(searchQuery)) {
+			startIndex = item.label!.indexOf(searchQuery);
+			stopIndex = startIndex + searchQuery.length;
+
+		} else {
+			const match = searchQuery.exec(item.label!);
+
+			if (match != null) {
+				startIndex = match.index;
+				stopIndex = startIndex + match[0].length;
+			}
+		}
+
+		return [startIndex, stopIndex];
 	}
 }

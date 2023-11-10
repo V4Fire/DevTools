@@ -13,62 +13,64 @@ import type { NamePart } from 'features/components/b-components-tree/modules/b-c
 
 @component()
 export default class bComponentsTreeItem extends iBlock {
+	/**
+	 * Item's label
+	 */
 	@prop({type: String, required: true})
 	label!: string;
 
+	/**
+	 * Item's value
+	 */
 	@prop({type: String, required: true})
 	value!: string;
 
+	/**
+	 * Render count of a given component
+	 */
 	@prop({type: Number, required: true})
 	renderCounterProp!: number;
 
+	/**
+	 * Is `true` for a functional component
+	 */
 	@prop({type: Boolean, required: true})
-	isFunctionalProp!: number;
+	isFunctionalProp!: boolean;
 
+	/**
+	 * Always shows component's details highlighted as warning
+	 */
 	@prop({type: Boolean, required: true})
 	showWarning!: boolean;
 
+	/**
+	 * State of the components tree
+	 */
 	@prop(Object)
 	treeState!: ComponentsTreeState;
 
+	/**
+	 * Returns `true` if item is selected
+	 */
 	@computed({dependencies: ['value', 'treeState.active']})
 	get selected(): boolean {
 		return this.treeState.active === this.value;
 	}
 
-	@computed({dependencies: ['label', 'treeState.searchQuery']})
+	/**
+	 * Returns name of the component with the highlighted parts matching
+	 * the search query
+	 */
+	@computed({dependencies: ['label', 'treeState.searchMatchesIndices']})
 	get name(): NamePart[] {
-		const {searchQuery} = this.treeState;
-		if (searchQuery == null) {
+		const {searchMatchesIndices} = this.treeState;
+		const indices = searchMatchesIndices.get(this.value);
+
+		if (indices == null) {
 			return [{text: this.label}];
 		}
 
-		let
-			startIndex = -1,
-			stopIndex = -1;
-
-		if (Object.isString(searchQuery)) {
-			startIndex = this.label.indexOf(searchQuery);
-			stopIndex = startIndex + searchQuery.length;
-
-		} else {
-			const match = searchQuery.exec(this.label);
-
-			if (match != null) {
-				startIndex = match.index;
-				stopIndex = startIndex + match[0].length;
-			}
-		}
-
-		if (startIndex === -1) {
-			return [{text: this.label}];
-		}
-
-		if (this.treeState.searchMatches.length === 0) {
-			this.treeState.gotoItem(this.value);
-		}
-
-		this.treeState.searchMatches.push(this.value);
+		const [startIndex, stopIndex] = indices;
 
 		const parts: NamePart[] = [];
 		if (startIndex > 0) {
