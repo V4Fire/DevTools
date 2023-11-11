@@ -39,11 +39,26 @@ export function serialize<T = unknown>(
 	value: T,
 	isRestrictedKey?: (key: string) => boolean
 ): string {
+	let refCounter = 1;
+
+	const
+		visited = new WeakSet(),
+		circularRefs = new WeakMap<object, number>(),
+		childToParent = new WeakMap<object, object>();
+
 	return JSON.stringify(value, expandedStringify);
 
-	function expandedStringify(key: string, value: unknown): unknown {
+	function expandedStringify(this: any, key: string, value: unknown): unknown {
 		if (isRestrictedKey?.(key)) {
-			return '*restricted*';
+			return '[Restricted]';
+		}
+
+		if (this === value) {
+			if (!circularRefs.has(this)) {
+				circularRefs.set(this, refCounter++);
+			}
+
+			return `[Circular *${circularRefs.get(this)}]`;
 		}
 
 		const type = getType(value);
@@ -56,21 +71,73 @@ export function serialize<T = unknown>(
 				return serializeComplexData(type, (<{toString(): string}>value).toString());
 
 			case 'Map':
-			case 'Set':
-				return serializeComplexData(type, [...(<Iterable<any>>value)]);
+			case 'Set': {
+				const raw = [...(<Iterable<any>>value)];
+				setParent(raw, this);
+				return serializeComplexData(type, raw);
+			}
 
-			case 'Array':
-				return value;
+			default: {
+				const isObject = typeof value === 'object' && value != null;
 
-			default:
-				// Do not serialize non-plain objects, instead return constructor name
-				if (typeof value === 'object' && value?.constructor !== Object) {
+				if (isObject) {
+					// Do not serialize non-plain objects, instead return constructor name
 					// eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
-					return value?.constructor?.name ?? value;
+					if (value.constructor != null && value.constructor !== Object && type !== 'Array') {
+						return value.constructor.name;
+					}
+
+					setParent(value, this);
+
+					if (visited.has(value)) {
+						const refId = getCircularRef(value);
+
+						if (refId > 0) {
+							return `[Circular *${refId}]`;
+						}
+					}
+
+					visited.add(value);
 				}
 
 				return value;
+			}
 		}
+	}
+
+	function setParent(child: object, parent: object) {
+		if (child !== parent) {
+			childToParent.set(child, parent);
+		}
+	}
+
+	function getCircularRef(obj: object): number {
+		let parent = childToParent.get(obj);
+		let i = 0;
+
+		while (parent != null) {
+			i++;
+
+			// FIXME: there is issue with infinite loops, it may be related to objects wrapped in proxies
+			if (i > 100) {
+				return Infinity;
+			}
+
+			if (parent === obj) {
+				let refId = circularRefs.get(obj);
+
+				if (refId == null) {
+					refId = refCounter++;
+					circularRefs.set(obj, refId);
+				}
+
+				return refId;
+			}
+
+			parent = childToParent.get(parent);
+		}
+
+		return 0;
 	}
 }
 
