@@ -2709,9 +2709,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@v4fire/client@npm:4.0.0-beta.31":
-  version: 4.0.0-beta.31
-  resolution: "@v4fire/client@npm:4.0.0-beta.31"
+"@v4fire/client@git+https://github.com/V4Fire/Client.git#v4":
+  version: 4.0.0-beta.37
+  resolution: "@v4fire/client@https://github.com/V4Fire/Client.git#commit=1b46a272dfe5592fcdc5696622330fdb3912caf5"
   dependencies:
     "@babel/core": 7.17.5
     "@babel/helpers": 7.17.7
@@ -2750,7 +2750,6 @@ __metadata:
     favicons: 7.1.0
     file-loader: 6.2.0
     fs-extra: 10.0.0
-    glob: 7.2.0
     gulp: 4.0.2
     gulp-csso: 4.0.1
     gulp-ext-replace: 0.3.0
@@ -2856,8 +2855,6 @@ __metadata:
       optional: true
     fs-extra:
       optional: true
-    glob:
-      optional: true
     gulp:
       optional: true
     gulp-csso:
@@ -2952,7 +2949,7 @@ __metadata:
       optional: true
     webpack-cli:
       optional: true
-  checksum: 7e4dcf9b251069eb319b12cf181eb8724f4399357753cc10b42a2d1ac23b0cca19a3119507fac2c408a581caf97eda3f883955f7d298d9a0a7ce8035be0760a6
+  checksum: ba699367d38b9f7bcd6661eb982a9452fa14f565e323f3b884d191f72d490844b2a1ad755974fdc3cacf4b0974b56a5a22ddfd394ef336d3e0c64d7b943aaf5a
   languageName: node
   linkType: hard
 
@@ -3135,7 +3132,7 @@ __metadata:
   resolution: "@v4fire/devtools-core@workspace:packages/devtools-core"
   dependencies:
     "@config/config": "npm:config@1.31.0"
-    "@v4fire/client": 4.0.0-beta.31
+    "@v4fire/client": "git+https://github.com/V4Fire/Client.git#v4"
     "@v4fire/core": 4.0.0-alpha.11
     express: ^4.17.1
     express-http-proxy: ^1.6.2
@@ -3149,7 +3146,7 @@ __metadata:
   dependencies:
     "@config/config": "npm:config@1.31.0"
     "@types/chrome": 0.0.248
-    "@v4fire/client": 4.0.0-beta.31
+    "@v4fire/client": "git+https://github.com/V4Fire/Client.git#v4"
     "@v4fire/core": 4.0.0-alpha.11
     "@v4fire/devtools-backend": "workspace:^"
     "@v4fire/devtools-core": "workspace:^"
