@@ -6,5 +6,4 @@
  * https://github.com/V4Fire/DevTools/blob/main/LICENSE
  */
 
-export * from 'shared/lib/browser-api/const';
-export * from 'shared/lib/browser-api/devtools';
+export { default as devtoolsEval } from 'core/browser-api/devtools/devtools-eval';

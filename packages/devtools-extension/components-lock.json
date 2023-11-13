@@ -1,5 +1,5 @@
 {
-  "hash": "7d07ef89472e9b72d528eb16ee2c2c32c2ac06754510cdfae143afa2dbfcdf3f",
+  "hash": "1cfbd06b86147b98af25f6d24f183751141fa54b202888f948c731fa6382478c",
   "data": {
     "%data": "%data:Map",
     "%data:Map": [
@@ -736,7 +736,7 @@
       [
         "b-header",
         {
-          "index": "node_modules/@v4fire/devtools-core/src/widgets/b-header/index.js",
+          "index": "node_modules/@v4fire/devtools-core/src/components/widgets/b-header/index.js",
           "declaration": {
             "name": "b-header",
             "parent": "i-block",
@@ -761,11 +761,11 @@
           },
           "type": "block",
           "mixin": false,
-          "logic": "node_modules/@v4fire/devtools-core/src/widgets/b-header/b-header.ts",
+          "logic": "node_modules/@v4fire/devtools-core/src/components/widgets/b-header/b-header.ts",
           "styles": [
-            "node_modules/@v4fire/devtools-core/src/widgets/b-header/b-header.styl"
+            "node_modules/@v4fire/devtools-core/src/components/widgets/b-header/b-header.styl"
           ],
-          "tpl": "node_modules/@v4fire/devtools-core/src/widgets/b-header/b-header.ss",
+          "tpl": "node_modules/@v4fire/devtools-core/src/components/widgets/b-header/b-header.ss",
           "etpl": null
         }
       ],

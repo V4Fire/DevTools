@@ -6,12 +6,12 @@
  * https://github.com/V4Fire/DevTools/blob/main/LICENSE
  */
 import Super, { component, hook } from '@super/pages/p-root/p-root';
-import { devtoolsEval } from 'shared/lib';
+import { devtoolsEval } from 'core/browser-api';
 
 export * from '@super/pages/p-root/p-root';
 
-@component()
-export class pRoot extends Super {
+@component({root: true})
+export default class pRoot extends Super {
 	@hook('created')
 	checkPreconditions(): void {
 		// eslint-disable-next-line @typescript-eslint/no-unnecessary-condition

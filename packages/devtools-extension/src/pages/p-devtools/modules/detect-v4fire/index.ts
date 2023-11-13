@@ -6,7 +6,8 @@
  * https://github.com/V4Fire/DevTools/blob/main/LICENSE
  */
 
-import { devtoolsEval, pageHasV4Fire } from 'shared/lib';
+import { pageHasV4Fire } from 'core/helpers';
+import { devtoolsEval } from 'core/browser-api';
 import CouldNotFindV4FireOnThePageError from './error';
 
 export { CouldNotFindV4FireOnThePageError };

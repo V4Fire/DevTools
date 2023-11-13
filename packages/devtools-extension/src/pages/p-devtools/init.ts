@@ -7,7 +7,7 @@
  */
 
 import Async from '@v4fire/core/core/async';
-import { browserAPI } from 'shared/lib';
+import { browserAPI } from 'core/browser-api';
 
 import type pRoot from 'pages/p-root/p-root';
 import { CouldNotFindV4FireOnThePageError, detectV4Fire } from 'pages/p-devtools/modules/detect-v4fire';

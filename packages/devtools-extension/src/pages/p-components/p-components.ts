@@ -7,7 +7,7 @@
  */
 
 import { deserialize } from '@v4fire/devtools-backend';
-import { devtoolsEval } from 'shared/lib';
+import { devtoolsEval } from 'core/browser-api';
 
 import type iBlock from 'components/super/i-block/i-block';
 

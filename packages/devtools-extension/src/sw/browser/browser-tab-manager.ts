@@ -6,7 +6,7 @@
  * https://github.com/V4Fire/DevTools/blob/main/LICENSE
  */
 
-import { browserAPI } from 'shared/lib';
+import { browserAPI } from 'core/browser-api';
 
 interface Tab {
 	/**

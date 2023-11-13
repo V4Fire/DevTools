@@ -5,7 +5,7 @@
  * Released under the MIT license
  * https://github.com/V4Fire/DevTools/blob/main/LICENSE
  */
-import { browserAPI } from 'shared/lib/browser-api';
+import { browserAPI } from 'core/browser-api';
 
 /**
  * Evaluates given function in context of inspectedWindow

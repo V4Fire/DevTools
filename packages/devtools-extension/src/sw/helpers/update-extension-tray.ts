@@ -6,7 +6,7 @@
  * https://github.com/V4Fire/DevTools/blob/main/LICENSE
  */
 
-import { browserAPI, isManifestV2 } from 'shared/lib';
+import { browserAPI, isManifestV2 } from 'core/browser-api';
 
 type Mode = 'disabled' | 'enabled';
 

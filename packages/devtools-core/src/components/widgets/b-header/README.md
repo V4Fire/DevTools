@@ -1,4 +1,4 @@
-# widgets/b-header
+# components/widgets/b-header
 
 This is a header widget for navigating between devtools pages.
 

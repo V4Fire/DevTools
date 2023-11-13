@@ -6,4 +6,5 @@
  * https://github.com/V4Fire/DevTools/blob/main/LICENSE
  */
 
-export * from 'shared/lib/components';
+export * from '@super/core/helpers';
+export { default as pageHasV4Fire } from 'core/helpers/page-has-v4fire';

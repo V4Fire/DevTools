@@ -8,7 +8,7 @@
 
 import { getType } from '@v4fire/devtools-backend';
 
-import { normalizeComponentName } from 'shared/lib';
+import { normalizeComponentName } from 'core/helpers';
 
 import type { Item, ComponentData } from 'features/components/b-components-panel/interface';
 

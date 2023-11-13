@@ -9,7 +9,7 @@
 // NOTE: this script runs in MAIN world
 // @see: https://chromium.googlesource.com/chromium/src/+/master/third_party/blink/renderer/bindings/core/v8/V8BindingDesign.md#world
 
-import pageHasV4Fire from 'shared/lib/page-has-v4fire';
+import pageHasV4Fire from 'core/helpers/page-has-v4fire';
 
 const poll = (call: number = 1) => {
 	if (pageHasV4Fire()) {
