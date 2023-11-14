@@ -9,4 +9,7 @@
 'use strict';
 
 package('b-components-tree-item')
-	.extends('i-block');
+	.extends('i-block')
+	.libs(
+		'components/directives/highlight'
+	);

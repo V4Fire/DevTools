@@ -12,6 +12,7 @@ import iBlock, { component, prop, field, watch } from 'components/super/i-block/
 
 import type bTree from 'components/base/b-tree/b-tree';
 import type { Item } from 'features/components/b-components-tree/interface';
+import { matchText } from 'components/directives/highlight/helpers';
 
 export * from 'features/components/b-components-tree/interface';
 
@@ -44,13 +45,7 @@ export default class bComponentsTree extends iBlock {
 	 * Values of matching items
 	 */
 	@field()
-	searchMatches: unknown[] = [];
-
-	/**
-	 * Indices of matching text in items' labels
-	 */
-	@field()
-	searchMatchesIndices: Map<Item['value'], [number, number]> = new Map();
+	searchMatches: string[] = [];
 
 	/**
 	 * Current index of search matches
@@ -80,10 +75,6 @@ export default class bComponentsTree extends iBlock {
 
 		const value = this.searchMatches[nextIndex];
 		this.currentSearchIndex = nextIndex;
-
-		if (value == null) {
-			return;
-		}
 
 		if (value !== tree.active) {
 			tree.setActive(value);
@@ -119,7 +110,7 @@ export default class bComponentsTree extends iBlock {
 			['children', 'folded', 'componentName', 'parentValue']
 		);
 
-		props.treeState = this;
+		props.highlightCtx = this.componentName;
 
 		return props;
 	}
@@ -127,12 +118,9 @@ export default class bComponentsTree extends iBlock {
 	@watch('searchText')
 	@debounce(25)
 	protected setSearchQuery(): void {
-		this.searchMatches = [];
-		this.currentSearchIndex = -1;
-
 		if (this.searchText === '') {
 			this.searchQuery = null;
-			this.searchMatchesIndices = new Map();
+			this.updateSearchMatches();
 			return;
 		}
 
@@ -165,57 +153,38 @@ export default class bComponentsTree extends iBlock {
 		const {searchQuery} = this;
 
 		if (searchQuery == null) {
+			this.searchMatches = [];
+			this.currentSearchIndex = -1;
+			this.globalEmitter.emit(`highlight:${this.componentName}:reset`);
 			return;
 		}
 
-		const searchMatchesIndices = new Map();
+		const searchMatches: string[] = [];
 
 		const traverse = (item: Item) => {
-			const indices = this.matchSearch(item, searchQuery);
+			const indices = matchText(item.label, searchQuery);
 
 			if (indices.every((x) => x !== -1)) {
-				searchMatchesIndices.set(item.value, indices);
-				this.searchMatches.push(item.value);
-
-				// Go to the first match
-				if (this.searchMatches.length === 1) {
-					this.gotoNextItem();
-				}
+				this.globalEmitter.emit(`highlight:${this.componentName}:${item.value}`, indices);
+				searchMatches.push(item.value);
 			}
 
 			item.children?.forEach(traverse);
 		};
 
 		this.items.forEach(traverse);
-		this.searchMatchesIndices = searchMatchesIndices;
-	}
 
-	/**
-	 * Checks if item's label matches the search query.
-	 * Returns match indices.
-	 *
-	 * @param item
-	 * @param searchQuery
-	 */
-	protected matchSearch(item: Item, searchQuery: RegExp | string): [number, number] {
-		let
-			startIndex = -1,
-			stopIndex = -1;
+		// Reset highlight for old search matches
+		const oldSearchMatches = this.searchMatches.filter((value) => !searchMatches.includes(value));
+		oldSearchMatches.forEach((value) => this.globalEmitter.emit(`highlight:${this.componentName}:${value}`, null));
 
-		if (Object.isString(searchQuery)) {
-			startIndex = item.label!.indexOf(searchQuery);
-			stopIndex = startIndex + searchQuery.length;
+		this.currentSearchIndex = -1;
+		this.searchMatches = searchMatches;
 
-		} else {
-			const match = searchQuery.exec(item.label!);
-
-			if (match != null) {
-				startIndex = match.index;
-				stopIndex = startIndex + match[0].length;
-			}
+		// Go to first search match
+		if (this.searchMatches.length > 0) {
+			this.gotoNextItem();
 		}
-
-		return [startIndex, stopIndex];
 	}
 
 	@watch('?$refs.tree:change')

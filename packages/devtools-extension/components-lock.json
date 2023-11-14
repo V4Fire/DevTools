@@ -1,5 +1,5 @@
 {
-  "hash": "1cfbd06b86147b98af25f6d24f183751141fa54b202888f948c731fa6382478c",
+  "hash": "79e0429f8ddab68d2379738e6ff91570400c09643884d7196f840d917e70f9de",
   "data": {
     "%data": "%data:Map",
     "%data:Map": [
@@ -229,19 +229,27 @@
             "name": "b-components-tree-item",
             "parent": "i-block",
             "dependencies": [],
-            "libs": []
+            "libs": [
+              "components/directives/highlight"
+            ]
           },
           "name": "b-components-tree-item",
           "parent": "i-block",
           "dependencies": [],
-          "libs": [],
+          "libs": [
+            "components/directives/highlight"
+          ],
           "resolvedLibs": {
             "%data": "%data:Set",
-            "%data:Set": []
+            "%data:Set": [
+              "components/directives/highlight"
+            ]
           },
           "resolvedOwnLibs": {
             "%data": "%data:Set",
-            "%data:Set": []
+            "%data:Set": [
+              "components/directives/highlight"
+            ]
           },
           "type": "block",
           "mixin": false,

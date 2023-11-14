@@ -4,11 +4,8 @@
 
 - template index() extends ['i-block'].index
 	- block body
-		< template v-for = {text, highlight} in name
-			< mark v-if = highlight | :class = provide.elementClasses({ name: { selected: isCurrentSearchMatch }})
-				{{ text }}
-			< span v-else
-				{{ text }}
+		< span v-highlight = {text: label, id: value, ctx: highlightCtx}
+			{{ label }}
 
 		< i v-if = isFunctionalProp
 			{{ '<func>' }}
