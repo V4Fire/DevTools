@@ -7,9 +7,12 @@
  */
 
 import type { Item as Super } from 'components/base/b-tree/b-tree';
-import type bComponentsTree from 'features/components/b-components-tree/b-components-tree';
 
 export interface Item extends Super {
+	value: string;
+
+	label: string;
+
 	componentName: string;
 
 	renderCounterProp: number;
