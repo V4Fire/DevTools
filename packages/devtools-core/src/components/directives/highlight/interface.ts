@@ -18,22 +18,20 @@ export interface HighlightOptions {
 	text: string;
 
 	/**
-	 * Context of the highlight: usually a component name
-	 */
-	ctx: string;
-
-	/**
 	 * Identifier of the highlight node
 	 */
-	id?: string | number;
-
-	/**
-	 * Event emitter to listen for highlight events
-	 */
-	emitter?: HighlightEmitter;
+	id?: string;
 }
 
+// TODO: remove these events when `InferEvents` will be fixed in the `iBlock`
 export type HighlightEvents = {
+	/**
+	 * Mark highlighted node as selected
+	 *
+	 * @param selected
+	 */
+	[K in `highlight-current.${string}`]: (selected: boolean) => void;
+} & {
 	/**
 	 * Highlight event for specific node
 	 *
@@ -43,10 +41,10 @@ export type HighlightEvents = {
 	 * const id = 1;
 	 * const startIndex = 'text to highlight'.indexOf('to high');
 	 * const stopIndex = startIndex + 'to high'.length;
-	 * emitter.emit(`highlight:global-search:${id}`, [startIndex, stopIndex]);
+	 * emitter.emit(`highlight.${id}`, [startIndex, stopIndex]);
 	 * ```
 	 */
-	[K in `highlight:${string}:${string}`]: (indices: [number, number] | null) => void;
+	[K in `highlight.${string}`]: (indices: [number, number] | null) => void;
 } & {
 	/**
 	 * General highlight event, which will be emitted to all nodes with v-highlight
@@ -55,17 +53,17 @@ export type HighlightEvents = {
 	 * @example
 	 * ```
 	 * // Highlight all elements matching `/some text/i`
-	 * emitter.emit('highlight:global-search', /some text/i);
+	 * emitter.emit('highlight', /some text/i);
 	 * ```
 	 */
-	[K in `highlight:${string}`]: (matchQuery: RegExp | string) => void;
-} & {
+	highlight(matchQuery: RegExp | string): void;
+
 	/**
 	 * Resets highlight on all elements for given ctx
 	 *
 	 * @param ctx
 	 */
-	[K in `highlight:${string}:reset`]: () => void;
+	['highlight-reset'](): void;
 };
 
 export type HighlightEmitter = TypedEventEmitter<HighlightEvents>;

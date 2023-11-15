@@ -6,12 +6,10 @@
  * https://github.com/V4Fire/DevTools/blob/main/LICENSE
  */
 
-import { globalEmitter } from 'core/component';
+import { ComponentEngine, VNode } from 'core/component/engines';
 
-import { ComponentEngine } from 'core/component/engines';
-
-import { matchText } from 'components/directives/highlight/helpers';
 import type { DirectiveParams, HighlightEmitter, HighlightEvents } from 'components/directives/highlight/interface';
+import { closestSearchTrait, updateHighlight } from 'components/directives/highlight/helpers';
 
 export * from 'components/directives/highlight/interface';
 
@@ -21,9 +19,10 @@ const elementListeners = new WeakMap<
 >();
 
 ComponentEngine.directive('highlight', {
-	mounted(el: Element, params: DirectiveParams): void {
-		const emitter = params.value.emitter ?? <HighlightEmitter><unknown>globalEmitter;
-		const {id, text, ctx} = params.value;
+	mounted(el: Element, params: DirectiveParams, vnode: VNode): void {
+		const searchComponent = closestSearchTrait(vnode);
+		const emitter: HighlightEmitter = Object.cast(searchComponent.unsafe.localEmitter);
+		const {id, text} = params.value;
 
 		if (!elementListeners.has(el)) {
 			elementListeners.set(el, new Map());
@@ -32,28 +31,40 @@ ComponentEngine.directive('highlight', {
 		const listeners = elementListeners.get(el)!;
 
 		const
-			resetEvent: keyof HighlightEvents = `highlight:${ctx}:reset`,
+			resetEvent: keyof HighlightEvents = 'highlight-reset',
 			resetListener = () => el.textContent = text;
 
 		listeners.set(resetEvent, resetListener);
 		emitter.on(resetEvent, resetListener);
 
 		if (id != null) {
-			emitter.on(`highlight:${ctx}:${id}`, (indices) => {
+			emitter.on(`highlight.${id}`, (indices) => {
 				if (indices != null) {
 					updateHighlight(el, text, indices);
+
 				} else {
 					el.textContent = text;
 				}
 			});
 
+			emitter.on(`highlight-current.${id}`, (selected) => {
+				const mark = el.querySelector('.g-highlight');
+				if (!selected) {
+					mark?.classList.remove('g-highlight_selected_true');
+
+				} else {
+					mark?.classList.add('g-highlight_selected_true');
+				}
+			});
+
 		} else {
-			const highlightEvent: keyof HighlightEvents = `highlight:${ctx}`;
-			const highlightListener = (matchQuery: RegExp | string) => {
-				const indices = matchText(text, matchQuery);
+			const highlightEvent: keyof HighlightEvents = 'highlight';
+			const highlightListener = () => {
+				const indices = searchComponent.search.matchText(text);
 
 				if (indices[0] !== -1) {
 					updateHighlight(el, text, indices);
+
 				} else {
 					el.textContent = text;
 				}
@@ -64,9 +75,10 @@ ComponentEngine.directive('highlight', {
 		}
 	},
 
-	unmounted(el: Element, params: DirectiveParams): void {
-		const emitter = params.value.emitter ?? <HighlightEmitter><unknown>globalEmitter;
-		const {id, ctx} = params.value;
+	unmounted(el: Element, params: DirectiveParams, vnode: VNode): void {
+		const searchComponent = closestSearchTrait(vnode);
+		const emitter: HighlightEmitter = Object.cast(searchComponent.unsafe.localEmitter);
+		const {id} = params.value;
 
 		for (const [event, listener] of elementListeners.get(el) ?? []) {
 			emitter.off(event, listener);
@@ -75,31 +87,9 @@ ComponentEngine.directive('highlight', {
 		elementListeners.delete(el);
 
 		if (id != null) {
-			emitter.removeAllListeners(`highlight:${ctx}:${id}`);
+			emitter.removeAllListeners(`highlight.${id}`);
+			emitter.removeAllListeners(`highlight.current.${id}`);
 		}
 	}
 });
-
-function updateHighlight(el: Element, text: string, indices: [number, number]): void {
-	const [startIndex, stopIndex] = indices;
-	const children: HTMLElement[] = [];
-
-	if (startIndex > 0) {
-		const span = document.createElement('span');
-		span.textContent = text.slice(0, startIndex);
-		children.push(span);
-	}
-
-	const mark = document.createElement('mark');
-	mark.textContent = text.slice(startIndex, stopIndex);
-	children.push(mark);
-
-	if (stopIndex < text.length) {
-		const span = document.createElement('span');
-		span.textContent = text.slice(stopIndex);
-		children.push(span);
-	}
-
-	el.replaceChildren(...children);
-}
 
