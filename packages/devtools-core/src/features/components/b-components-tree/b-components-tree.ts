@@ -7,17 +7,23 @@
  */
 
 import { debounce } from 'core/functools';
+import { derive } from 'core/functools/trait';
 
-import iBlock, { component, prop, field, watch } from 'components/super/i-block/i-block';
+import iBlock, { component, prop, field, system, watch } from 'components/super/i-block/i-block';
+
+import Search, { SearchDirection, SearchMatch } from 'components/traits/i-search/search';
+import iSearch from 'components/traits/i-search/i-search';
 
 import type bTree from 'components/base/b-tree/b-tree';
 import type { Item } from 'features/components/b-components-tree/interface';
-import { matchText } from 'components/directives/highlight/helpers';
 
 export * from 'features/components/b-components-tree/interface';
 
+interface bComponentsTree extends Trait<typeof iSearch> {}
+
 @component()
-export default class bComponentsTree extends iBlock {
+@derive(iSearch)
+class bComponentsTree extends iBlock implements iSearch<Item> {
 	override readonly $refs!: iBlock['$refs'] & {
 		wrapper?: HTMLElement;
 		tree?: bTree;
@@ -35,46 +41,38 @@ export default class bComponentsTree extends iBlock {
 	@field()
 	searchText: string = '';
 
-	/**
-	 * Prepared search statement from `searchText`
-	 */
+	/** {@link iSearch.searchEntryIndex} */
 	@field()
-	searchQuery: RegExp | string | null = null;
+	searchEntryIndex: number = -1;
+
+	/** {@link iSearch.searchMatchCount} */
+	@field()
+	searchMatchCount: number = 0;
 
 	/**
-	 * Values of matching items
+	 * Search engine
 	 */
-	@field()
-	searchMatches: string[] = [];
+	@system<iSearch>((ctx) => new Search<Item>(
+		ctx,
+		(item) => item.label,
+		(item) => item.value
+	))
 
-	/**
-	 * Current index of search matches
-	 */
-	@field()
-	currentSearchIndex: number = -1;
+	search!: Search<Item>;
 
 	/**
 	 * Makes item active and scrolls to it if needed
 	 *
 	 * @param [dir]
 	 */
-	gotoNextItem(dir: -1 | 1 = 1): void {
+	gotoNextItem(dir: SearchDirection = 1): void {
 		const {wrapper, tree} = this.$refs;
 		if (wrapper == null || tree == null) {
 			return;
 		}
 
-		let nextIndex = this.currentSearchIndex + dir;
-
-		if (nextIndex >= this.searchMatches.length) {
-			nextIndex = 0;
-
-		} else if (nextIndex < 0) {
-			nextIndex = this.searchMatches.length - 1;
-		}
-
-		const value = this.searchMatches[nextIndex];
-		this.currentSearchIndex = nextIndex;
+		const item = this.search.gotoNextMatch(dir);
+		const {value} = item;
 
 		if (value !== tree.active) {
 			tree.setActive(value);
@@ -84,19 +82,9 @@ export default class bComponentsTree extends iBlock {
 		const el = tree.unsafe.findItemElement(value);
 
 		if (el != null) {
-			this.async.requestAnimationFrame(() => {
-				const
-					{offsetTop} = el,
-					{clientHeight = 0} = el.querySelector(`.${tree.unsafe.block!.getFullElementName('item-wrapper')}`) ?? {},
-					offsetBottom = offsetTop + clientHeight;
+			const {clientHeight = 0} = el.querySelector(`.${tree.unsafe.block!.getFullElementName('item-wrapper')}`) ?? {};
 
-				if (offsetBottom > (wrapper.scrollTop + wrapper.clientHeight)) {
-					wrapper.scrollTo(0, offsetBottom - wrapper.clientHeight);
-
-				} else if (wrapper.scrollTop > offsetTop) {
-					wrapper.scrollTo(0, offsetTop);
-				}
-			});
+			this.search.scrollContainerToElement(wrapper, el, clientHeight);
 		}
 	}
 
@@ -118,77 +106,53 @@ export default class bComponentsTree extends iBlock {
 	@watch('searchText')
 	@debounce(25)
 	protected setSearchQuery(): void {
-		if (this.searchText === '') {
-			this.searchQuery = null;
+		if (this.search.update(this.searchText, false)) {
 			this.updateSearchMatches();
-			return;
-		}
-
-		// Unwrapping proxy for performance benefits
-		let string = Object.unwrapProxy(this.searchText);
-
-		if (string.startsWith('/')) {
-			string = string.slice(1);
-
-			if (string.endsWith('/')) {
-				string = string.slice(0, string.length - 1);
-			}
-
-			try {
-				this.searchQuery = new RegExp(string, 'i');
-
-			} catch (err) {
-				// Bad regex. Make it not match anything.
-				this.searchQuery = /.^/;
-			}
 
 		} else {
-			this.searchQuery = string;
+			this.search.reset();
 		}
-
-		this.updateSearchMatches();
 	}
 
+	/**
+	 * Updates search matches and makes active first matching item
+	 */
 	protected updateSearchMatches(): void {
-		const {searchQuery} = this;
-
-		if (searchQuery == null) {
-			this.searchMatches = [];
-			this.currentSearchIndex = -1;
-			this.globalEmitter.emit(`highlight:${this.componentName}:reset`);
-			return;
-		}
-
-		const searchMatches: string[] = [];
-
-		const traverse = (item: Item) => {
-			const indices = matchText(item.label, searchQuery);
-
-			if (indices.every((x) => x !== -1)) {
-				this.globalEmitter.emit(`highlight:${this.componentName}:${item.value}`, indices);
-				searchMatches.push(item.value);
-			}
-
-			item.children?.forEach(traverse);
-		};
-
-		this.items.forEach(traverse);
-
-		// Reset highlight for old search matches
-		const oldSearchMatches = this.searchMatches.filter((value) => !searchMatches.includes(value));
-		oldSearchMatches.forEach((value) => this.globalEmitter.emit(`highlight:${this.componentName}:${value}`, null));
-
-		this.currentSearchIndex = -1;
-		this.searchMatches = searchMatches;
+		this.search.setMatches(this.getSearchMatches(this.items));
 
 		// Go to first search match
-		if (this.searchMatches.length > 0) {
+		if (this.searchMatchCount > 0) {
 			this.gotoNextItem();
 		}
 	}
 
+	/**
+	 * Returns search matches for given items
+	 * @param items
+	 */
+	protected *getSearchMatches(items: Item[]): Generator<SearchMatch<Item>> {
+		for (let i = 0; i < items.length; i++) {
+			const item = items[i];
+			const indices = this.search.match(item);
+			if (!indices.some((x) => x === -1)) {
+				yield {item, indices};
+			}
+
+			if (item.children != null) {
+				yield* this.getSearchMatches(item.children);
+			}
+		}
+	}
+
+	/**
+	 *
+	 * @param _
+	 * @param componentId
+	 */
 	@watch('?$refs.tree:change')
 	protected onTreeChange(_: unknown, componentId: string): void {
 		this.emit('change', componentId);
 	}
 }
+
+export default bComponentsTree;

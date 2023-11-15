@@ -4,7 +4,7 @@
 
 - template index() extends ['i-block'].index
 	- block body
-		< span v-highlight = {text: label, id: value, ctx: highlightCtx}
+		< span v-highlight = {text: label, id: value}
 			{{ label }}
 
 		< i v-if = isFunctionalProp
