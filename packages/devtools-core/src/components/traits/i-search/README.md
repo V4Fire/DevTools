@@ -18,24 +18,24 @@ interface bSomeComponent extends Trait<typeof iSearch> {}
 @component()
 @derive(iSearch)
 class bSomeComponent extends iBlock implements iSearch<Item> {
-	/** {@link iSearch.searchEntryIndex} */
-	@field()
-	searchEntryIndex: number = -1;
+  /** {@link iSearch.searchEntryIndex} */
+  @field()
+  searchEntryIndex: number = -1;
 
-	/** {@link iSearch.searchMatchCount} */
-	@field()
-	searchMatchCount: number = 0;
+  /** {@link iSearch.searchMatchCount} */
+  @field()
+  searchMatchCount: number = 0;
 
   /** {@link iSearch.search} */
-	@system<iSearch>((ctx) => new Search<Item>(
-		ctx,
+  @system<iSearch>((ctx) => new Search<Item>(
+    ctx,
     // `getSearchable` - returns searchable text for the item
-		(item) => item.label,
+    (item) => item.label,
     // `getId` - returns id of the item (optional)
-		(item) => item.value
-	))
+    (item) => item.value
+  ))
 
-	search!: Search<Item>;
+  search!: Search<Item>;
 
   watchInputChanged(value: string) {
     // All items will be automatically highlighted
