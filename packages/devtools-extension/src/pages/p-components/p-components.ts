@@ -97,16 +97,21 @@ function evalComponentsTree(): Item[] {
 	nodes.forEach(({component}) => {
 		const descriptor = createDescriptor(component);
 
+		// Teleported components may appear more than once
+		if (map.has(component.componentId)) {
+			return;
+		}
+
 		map.set(component.componentId, descriptor);
 
 		const parentId = component.$parent?.componentId;
 
 		if (parentId != null) {
-
 			if (!map.has(parentId)) {
 				buffer.push(() => {
 					map.get(parentId).children.push(descriptor);
 				});
+
 			} else {
 				map.get(parentId).children.push(descriptor);
 			}
