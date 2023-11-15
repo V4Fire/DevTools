@@ -1,5 +1,5 @@
 {
-  "hash": "79e0429f8ddab68d2379738e6ff91570400c09643884d7196f840d917e70f9de",
+  "hash": "9a9ab7af9b3e01398691a5504d10670718f30c05120c98a22533eaf56fe2daeb",
   "data": {
     "%data": "%data:Map",
     "%data:Map": [
@@ -2239,6 +2239,36 @@
           "styles": [
             "node_modules/@v4fire/client/src/components/traits/i-progress/i-progress.styl"
           ],
+          "tpl": null,
+          "etpl": null
+        }
+      ],
+      [
+        "i-search",
+        {
+          "index": "node_modules/@v4fire/devtools-core/src/components/traits/i-search/index.js",
+          "declaration": {
+            "name": "i-search",
+            "parent": null,
+            "dependencies": [],
+            "libs": []
+          },
+          "name": "i-search",
+          "parent": null,
+          "dependencies": [],
+          "libs": [],
+          "resolvedLibs": {
+            "%data": "%data:Set",
+            "%data:Set": []
+          },
+          "resolvedOwnLibs": {
+            "%data": "%data:Set",
+            "%data:Set": []
+          },
+          "type": "interface",
+          "mixin": false,
+          "logic": "node_modules/@v4fire/devtools-core/src/components/traits/i-search/i-search.ts",
+          "styles": [],
           "tpl": null,
           "etpl": null
         }
