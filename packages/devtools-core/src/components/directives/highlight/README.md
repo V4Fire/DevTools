@@ -1,19 +1,18 @@
 # components/directives/highlight
 
-This directive allows to search for a child in context of a component or page
-without disclosing the state of the parent component to the children components.
+This directive highlights a matching child in context of a component with `iSearch` trait.
+Any parent component implementing the `iSearch` trait will be used as search engine to highlight
+elements with this directive.
 
 ## Usage
 
-This directive should be added to regular element:
+The `v-highlight` directive should be added to regular element:
 
 ```ss
 /// b-some-component.ss
 < div v-highlight = {text: label, id: componentId}
   {{ text }}
 ```
-
-To enable search check the [`iSearch`](../../traits/i-search) trait.
 
 ## Directive params
 
