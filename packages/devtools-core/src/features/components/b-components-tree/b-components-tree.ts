@@ -98,8 +98,6 @@ class bComponentsTree extends iBlock implements iSearch<Item> {
 			['children', 'folded', 'componentName', 'parentValue']
 		);
 
-		props.highlightCtx = this.componentName;
-
 		return props;
 	}
 

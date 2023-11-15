@@ -39,10 +39,4 @@ export default class bComponentsTreeItem extends iBlock {
 	 */
 	@prop({type: Boolean, required: true})
 	showWarning!: boolean;
-
-	/**
-	 * Highlight context of the item
-	 */
-	@prop({type: String, required: true})
-	highlightCtx!: string;
 }
