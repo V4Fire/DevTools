@@ -18,7 +18,7 @@ export default class Search<Item = unknown> extends Friend {
 	override readonly C!: iSearch;
 
 	/**
-	 * Returns string which can be search to match the item
+	 * Returns string which can be searched to match the item
 	 */
 	readonly getSearchable: Transformer<Item>;
 
@@ -43,8 +43,6 @@ export default class Search<Item = unknown> extends Friend {
 
 		if (value == null) {
 			this.searchMatches = [];
-			this.ctx.searchEntryIndex = -1;
-			this.ctx.searchMatchCount = 0;
 		}
 	}
 
@@ -56,9 +54,26 @@ export default class Search<Item = unknown> extends Friend {
 	}
 
 	/**
+	 * Getter for search matches
+	 */
+	protected get searchMatches(): Item[] {
+		return this.searchMatchesStore;
+	}
+
+	/**
+	 * Setter for search matches
+	 * @param value
+	 */
+	protected set searchMatches(value: Item[]) {
+		this.searchMatchesStore = value;
+		this.ctx.searchEntryIndex = -1;
+		this.ctx.searchMatchCount = value.length;
+	}
+
+	/**
 	 * Matching items
 	 */
-	protected searchMatches: Item[] = [];
+	protected searchMatchesStore: Item[] = [];
 
 	/**
 	 * Prepared search statement
@@ -218,8 +233,6 @@ export default class Search<Item = unknown> extends Friend {
 		}
 
 		this.searchMatches = searchMatches;
-		this.ctx.searchEntryIndex = -1;
-		this.ctx.searchMatchCount = this.searchMatches.length;
 	}
 
 	/**
