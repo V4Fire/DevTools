@@ -11,27 +11,21 @@ import { devtoolsEval } from 'core/browser-api';
 
 import type iBlock from 'components/super/i-block/i-block';
 
-import Super, { component, hook, field, ComponentInterface } from '@super/pages/p-components/p-components';
+import Super, { component, hook, ComponentInterface } from '@super/pages/p-components/p-components';
 
 import type { Item } from 'features/components/b-components-tree/b-components-tree';
 
 @component()
 export default class pComponents extends Super {
-	/**
-	 * Displays an error on the page
-	 */
-	@field()
-	error: string | null = null;
-
 	@hook('beforeCreate')
 	loadComponentsTree(): void {
 		devtoolsEval(evalComponentsTree)
 			.then((result) => {
 				this.field.set('components', result);
-				this.field.set('error', null);
 			})
 			.catch((error) => {
-				this.field.set('error', error.message);
+				// eslint-disable-next-line no-alert
+				globalThis.alert(error.message);
 			});
 	}
 
@@ -59,8 +53,6 @@ function evalComponentsTree(): Item[] {
 		(node) => node.component !== undefined
 	);
 
-	const map = new Map();
-
 	// Calc min renderCounter
 	let minRenderCounter = Number.MAX_SAFE_INTEGER;
 
@@ -72,8 +64,9 @@ function evalComponentsTree(): Item[] {
 		}
 	});
 
-	// Build tree
-	nodes.forEach(({component}) => {
+	const map = new Map();
+
+	const createDescriptor = (component: iBlock) => {
 		const {meta, $renderCounter} = component.unsafe;
 
 		const descriptor: Item = {
@@ -88,14 +81,39 @@ function evalComponentsTree(): Item[] {
 			showWarning: $renderCounter > minRenderCounter
 		};
 
+		return descriptor;
+	};
+
+	const
+		rootNodeIndex = nodes.findIndex(({component}) => component.unsafe.meta.params.root),
+		rootNode = nodes[rootNodeIndex];
+
+	nodes.splice(rootNodeIndex, 1);
+	map.set(rootNode.component.componentId, createDescriptor(rootNode.component));
+
+	const buffer: Function[] = [];
+
+	// Build tree
+	nodes.forEach(({component}) => {
+		const descriptor = createDescriptor(component);
+
 		map.set(component.componentId, descriptor);
 
 		const parentId = component.$parent?.componentId;
 
 		if (parentId != null) {
-			map.get(parentId).children.push(descriptor);
+
+			if (!map.has(parentId)) {
+				buffer.push(() => {
+					map.get(parentId).children.push(descriptor);
+				});
+			} else {
+				map.get(parentId).children.push(descriptor);
+			}
 		}
 	});
+
+	buffer.forEach((cb) => cb());
 
 	const root = map.values().next().value;
 
