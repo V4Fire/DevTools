@@ -16,9 +16,11 @@
 
 		< .&__body
 			< b-tree &
+				ref = tree |
 				:items = items |
 				:item = 'b-components-panel-item' |
 				:theme = 'demo' |
 				:cancelable = true |
-				:lazyRender = true
+				:lazyRender = true |
+				:renderFilter = createTreeRenderFilter()
 			.
