@@ -19,7 +19,7 @@
 				ref = tree |
 				:items = items |
 				:item = 'b-components-panel-item' |
-				:theme = 'demo' |
+				:theme = 'pretty' |
 				:cancelable = true |
 				:lazyRender = true |
 				:renderFilter = createTreeRenderFilter()
