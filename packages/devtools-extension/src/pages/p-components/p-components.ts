@@ -131,9 +131,6 @@ function evalComponentMeta(value: string, name?: string): Nullable<string> {
 		'r',
 		'self',
 		'unsafe',
-		'window',
-		'document',
-		'console',
 		'router',
 		'LANG_PACKS'
 	]);
@@ -181,5 +178,8 @@ function evalComponentMeta(value: string, name?: string): Nullable<string> {
 
 	const result = {componentName, props, fields, computedFields, systemFields, hierarchy, values};
 
-	return globalThis.__V4FIRE_DEVTOOLS_BACKEND__.serialize(result, (key) => key.startsWith('$') || restricted.has(key));
+	return globalThis.__V4FIRE_DEVTOOLS_BACKEND__.serialize(
+		result,
+		(key, value) => key.startsWith('$') || restricted.has(key) || value === globalThis || value === document || value === console
+	);
 }
