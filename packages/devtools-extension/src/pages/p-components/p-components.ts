@@ -138,7 +138,10 @@ function evalComponentMeta(value: string, name?: string): Nullable<string> {
 		'LANG_PACKS'
 	]);
 
-	let node = document.querySelector(`.i-block-helper.${value}`);
+	let node = Array.prototype.find.call(
+		document.querySelectorAll(`.i-block-helper.${value}`),
+		(node) => node.component?.componentId === value
+	);
 
 	if (node == null && name != null) {
 		// Maybe it's a functional component
