@@ -54,14 +54,14 @@ export default class pComponents extends iDynamicPage {
 		this.selectedComponentId = componentId;
 		this.selectedComponentData = null;
 
-		const load = this.async.debounce(async () => {
+		const load = this.async.throttle(async () => {
 			try {
 				await this.loadSelectedComponentData();
 			} catch (error) {
 				// TODO: show alert
 				stderr(error);
 			}
-		}, 300, {label: $$.loadSelectedComponentMeta});
+		}, 1000, {label: $$.loadSelectedComponentMeta});
 
 		load();
 	}
