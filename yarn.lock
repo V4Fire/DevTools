@@ -2710,8 +2710,8 @@ __metadata:
   linkType: hard
 
 "@v4fire/client@git+https://github.com/V4Fire/Client.git#v4":
-  version: 4.0.0-beta.37
-  resolution: "@v4fire/client@https://github.com/V4Fire/Client.git#commit=1b46a272dfe5592fcdc5696622330fdb3912caf5"
+  version: 4.0.0-beta.38
+  resolution: "@v4fire/client@https://github.com/V4Fire/Client.git#commit=a3053782d1219fc3525f44aad2073882dc4d7b37"
   dependencies:
     "@babel/core": 7.17.5
     "@babel/helpers": 7.17.7
@@ -2949,7 +2949,7 @@ __metadata:
       optional: true
     webpack-cli:
       optional: true
-  checksum: ba699367d38b9f7bcd6661eb982a9452fa14f565e323f3b884d191f72d490844b2a1ad755974fdc3cacf4b0974b56a5a22ddfd394ef336d3e0c64d7b943aaf5a
+  checksum: 9b63121ea771ec519b59cbe3f53729deea3c5e7525729501df35fd02af95d0f9139e900957cbe818498b85522529d6d17f71fa201832ada8842444231cf912b7
   languageName: node
   linkType: hard
 
