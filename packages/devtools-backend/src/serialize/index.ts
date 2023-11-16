@@ -37,7 +37,7 @@ export function getType<T = unknown>(value: T): string {
  */
 export function serialize<T = unknown>(
 	value: T,
-	isRestrictedKey?: (key: string) => boolean
+	isRestrictedKey?: (key: string, value?: unknown) => boolean
 ): string {
 	let refCounter = 1;
 
@@ -49,7 +49,7 @@ export function serialize<T = unknown>(
 	return JSON.stringify(value, expandedStringify);
 
 	function expandedStringify(this: any, key: string, value: unknown): unknown {
-		if (isRestrictedKey?.(key)) {
+		if (isRestrictedKey?.(key, value)) {
 			return '[Restricted]';
 		}
 
