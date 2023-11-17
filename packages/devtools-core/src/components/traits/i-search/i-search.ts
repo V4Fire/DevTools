@@ -14,11 +14,11 @@ interface iSearch extends iBlock {}
 
 abstract class iSearch<Item = unknown> {
 	readonly LocalEmitter!: InferEvents<[
-    [`highlight.${string}`, [number, number] | null],
+		[`highlight.${string}`, [number, number] | null],
 		[`highlight-current.${string}`, boolean],
-    ['highlight-reset'],
+		['highlight-reset'],
 		['highlight']
-  ], iBlock['LocalEmitter']>;
+	], iBlock['LocalEmitter']>;
 
 	/**
 	 * Search engine
