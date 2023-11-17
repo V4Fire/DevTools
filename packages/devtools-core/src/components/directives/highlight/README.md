@@ -1,7 +1,7 @@
 # components/directives/highlight
 
 This directive highlights a matching child in context of a component with `iSearch` trait.
-Any parent component implementing the `iSearch` trait will be used as search engine to highlight
+Closest parent component implementing the `iSearch` trait will be used as search engine to highlight
 elements with this directive.
 
 ## Usage
