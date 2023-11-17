@@ -49,6 +49,7 @@ ComponentEngine.directive('highlight', {
 
 			emitter.on(`highlight-current.${id}`, (selected) => {
 				const mark = el.querySelector('.g-highlight');
+
 				if (!selected) {
 					mark?.classList.remove('g-highlight_selected_true');
 
