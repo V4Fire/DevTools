@@ -21,7 +21,7 @@ const elementListeners = new WeakMap<
 ComponentEngine.directive('highlight', {
 	mounted(el: Element, params: DirectiveParams, vnode: VNode): void {
 		const searchComponent = closestSearchTrait(vnode);
-		const emitter: HighlightEmitter = Object.cast(searchComponent.unsafe.localEmitter);
+		const {localEmitter: emitter} = searchComponent.unsafe;
 		const {id, text} = params.value;
 
 		if (!elementListeners.has(el)) {
@@ -34,29 +34,32 @@ ComponentEngine.directive('highlight', {
 			resetEvent: keyof HighlightEvents = 'highlight-reset',
 			resetListener = () => el.textContent = text;
 
+		if (listeners.has(resetEvent)) {
+			emitter.off(resetEvent, listeners.get(resetEvent));
+		}
+
 		listeners.set(resetEvent, resetListener);
 		emitter.on(resetEvent, resetListener);
 
 		if (id != null) {
-			emitter.on(`highlight.${id}`, (indices) => {
+			emitter.on(`highlight.${id}`, (indices: [number, number] | null) => {
 				if (indices != null) {
 					updateHighlight(el, text, indices);
 
 				} else {
 					el.textContent = text;
 				}
-			});
+			}, {label: `highlight.${id}`});
 
-			emitter.on(`highlight-current.${id}`, (selected) => {
+			emitter.on(`highlight-current.${id}`, (selected: boolean) => {
 				const mark = el.querySelector('.g-highlight');
-
 				if (!selected) {
 					mark?.classList.remove('g-highlight_selected_true');
 
 				} else {
 					mark?.classList.add('g-highlight_selected_true');
 				}
-			});
+			}, {label: `highlight-current.${id}`});
 
 		} else {
 			const highlightEvent: keyof HighlightEvents = 'highlight';
@@ -70,6 +73,10 @@ ComponentEngine.directive('highlight', {
 					el.textContent = text;
 				}
 			};
+
+			if (listeners.has(highlightEvent)) {
+				emitter.off(highlightEvent, listeners.get(highlightEvent));
+			}
 
 			listeners.set(highlightEvent, highlightListener);
 			emitter.on(highlightEvent, highlightListener);
@@ -88,6 +95,7 @@ ComponentEngine.directive('highlight', {
 		elementListeners.delete(el);
 
 		if (id != null) {
+			// NOTE: we are assuming that underlying emitter is eventemitter2
 			emitter.removeAllListeners(`highlight.${id}`);
 			emitter.removeAllListeners(`highlight.current.${id}`);
 		}
