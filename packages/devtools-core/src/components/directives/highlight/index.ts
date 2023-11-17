@@ -8,14 +8,14 @@
 
 import { ComponentEngine, VNode } from 'core/component/engines';
 
-import type { DirectiveParams, HighlightEmitter, HighlightEvents } from 'components/directives/highlight/interface';
+import type { DirectiveParams } from 'components/directives/highlight/interface';
 import { closestSearchTrait, updateHighlight } from 'components/directives/highlight/helpers';
 
 export * from 'components/directives/highlight/interface';
 
 const elementListeners = new WeakMap<
 	Element,
-	Map<keyof HighlightEvents, (...args: any[]) => any>
+	Map<string, (...args: any[]) => any>
 >();
 
 ComponentEngine.directive('highlight', {
@@ -31,7 +31,7 @@ ComponentEngine.directive('highlight', {
 		const listeners = elementListeners.get(el)!;
 
 		const
-			resetEvent: keyof HighlightEvents = 'highlight-reset',
+			resetEvent = 'highlight-reset',
 			resetListener = () => el.textContent = text;
 
 		if (listeners.has(resetEvent)) {
@@ -62,7 +62,7 @@ ComponentEngine.directive('highlight', {
 			}, {label: `highlight-current.${id}`});
 
 		} else {
-			const highlightEvent: keyof HighlightEvents = 'highlight';
+			const highlightEvent = 'highlight';
 			const highlightListener = () => {
 				const indices = searchComponent.search.matchText(text);
 
@@ -85,7 +85,7 @@ ComponentEngine.directive('highlight', {
 
 	unmounted(el: Element, params: DirectiveParams, vnode: VNode): void {
 		const searchComponent = closestSearchTrait(vnode);
-		const emitter: HighlightEmitter = Object.cast(searchComponent.unsafe.localEmitter);
+		const {localEmitter: emitter} = searchComponent.unsafe;
 		const {id} = params.value;
 
 		for (const [event, listener] of elementListeners.get(el) ?? []) {
@@ -95,9 +95,8 @@ ComponentEngine.directive('highlight', {
 		elementListeners.delete(el);
 
 		if (id != null) {
-			// NOTE: we are assuming that underlying emitter is eventemitter2
-			emitter.removeAllListeners(`highlight.${id}`);
-			emitter.removeAllListeners(`highlight.current.${id}`);
+			emitter.off({label: `highlight.${id}`});
+			emitter.off({label: `highlight.current.${id}`});
 		}
 	}
 });
