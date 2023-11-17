@@ -20,8 +20,7 @@
     "@v4fire/core": "4.0.0-alpha.11",
     "express": "^4.17.1",
     "express-http-proxy": "^1.6.2",
-    "path-to-regexp": "3.2.0",
-    "typed-emitter": "2.1.0"
+    "path-to-regexp": "3.2.0"
   },
   "devDependecies": {
     "@v4fire/config": "1.0.0",
