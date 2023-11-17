@@ -24,7 +24,24 @@ const copyrightTemplate = [
 	' '
 ];
 
+const ignore = [
+	'**/src/**/@(i-|b-|p-|g-|v-)*/index.js',
+	'**/src/**/test/**/*.js',
+
+	'**/assets/**',
+	'**/src/assets/**',
+
+	'**/tmp/**',
+	'**/src/entries/tmp/**',
+
+	'**/docs/**',
+	'**/dist/**',
+	'**/node_modules/**'
+];
+
 base.forEach((item) => {
+	item.ignores = ignore;
+
 	if (item.plugins) {
 		item.plugins['header'] = headerPlugin;
 	}
