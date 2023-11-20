@@ -1,5 +1,5 @@
 {
-  "hash": "1cfbd06b86147b98af25f6d24f183751141fa54b202888f948c731fa6382478c",
+  "hash": "9a9ab7af9b3e01398691a5504d10670718f30c05120c98a22533eaf56fe2daeb",
   "data": {
     "%data": "%data:Map",
     "%data:Map": [
@@ -229,19 +229,27 @@
             "name": "b-components-tree-item",
             "parent": "i-block",
             "dependencies": [],
-            "libs": []
+            "libs": [
+              "components/directives/highlight"
+            ]
           },
           "name": "b-components-tree-item",
           "parent": "i-block",
           "dependencies": [],
-          "libs": [],
+          "libs": [
+            "components/directives/highlight"
+          ],
           "resolvedLibs": {
             "%data": "%data:Set",
-            "%data:Set": []
+            "%data:Set": [
+              "components/directives/highlight"
+            ]
           },
           "resolvedOwnLibs": {
             "%data": "%data:Set",
-            "%data:Set": []
+            "%data:Set": [
+              "components/directives/highlight"
+            ]
           },
           "type": "block",
           "mixin": false,
@@ -2231,6 +2239,36 @@
           "styles": [
             "node_modules/@v4fire/client/src/components/traits/i-progress/i-progress.styl"
           ],
+          "tpl": null,
+          "etpl": null
+        }
+      ],
+      [
+        "i-search",
+        {
+          "index": "node_modules/@v4fire/devtools-core/src/components/traits/i-search/index.js",
+          "declaration": {
+            "name": "i-search",
+            "parent": null,
+            "dependencies": [],
+            "libs": []
+          },
+          "name": "i-search",
+          "parent": null,
+          "dependencies": [],
+          "libs": [],
+          "resolvedLibs": {
+            "%data": "%data:Set",
+            "%data:Set": []
+          },
+          "resolvedOwnLibs": {
+            "%data": "%data:Set",
+            "%data:Set": []
+          },
+          "type": "interface",
+          "mixin": false,
+          "logic": "node_modules/@v4fire/devtools-core/src/components/traits/i-search/i-search.ts",
+          "styles": [],
           "tpl": null,
           "etpl": null
         }

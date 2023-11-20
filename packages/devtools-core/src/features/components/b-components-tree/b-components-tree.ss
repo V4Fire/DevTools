@@ -13,7 +13,7 @@
 		.
 			< template #icon
 				< template v-if = searchText != ''
-					{{ currentSearchIndex + 1 }}&nbsp;|&nbsp;{{ searchMatches.length }}
+					{{ searchEntryIndex + 1 }}&nbsp;|&nbsp;{{ searchMatchCount }}
 
 		< .&__wrapper ref = wrapper
 			< b-tree &

@@ -6,10 +6,4 @@
  * https://github.com/V4Fire/DevTools/blob/main/LICENSE
  */
 
-'use strict';
-
-package('b-components-tree-item')
-	.extends('i-block')
-	.libs(
-		'components/directives/highlight'
-	);
+package('i-search');

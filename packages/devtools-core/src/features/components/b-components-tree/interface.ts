@@ -24,8 +24,3 @@ export interface Item extends Super {
 	 */
 	children?: Item[];
 }
-
-export type ComponentsTreeState = Pick<
-	bComponentsTree,
-	'searchMatchesIndices' | 'searchMatches' | 'currentSearchIndex'
->;
