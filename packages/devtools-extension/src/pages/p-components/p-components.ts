@@ -142,16 +142,7 @@ function evalComponentMeta(value: string, name?: string): Nullable<string> {
 		'LANG_PACKS'
 	]);
 
-	let node = Array.prototype.find.call(
-		document.querySelectorAll(`.i-block-helper.${value}`),
-		(node) => node.component?.componentId === value
-	);
-
-	if (node == null && name != null) {
-		// Maybe it's a functional component
-		const nodes = document.querySelectorAll(`.i-block-helper.${name}`);
-		node = Array.prototype.find.call(nodes, (node) => node.component?.componentId === value);
-	}
+	const node = globalThis.__V4FIRE_DEVTOOLS_BACKEND__.findComponentNode(value, name);
 
 	if (node == null) {
 		return null;
