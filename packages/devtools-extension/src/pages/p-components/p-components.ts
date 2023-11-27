@@ -109,7 +109,14 @@ function evalComponentsTree(): Item[] {
 		if (parentId != null) {
 			if (!map.has(parentId)) {
 				buffer.push(() => {
-					map.get(parentId).children.push(descriptor);
+					const item = map.get(parentId);
+
+					if (item != null) {
+						item.children.push(descriptor);
+
+					} else {
+						stderr(`Missing parent, component: ${component.componentName}, parent id: ${parentId}`);
+					}
 				});
 
 			} else {
