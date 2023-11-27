@@ -39,8 +39,7 @@ export default class pRoot extends iStaticPage {
 	@hook('mounted')
 	async init(): Promise<void> {
 		const header = await this.waitRef<bHeader>('header');
-		const page = await this.waitRef<bDynamicPage>('page');
 
-		(<HTMLElement>page.$el).style.setProperty('--header-height', `${header.$el?.clientHeight ?? 0}px`);
+		(<HTMLElement>this.$el).style.setProperty('--header-height', `${header.$el?.clientHeight ?? 0}px`);
 	}
 }
