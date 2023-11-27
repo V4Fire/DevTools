@@ -98,6 +98,9 @@ class bComponentsTree extends iBlock implements iSearch<Item> {
 			['children', 'folded', 'componentName', 'parentValue']
 		);
 
+		props['@mouseenter'] = this.onItemMouseEnter.bind(this, item);
+		props['@mouseleave'] = this.onItemMouseLeave.bind(this, item);
+
 		return props;
 	}
 
@@ -150,6 +153,26 @@ class bComponentsTree extends iBlock implements iSearch<Item> {
 	@watch('?$refs.tree:change')
 	protected onTreeChange(_: unknown, componentId: string): void {
 		this.emit('change', componentId);
+	}
+
+	/**
+	 * Handle item mouseenter event
+	 *
+	 * @param item
+	 * @param event
+	 */
+	protected onItemMouseEnter(item: Item, event: MouseEvent): void {
+		// TODO: use engine to highlight the component node
+	}
+
+	/**
+	 * Handle item mouseleave event
+	 *
+	 * @param item
+	 * @param event
+	 */
+	protected onItemMouseLeave(item: Item, event: MouseEvent): void {
+		// TODO: use engine to remove highlight from the component node
 	}
 }
 
