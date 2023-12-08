@@ -69,7 +69,10 @@ function mountDevToolsWhenV4FireHasLoaded() {
 		);
 
 		// Inject backend only when the v4fire is mounted
-		injectBackend(browserAPI.devtools.inspectedWindow.tabId);
+		// eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
+		if (browserAPI.devtools.inspectedWindow.tabId != null) {
+			injectBackend(browserAPI.devtools.inspectedWindow.tabId);
+		}
 
 		if (shouldUpdateRoot) {
 			devtoolsEval(() => new Promise((resolve) => globalThis.requestIdleCallback(resolve)))
