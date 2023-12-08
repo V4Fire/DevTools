@@ -12,6 +12,8 @@ import { component, hook, system } from 'components/super/i-block/i-block';
 
 import Super, { Item } from '@super/features/components/b-components-tree/b-components-tree';
 
+export * from '@super/features/components/b-components-tree/b-components-tree';
+
 @component()
 export default class bComponentsTree extends Super {
 
