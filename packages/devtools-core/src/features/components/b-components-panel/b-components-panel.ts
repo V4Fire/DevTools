@@ -113,11 +113,15 @@ export default class bComponentsPanel extends iBlock {
 
 	/**
 	 * Update show empty
-	 *
-	 * @param _
-	 * @param checked
 	 */
-	protected showEmptyChange(_: unknown, checked?: boolean): void {
-		this.showEmpty = Boolean(checked);
+	protected onShowEmptyChange(): void {
+		this.showEmpty = !this.showEmpty;
+	}
+
+	/**
+	 * Inspect component node
+	 */
+	protected onInspect(): void {
+		// TODO: use inspected app
 	}
 }

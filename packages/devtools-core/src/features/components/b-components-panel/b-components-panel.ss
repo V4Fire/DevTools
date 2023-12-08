@@ -8,11 +8,10 @@
 			< b
 				{{ componentData.componentName.camelize(false) }}
 
-			< b-checkbox &
-				:label = (showEmpty ? "hide" : "show") + " empty" |
-				:checked = showEmpty |
-				@change = showEmptyChange
-			.
+			< .&__header-actions
+				< b-icon-button :hint = "Inspect&nbsp;DOM" | :icon = 'inspect' | @click = onInspect
+
+				< b-icon-button :hint = (showEmpty ? "Hide" : "Show") + "&nbsp;empty" | :icon = (showEmpty ? 'circle' : 'circle-dashed') | @click = onShowEmptyChange
 
 		< .&__body
 			< b-tree &
