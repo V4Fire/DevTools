@@ -4,6 +4,9 @@
 
 - template index() extends ['i-block'].index
 	- block body
+		< .&__actions
+			< b-icon-button :icon = 'reload' | @click = onReload
+
 		< .&__tabs
 			< b-button.&__tab @click = r.router.push('components')
 				Components
