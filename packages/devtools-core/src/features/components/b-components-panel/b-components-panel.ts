@@ -119,7 +119,7 @@ export default class bComponentsPanel extends iBlock {
 	}
 
 	/**
-	 * Inspect component node
+	 * Inspect component's node
 	 */
 	protected onInspect(): void {
 		// TODO: use inspected app
