@@ -18,6 +18,11 @@ export interface Item extends Super {
 
 export type ComponentData = {
 	/**
+	 * Component's id
+	 */
+	componentId: string;
+
+	/**
 	 * Component's values for props, fields, etc.
 	 */
 	values: Dictionary;

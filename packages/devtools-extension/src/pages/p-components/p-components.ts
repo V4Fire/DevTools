@@ -174,7 +174,7 @@ function evalComponentMeta(value: string, name?: string): Nullable<string> {
 		parent = parent.parentMeta;
 	}
 
-	const result = {componentName, props, fields, computedFields, systemFields, hierarchy, values};
+	const result = {componentId: value, componentName, props, fields, computedFields, systemFields, hierarchy, values};
 
 	return globalThis.__V4FIRE_DEVTOOLS_BACKEND__.serialize(
 		result,
