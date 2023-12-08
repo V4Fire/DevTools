@@ -1,5 +1,5 @@
 {
-  "hash": "0b67a39d6be3b70d606ea68479aa6289d5cd8891cc63e67d8f8d90fad4881b14",
+  "hash": "6ac41a6ba1ed10dacc79208cd6792a9febe8c4f86e48d75037699688c52293fe",
   "data": {
     "%data": "%data:Map",
     "%data:Map": [
@@ -143,7 +143,7 @@
           },
           "type": "block",
           "mixin": false,
-          "logic": "node_modules/@v4fire/devtools-core/src/features/components/b-components-panel/b-components-panel.ts",
+          "logic": "src/features/components/b-components-panel/b-components-panel.ts",
           "styles": [
             "node_modules/@v4fire/devtools-core/src/features/components/b-components-panel/b-components-panel.styl"
           ],
@@ -749,14 +749,16 @@
             "name": "b-header",
             "parent": "i-block",
             "dependencies": [
-              "b-button"
+              "b-button",
+              "b-icon-button"
             ],
             "libs": []
           },
           "name": "b-header",
           "parent": "i-block",
           "dependencies": [
-            "b-button"
+            "b-button",
+            "b-icon-button"
           ],
           "libs": [],
           "resolvedLibs": {
