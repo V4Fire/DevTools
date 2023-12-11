@@ -7,6 +7,8 @@
 		< .&__actions
 			< b-icon-button :icon = 'reload' | @click = onReload
 
+			< b-components-actions v-if = r.activePage === 'components'
+
 		< .&__tabs
 			< b-button.&__tab @click = r.router.push('components')
 				Components
