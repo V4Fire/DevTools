@@ -110,6 +110,7 @@ function getOrCreateHighlightNode(): HTMLElement {
 		highlightNode.style.backgroundColor = 'rgba(250, 0, 250, 0.3)';
 		highlightNode.style.zIndex = '9999';
 		highlightNode.style.transition = `opacity ${highlightAnimationDuration}ms ease`;
+		highlightNode.style.pointerEvents = 'none';
 		document.body.appendChild(highlightNode);
 	}
 
