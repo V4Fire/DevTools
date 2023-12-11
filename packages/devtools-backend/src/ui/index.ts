@@ -6,3 +6,4 @@
  * https://github.com/V4Fire/DevTools/blob/main/LICENSE
  */
 export { componentHighlight } from './component-highlight';
+export { componentLocate } from './component-locate';
