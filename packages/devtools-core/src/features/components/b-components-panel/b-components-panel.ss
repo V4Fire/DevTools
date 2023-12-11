@@ -9,9 +9,19 @@
 				{{ componentData.componentName.camelize(false) }}
 
 			< .&__header-actions
-				< b-icon-button :hint = "Inspect&nbsp;DOM" | :icon = 'inspect' | @click = onInspect
+				< b-icon-button &
+					:hint = "Inspect&nbsp;DOM" |
+					:hintPos = 'bottom-left' |
+					:icon = 'inspect' |
+					@click = onInspect
+				.
 
-				< b-icon-button :hint = (showEmpty ? "Hide" : "Show") + "&nbsp;empty" | :icon = (showEmpty ? 'circle' : 'circle-dashed') | @click = onShowEmptyChange
+				< b-icon-button &
+					:hint = (showEmpty ? "Hide" : "Show") + "&nbsp;empty" |
+					:hintPos = 'bottom-left' |
+					:icon = (showEmpty ? 'circle' : 'circle-dashed') |
+					@click = onShowEmptyChange
+				.
 
 		< .&__body
 			< b-tree &
