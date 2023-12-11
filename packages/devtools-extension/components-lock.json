@@ -1,5 +1,5 @@
 {
-  "hash": "6ac41a6ba1ed10dacc79208cd6792a9febe8c4f86e48d75037699688c52293fe",
+  "hash": "7c0fc3586bfa5c89c9ec9aa033da0ec91fc13c9afba1c020b37f858c5d51936f",
   "data": {
     "%data": "%data:Map",
     "%data:Map": [
@@ -108,6 +108,46 @@
             "node_modules/@v4fire/client/src/components/form/b-checkbox/b-checkbox.styl"
           ],
           "tpl": "node_modules/@v4fire/client/src/components/form/b-checkbox/b-checkbox.ss",
+          "etpl": null
+        }
+      ],
+      [
+        "b-components-actions",
+        {
+          "index": "node_modules/@v4fire/devtools-core/src/features/components/b-components-actions/index.js",
+          "declaration": {
+            "name": "b-components-actions",
+            "parent": "i-block",
+            "dependencies": [
+              "b-icon-button",
+              "b-button",
+              "b-window"
+            ],
+            "libs": []
+          },
+          "name": "b-components-actions",
+          "parent": "i-block",
+          "dependencies": [
+            "b-icon-button",
+            "b-button",
+            "b-window"
+          ],
+          "libs": [],
+          "resolvedLibs": {
+            "%data": "%data:Set",
+            "%data:Set": []
+          },
+          "resolvedOwnLibs": {
+            "%data": "%data:Set",
+            "%data:Set": []
+          },
+          "type": "block",
+          "mixin": false,
+          "logic": "src/features/components/b-components-actions/b-components-actions.ts",
+          "styles": [
+            "node_modules/@v4fire/devtools-core/src/features/components/b-components-actions/b-components-actions.styl"
+          ],
+          "tpl": "node_modules/@v4fire/devtools-core/src/features/components/b-components-actions/b-components-actions.ss",
           "etpl": null
         }
       ],
@@ -750,7 +790,8 @@
             "parent": "i-block",
             "dependencies": [
               "b-button",
-              "b-icon-button"
+              "b-icon-button",
+              "b-components-actions"
             ],
             "libs": []
           },
@@ -758,7 +799,8 @@
           "parent": "i-block",
           "dependencies": [
             "b-button",
-            "b-icon-button"
+            "b-icon-button",
+            "b-components-actions"
           ],
           "libs": [],
           "resolvedLibs": {
