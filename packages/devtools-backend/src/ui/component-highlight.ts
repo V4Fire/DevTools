@@ -17,78 +17,87 @@ const
 	highlightNodeId = 'v4fire-devtools-highlight',
 	highlightAnimationDuration = 300;
 
-let animationTimeout: any;
+class ComponentHighlight {
+	/**
+	 * Highlight animation timeout
+	 */
+	#animationTimeout: any;
 
-/**
- * Show highlight for the component
- *
- * @param componentId
- * @param componentName
- */
-export function show(componentId: string, componentName: string): void {
-	const node = findComponentNode<HTMLElement>(componentId, componentName);
+	/**
+	 * Show highlight for the component
+	 *
+	 * @param componentId
+	 * @param componentName
+	 */
+	show(componentId: string, componentName: string): void {
+		const node = findComponentNode<HTMLElement>(componentId, componentName);
 
-	if (node == null) {
-		return;
-	}
-
-	clearTimeout(animationTimeout);
-
-	const highlightNode = getOrCreateHighlightNode();
-
-	const {width, height, top, left} = node.getBoundingClientRect();
-	highlightNode.style.width = `${width}px`;
-	highlightNode.style.height = `${height}px`;
-	highlightNode.style.top = `${(globalThis.scrollY + top)}px`;
-	highlightNode.style.left = `${left}px`;
-	highlightNode.style.display = 'block';
-}
-
-/**
- * Hide component's highlight
- * @param animateOrOptions
- */
-export function hide(animateOrOptions?: boolean | HideOptions): void {
-	let animate = false;
-	let delay: number | null = null;
-
-	if (typeof animateOrOptions === 'boolean') {
-		animate = animateOrOptions;
-
-	} else if (typeof animateOrOptions === 'object') {
-		({animate = false, delay = null} = animateOrOptions);
-	}
-
-	const node = document.getElementById(highlightNodeId);
-
-	if (node == null) {
-		return;
-	}
-
-	if (animate) {
-		const end = () => {
-			animationTimeout = setTimeout(() => {
-				node.style.display = 'none';
-				node.style.opacity = '1';
-			}, highlightAnimationDuration);
-		};
-
-		const start = () => {
-			node.style.opacity = '0';
-
-			end();
-		};
-
-		if (delay != null) {
-			animationTimeout = setTimeout(start, delay);
-		} else {
-			start();
+		if (node == null) {
+			return;
 		}
 
-	} else {
-		node.style.display = 'none';
+		clearTimeout(this.#animationTimeout);
+
+		const highlightNode = getOrCreateHighlightNode();
+
+		const {width, height, top, left} = node.getBoundingClientRect();
+		highlightNode.style.width = `${width}px`;
+		highlightNode.style.height = `${height}px`;
+		highlightNode.style.top = `${(globalThis.scrollY + top)}px`;
+		highlightNode.style.left = `${left}px`;
+		highlightNode.style.opacity = '1';
+		highlightNode.style.display = 'block';
+	}
+
+	/**
+	 * Hide component's highlight
+	 * @param animateOrOptions
+	 */
+	hide(animateOrOptions?: boolean | HideOptions): void {
+		let animate = false;
+		let delay: number | null = null;
+
+		if (typeof animateOrOptions === 'boolean') {
+			animate = animateOrOptions;
+
+		} else if (typeof animateOrOptions === 'object') {
+			({animate = false, delay = null} = animateOrOptions);
+		}
+
+		const node = document.getElementById(highlightNodeId);
+
+		if (node == null) {
+			return;
+		}
+
+		if (animate) {
+			clearTimeout(this.#animationTimeout);
+
+			const end = () => {
+				this.#animationTimeout = setTimeout(() => {
+					node.style.display = 'none';
+				}, highlightAnimationDuration);
+			};
+
+			const start = () => {
+				node.style.opacity = '0';
+
+				end();
+			};
+
+			if (delay != null) {
+				this.#animationTimeout = setTimeout(start, delay);
+			} else {
+				start();
+			}
+
+		} else {
+			node.style.display = 'none';
+		}
 	}
 }
+
+export const componentHighlight = new ComponentHighlight();
 
 function getOrCreateHighlightNode(): HTMLElement {
 	let highlightNode = document.getElementById(highlightNodeId);

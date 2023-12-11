@@ -5,4 +5,4 @@
  * Released under the MIT license
  * https://github.com/V4Fire/DevTools/blob/main/LICENSE
  */
-export * as componentHighlight from './component-highlight';
+export { componentHighlight } from './component-highlight';
