@@ -10,5 +10,6 @@
 		< .&__tabs
 			< b-button.&__tab @click = r.router.push('components')
 				Components
-			< b-button.&__tab @click = r.router.push('profiler')
-				Profiler
+
+			/// < b-button.&__tab @click = r.router.push('profiler')
+			/// 	Profiler
