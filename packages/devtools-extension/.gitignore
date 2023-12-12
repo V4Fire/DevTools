@@ -46,6 +46,7 @@ $RECYCLE.BIN
 # Temporary
 *.tmp
 *.gz
+*.zip
 /Releases-js
 /tmp
 /app-cache

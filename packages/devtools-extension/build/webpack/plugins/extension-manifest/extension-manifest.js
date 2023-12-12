@@ -21,7 +21,7 @@ const
 	{manifestFileName} = include('build/const');
 
 const
-	isProd = config.runtimeEnvironment === 'production',
+	{isProd} = include('build/webpack/module/const'),
 	isManifestV2 = config.extensionManifestVersion === '2';
 
 /**
