@@ -8,7 +8,7 @@
 
 import 'sw/init/inject-content-scripts';
 
-import BrowserTabManager from 'sw/browser/browser-tab-manager';
+import BrowserTabManager from 'sw/browser/tab-manager';
 import RuntimeMessageHandler from 'sw/browser/runtime-message-handler';
 
 const
