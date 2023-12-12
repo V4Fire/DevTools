@@ -4,7 +4,12 @@
 
 - template index() extends ['i-block'].index
 	- block body
-		< b-icon-button :icon = 'crosshair' | @click = enableLocateComponent
+		< b-icon-button &
+			:icon = 'crosshair' |
+			@click = enableLocateComponent |
+			:hint = 'Select&nbsp;component&nbsp;in&nbsp;the&nbsp;page' |
+			:hintPos = 'bottom-right'
+		.
 
 		< b-window &
 			ref = modal |
