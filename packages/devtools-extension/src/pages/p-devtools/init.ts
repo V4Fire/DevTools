@@ -12,6 +12,8 @@ import { browserAPI, devtoolsEval } from 'core/browser-api';
 import type pRoot from 'pages/p-root/p-root';
 import { CouldNotFindV4FireOnThePageError, detectV4Fire } from 'pages/p-devtools/modules/detect-v4fire';
 
+// TODO: refactor
+
 const $a = new Async();
 
 /**
@@ -135,6 +137,9 @@ function connectDevToolsPort() {
 		name: String(tabId)
 	});
 
+	// TODO: create bridge
+	port.onMessage.addListener(listenDevtoolsMessage);
+
 	// This port may be disconnected by Chrome at some point, this callback
 	// will be executed only if this port was disconnected from the other end
 	// so, when we call `port.disconnect()` from this script,
@@ -154,6 +159,7 @@ function performFullCleanup() {
 	root = null;
 
 	try {
+		port?.onMessage.removeListener(listenDevtoolsMessage);
 		port?.disconnect();
 	} catch (error) {
 		// eslint-disable-next-line no-console
@@ -174,3 +180,19 @@ function injectBackend(tabId: number): void {
 		.catch(stderr);
 }
 
+function listenDevtoolsMessage(message: {event: string; payload: any}): void {
+	if (root == null) {
+		return;
+	}
+
+	const {component} = (<{component: pRoot} & Element>root);
+
+	switch (message.event) {
+		case 'select-component':
+			component.selfEmitter.emit(`bridge.${message.event}`, message.payload);
+			break;
+
+		default:
+			// Do nothing
+	}
+}
