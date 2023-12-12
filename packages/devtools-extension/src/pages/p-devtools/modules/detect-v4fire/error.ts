@@ -14,6 +14,6 @@ export default class CouldNotFindV4FireOnThePageError extends Error {
 			Error.captureStackTrace(this, CouldNotFindV4FireOnThePageError);
 		}
 
-		this.name = 'CouldNotFindReactOnThePageError';
+		this.name = 'CouldNotFindV4FireOnThePageError';
 	}
 }
