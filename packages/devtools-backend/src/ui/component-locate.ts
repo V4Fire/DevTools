@@ -43,7 +43,17 @@ class ComponentLocate {
 
 			if (component != null) {
 				componentHighlight.hide({animate: true});
-				// TODO: notify devtools application about selected component
+
+				const {componentId, componentName} = component;
+
+				// TODO: create bridge
+				globalThis.postMessage({
+					source: 'v4fire-devtools-bridge',
+					payload: {
+						event: 'select-component',
+						payload: {componentId, componentName}
+					}
+				}, '*');
 			}
 		};
 
