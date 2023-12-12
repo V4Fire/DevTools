@@ -16,4 +16,10 @@ export * from 'components/super/i-block/i-block';
 @component()
 export default class bHeader extends iBlock {
 
+	/**
+	 * Reloads the window
+	 */
+	onReload(): void {
+		globalThis.location.reload();
+	}
 }

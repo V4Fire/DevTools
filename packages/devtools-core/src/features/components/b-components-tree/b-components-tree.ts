@@ -78,14 +78,7 @@ class bComponentsTree extends iBlock implements iSearch<Item> {
 			tree.setActive(value);
 		}
 
-		// It's ugly but we need to scroll to this element
-		const el = tree.unsafe.findItemElement(value);
-
-		if (el != null) {
-			const {clientHeight = 0} = el.querySelector(`.${tree.unsafe.block!.getFullElementName('item-wrapper')}`) ?? {};
-
-			this.search.scrollContainerToElement(wrapper, el, clientHeight);
-		}
+		this.scrollToItem(value);
 	}
 
 	/**
@@ -97,6 +90,9 @@ class bComponentsTree extends iBlock implements iSearch<Item> {
 			item,
 			['children', 'folded', 'componentName', 'parentValue']
 		);
+
+		props['@mouseenter'] = this.onItemMouseEnter.bind(this, item);
+		props['@mouseleave'] = this.onItemMouseLeave.bind(this, item);
 
 		return props;
 	}
@@ -143,6 +139,23 @@ class bComponentsTree extends iBlock implements iSearch<Item> {
 	}
 
 	/**
+	 * Find item by it's value and scroll to it
+	 * @param value
+	 */
+	protected scrollToItem(value: string): void {
+		const {tree, wrapper} = this.$refs;
+
+		// It's ugly but we need to scroll to this element
+		const el = tree!.unsafe.findItemElement(value);
+
+		if (el != null) {
+			const {clientHeight = 0} = el.querySelector(`.${tree!.unsafe.block!.getFullElementName('item-wrapper')}`) ?? {};
+
+			this.search.scrollContainerToElement(wrapper!, el, clientHeight);
+		}
+	}
+
+	/**
 	 *
 	 * @param _
 	 * @param componentId
@@ -150,6 +163,41 @@ class bComponentsTree extends iBlock implements iSearch<Item> {
 	@watch('?$refs.tree:change')
 	protected onTreeChange(_: unknown, componentId: string): void {
 		this.emit('change', componentId);
+	}
+
+	/**
+	 * Watch for `select-component` event from root
+	 *
+	 * @param _
+	 * @param payload
+	 */
+	// FIXME: watch r.bridge:select-component
+	@watch('rootEmitter:bridge.select-component')
+	protected onSelectComponent(_: unknown, payload: any): void {
+		const {componentId} = payload;
+		if (this.$refs.tree?.setActive(componentId)) {
+			this.scrollToItem(componentId);
+		}
+	}
+
+	/**
+	 * Handle item mouseenter event
+	 *
+	 * @param item
+	 * @param event
+	 */
+	protected onItemMouseEnter(item: Item, event: MouseEvent): void {
+		// TODO: use engine to highlight the component node
+	}
+
+	/**
+	 * Handle item mouseleave event
+	 *
+	 * @param item
+	 * @param event
+	 */
+	protected onItemMouseLeave(item: Item, event: MouseEvent): void {
+		// TODO: use engine to remove highlight from the component node
 	}
 }
 

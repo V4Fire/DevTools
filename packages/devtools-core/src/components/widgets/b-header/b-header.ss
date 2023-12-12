@@ -4,6 +4,16 @@
 
 - template index() extends ['i-block'].index
 	- block body
+		< .&__actions
+			< b-icon-button &
+				:icon = 'reload' |
+				@click = onReload |
+				:hint = 'Reload&nbsp;tree' |
+				:hintPos = 'bottom-right'
+			.
+
+			< b-components-actions v-if = r.activePage === 'components'
+
 		< .&__tabs
 			< b-button.&__tab @click = r.router.push('components')
 				Components

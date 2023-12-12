@@ -7,3 +7,5 @@
  */
 
 export * from './serialize';
+export * from './search';
+export * from './ui';

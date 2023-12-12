@@ -2710,8 +2710,8 @@ __metadata:
   linkType: hard
 
 "@v4fire/client@git+https://github.com/V4Fire/Client.git#v4":
-  version: 4.0.0-beta.37
-  resolution: "@v4fire/client@https://github.com/V4Fire/Client.git#commit=1b46a272dfe5592fcdc5696622330fdb3912caf5"
+  version: 4.0.0-beta.45
+  resolution: "@v4fire/client@https://github.com/V4Fire/Client.git#commit=3e73bf79b4e8b9a3c3e183fc44fc38679f295582"
   dependencies:
     "@babel/core": 7.17.5
     "@babel/helpers": 7.17.7
@@ -2778,6 +2778,7 @@ __metadata:
     path-to-regexp: 3.2.0
     portfinder: 1.0.28
     postcss: 8.4.6
+    postcss-discard-comments: 6.0.0
     postcss-loader: 6.2.1
     raw-loader: 4.0.2
     requestidlecallback: 0.3.0
@@ -2795,6 +2796,7 @@ __metadata:
     svgo-loader: 3.0.0
     svgo-sync: 0.5.1
     terser-webpack-plugin: 5.3.1
+    to-string-loader: ^1.2.0
     ts-loader: 9.2.6
     tslib: 2.4.1
     typescript: 4.6.2
@@ -2907,6 +2909,8 @@ __metadata:
       optional: true
     postcss:
       optional: true
+    postcss-discard-comments:
+      optional: true
     postcss-loader:
       optional: true
     raw-loader:
@@ -2935,6 +2939,8 @@ __metadata:
       optional: true
     terser-webpack-plugin:
       optional: true
+    to-string-loader:
+      optional: true
     ts-loader:
       optional: true
     typescript:
@@ -2949,7 +2955,7 @@ __metadata:
       optional: true
     webpack-cli:
       optional: true
-  checksum: ba699367d38b9f7bcd6661eb982a9452fa14f565e323f3b884d191f72d490844b2a1ad755974fdc3cacf4b0974b56a5a22ddfd394ef336d3e0c64d7b943aaf5a
+  checksum: 5801744827a0c3d60c11e75d4bbc18312feff82a07d44d5087e3141b04b7903efa553c464c4e5f957b1b200873b2d9284f57296b4f5b5ea37486dcd8547e3a96
   languageName: node
   linkType: hard
 
@@ -12123,7 +12129,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"loader-utils@npm:^1.0.3, loader-utils@npm:^1.1.0":
+"loader-utils@npm:^1.0.0, loader-utils@npm:^1.0.3, loader-utils@npm:^1.1.0":
   version: 1.4.2
   resolution: "loader-utils@npm:1.4.2"
   dependencies:
@@ -14546,6 +14552,15 @@ __metadata:
   peerDependencies:
     postcss: ^8.2.15
   checksum: df48cdaffabf9737f9cfdc58a3dc2841cf282506a7a944f6c70236cff295d3a69f63de6e0935eeb8a9d3f504324e5b4e240abc29e21df9e35a02585d3060aeb5
+  languageName: node
+  linkType: hard
+
+"postcss-discard-comments@npm:6.0.0":
+  version: 6.0.0
+  resolution: "postcss-discard-comments@npm:6.0.0"
+  peerDependencies:
+    postcss: ^8.2.15
+  checksum: 9be073707b5ef781c616ddd32ffd98faf14bf8b40027f341d5a4fb7989fa7b017087ad54146a370fe38295b1f2568b9f5522f4e4c1a1d09fe0e01abd9f5ae00d
   languageName: node
   linkType: hard
 
@@ -17773,6 +17788,15 @@ __metadata:
     regex-not: ^1.0.2
     safe-regex: ^1.1.0
   checksum: 4ed4a619059b64e204aad84e4e5f3ea82d97410988bcece7cf6cbfdbf193d11bff48cf53842d88b8bb00b1bfc0d048f61f20f0709e6f393fd8fe0122662d9db4
+  languageName: node
+  linkType: hard
+
+"to-string-loader@npm:^1.2.0":
+  version: 1.2.0
+  resolution: "to-string-loader@npm:1.2.0"
+  dependencies:
+    loader-utils: ^1.0.0
+  checksum: 738d51379aab962c843b0764335b0a1f89f42402b18c1a75d1e2653ef938702a7a6f132cfe7fb888cd14ca2e9a76ed779f9be34ea0a257c500d3f8edde8a1140
   languageName: node
   linkType: hard
 

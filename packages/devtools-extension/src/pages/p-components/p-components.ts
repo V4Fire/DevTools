@@ -109,7 +109,14 @@ function evalComponentsTree(): Item[] {
 		if (parentId != null) {
 			if (!map.has(parentId)) {
 				buffer.push(() => {
-					map.get(parentId).children.push(descriptor);
+					const item = map.get(parentId);
+
+					if (item != null) {
+						item.children.push(descriptor);
+
+					} else {
+						stderr(`Missing parent, component: ${component.componentName}, parent id: ${parentId}`);
+					}
 				});
 
 			} else {
@@ -131,20 +138,11 @@ function evalComponentMeta(value: string, name?: string): Nullable<string> {
 		'r',
 		'self',
 		'unsafe',
-		'window',
-		'document',
-		'console',
 		'router',
 		'LANG_PACKS'
 	]);
 
-	let node = document.querySelector(`.i-block-helper.${value}`);
-
-	if (node == null && name != null) {
-		// Maybe it's a functional component
-		const nodes = document.querySelectorAll(`.i-block-helper.${name}`);
-		node = Array.prototype.find.call(nodes, (node) => node.component?.componentId === value);
-	}
+	const node = globalThis.__V4FIRE_DEVTOOLS_BACKEND__.findComponentNode(value, name);
 
 	if (node == null) {
 		return null;
@@ -176,7 +174,10 @@ function evalComponentMeta(value: string, name?: string): Nullable<string> {
 		parent = parent.parentMeta;
 	}
 
-	const result = {componentName, props, fields, computedFields, systemFields, hierarchy, values};
+	const result = {componentId: value, componentName, props, fields, computedFields, systemFields, hierarchy, values};
 
-	return globalThis.__V4FIRE_DEVTOOLS_BACKEND__.serialize(result, (key) => key.startsWith('$') || restricted.has(key));
+	return globalThis.__V4FIRE_DEVTOOLS_BACKEND__.serialize(
+		result,
+		(key, value) => key.startsWith('$') || restricted.has(key) || value === globalThis || value === document || value === console
+	);
 }

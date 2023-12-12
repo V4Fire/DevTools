@@ -1,5 +1,5 @@
 {
-  "hash": "9a9ab7af9b3e01398691a5504d10670718f30c05120c98a22533eaf56fe2daeb",
+  "hash": "7c0fc3586bfa5c89c9ec9aa033da0ec91fc13c9afba1c020b37f858c5d51936f",
   "data": {
     "%data": "%data:Map",
     "%data:Map": [
@@ -112,6 +112,46 @@
         }
       ],
       [
+        "b-components-actions",
+        {
+          "index": "node_modules/@v4fire/devtools-core/src/features/components/b-components-actions/index.js",
+          "declaration": {
+            "name": "b-components-actions",
+            "parent": "i-block",
+            "dependencies": [
+              "b-icon-button",
+              "b-button",
+              "b-window"
+            ],
+            "libs": []
+          },
+          "name": "b-components-actions",
+          "parent": "i-block",
+          "dependencies": [
+            "b-icon-button",
+            "b-button",
+            "b-window"
+          ],
+          "libs": [],
+          "resolvedLibs": {
+            "%data": "%data:Set",
+            "%data:Set": []
+          },
+          "resolvedOwnLibs": {
+            "%data": "%data:Set",
+            "%data:Set": []
+          },
+          "type": "block",
+          "mixin": false,
+          "logic": "src/features/components/b-components-actions/b-components-actions.ts",
+          "styles": [
+            "node_modules/@v4fire/devtools-core/src/features/components/b-components-actions/b-components-actions.styl"
+          ],
+          "tpl": "node_modules/@v4fire/devtools-core/src/features/components/b-components-actions/b-components-actions.ss",
+          "etpl": null
+        }
+      ],
+      [
         "b-components-panel",
         {
           "index": "node_modules/@v4fire/devtools-core/src/features/components/b-components-panel/index.js",
@@ -143,7 +183,7 @@
           },
           "type": "block",
           "mixin": false,
-          "logic": "node_modules/@v4fire/devtools-core/src/features/components/b-components-panel/b-components-panel.ts",
+          "logic": "src/features/components/b-components-panel/b-components-panel.ts",
           "styles": [
             "node_modules/@v4fire/devtools-core/src/features/components/b-components-panel/b-components-panel.styl"
           ],
@@ -213,7 +253,7 @@
           },
           "type": "block",
           "mixin": false,
-          "logic": "node_modules/@v4fire/devtools-core/src/features/components/b-components-tree/b-components-tree.ts",
+          "logic": "src/features/components/b-components-tree/b-components-tree.ts",
           "styles": [
             "node_modules/@v4fire/devtools-core/src/features/components/b-components-tree/b-components-tree.styl"
           ],
@@ -749,14 +789,18 @@
             "name": "b-header",
             "parent": "i-block",
             "dependencies": [
-              "b-button"
+              "b-button",
+              "b-icon-button",
+              "b-components-actions"
             ],
             "libs": []
           },
           "name": "b-header",
           "parent": "i-block",
           "dependencies": [
-            "b-button"
+            "b-button",
+            "b-icon-button",
+            "b-components-actions"
           ],
           "libs": [],
           "resolvedLibs": {
@@ -2652,7 +2696,8 @@
               "components/traits/i-control-list/i-control-list",
               "core/browser",
               "core/cookies",
-              "core/html"
+              "core/html",
+              "models/modules/session"
             ]
           },
           "name": "p-v4-components-demo",
@@ -2693,7 +2738,8 @@
             "components/traits/i-control-list/i-control-list",
             "core/browser",
             "core/cookies",
-            "core/html"
+            "core/html",
+            "models/modules/session"
           ],
           "resolvedLibs": {
             "%data": "%data:Set",
@@ -2707,7 +2753,8 @@
               "core/cookies",
               "core/html",
               "core/router/engines/browser-history",
-              "core/router/engines/in-memory"
+              "core/router/engines/in-memory",
+              "models/modules/session"
             ]
           },
           "resolvedOwnLibs": {
@@ -2722,7 +2769,8 @@
               "core/cookies",
               "core/html",
               "core/router/engines/browser-history",
-              "core/router/engines/in-memory"
+              "core/router/engines/in-memory",
+              "models/modules/session"
             ]
           },
           "type": "page",

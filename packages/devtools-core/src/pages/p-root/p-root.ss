@@ -17,8 +17,6 @@
 			{{ placeholder }}
 		< template v-else
 			- block header
-				< b-header
+				< b-header ref = header
 			- block page
-					< b-dynamic-page.&__page &
-						ref = page
-					.
+					< b-dynamic-page.&__page ref = page

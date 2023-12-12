@@ -22,7 +22,7 @@
 				:item = 'b-components-tree-item' |
 				:itemProps = itemProps |
 				:folded = false |
-				:theme = 'demo' |
+				:theme = 'pretty' |
 				:cancelable = false
 			.
 
