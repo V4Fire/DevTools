@@ -6,7 +6,7 @@
  * https://github.com/V4Fire/DevTools/blob/main/LICENSE
  */
 
-import iBlock, { component } from 'components/super/i-block/i-block';
+import iBlock, { component, watch } from 'components/super/i-block/i-block';
 import type bWindow from 'components/base/b-window/b-window';
 
 @component()
@@ -26,6 +26,11 @@ export default class bComponentsActions extends iBlock {
 	 * Disables component search via DOM
 	 */
 	disableLocateComponent(): void {
+		this.$refs.modal?.close().catch(stderr);
+	}
+
+	@watch('rootEmitter:bridge.select-component')
+	protected closeModal(): void {
 		this.$refs.modal?.close().catch(stderr);
 	}
 }

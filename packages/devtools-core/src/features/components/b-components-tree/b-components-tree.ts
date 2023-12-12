@@ -166,6 +166,21 @@ class bComponentsTree extends iBlock implements iSearch<Item> {
 	}
 
 	/**
+	 * Watch for `select-component` event from root
+	 *
+	 * @param _
+	 * @param payload
+	 */
+	// FIXME: watch r.bridge:select-component
+	@watch('rootEmitter:bridge.select-component')
+	protected onSelectComponent(_: unknown, payload: any): void {
+		const {componentId} = payload;
+		if (this.$refs.tree?.setActive(componentId)) {
+			this.scrollToItem(componentId);
+		}
+	}
+
+	/**
 	 * Handle item mouseenter event
 	 *
 	 * @param item
