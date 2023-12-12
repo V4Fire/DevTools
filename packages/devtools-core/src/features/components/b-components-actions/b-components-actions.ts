@@ -16,6 +16,13 @@ export default class bComponentsActions extends iBlock {
 	};
 
 	/**
+	 * Reloads the window
+	 */
+	onReload(): void {
+		globalThis.location.reload();
+	}
+
+	/**
 	 * Enables component search via DOM
 	 */
 	enableLocateComponent(): void {

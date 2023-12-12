@@ -4,12 +4,20 @@
 
 - template index() extends ['i-block'].index
 	- block body
-		< b-icon-button &
-			:icon = 'crosshair' |
-			@click = enableLocateComponent |
-			:hint = 'Select&nbsp;component&nbsp;in&nbsp;the&nbsp;page' |
-			:hintPos = 'bottom-right'
-		.
+		< .&__wrapper
+			< b-icon-button &
+				:icon = 'reload' |
+				@click = onReload |
+				:hint = 'Reload&nbsp;tree' |
+				:hintPos = 'bottom-right'
+			.
+
+			< b-icon-button &
+				:icon = 'crosshair' |
+				@click = enableLocateComponent |
+				:hint = 'Select&nbsp;component&nbsp;in&nbsp;the&nbsp;page' |
+				:hintPos = 'bottom-right'
+			.
 
 		< b-window &
 			ref = modal |

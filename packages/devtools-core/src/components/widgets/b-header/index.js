@@ -12,6 +12,5 @@ package('b-header')
 	.extends('i-block')
 	.dependencies(
 		'b-button',
-		'b-icon-button',
 		'b-components-actions'
 	)

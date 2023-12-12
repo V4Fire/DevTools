@@ -1,5 +1,5 @@
 {
-  "hash": "7c0fc3586bfa5c89c9ec9aa033da0ec91fc13c9afba1c020b37f858c5d51936f",
+  "hash": "58e59f1cca95fb4176b0fe97bf942dff46345e67d15ce46a44d096d980fd702b",
   "data": {
     "%data": "%data:Map",
     "%data:Map": [
@@ -790,7 +790,6 @@
             "parent": "i-block",
             "dependencies": [
               "b-button",
-              "b-icon-button",
               "b-components-actions"
             ],
             "libs": []
@@ -799,7 +798,6 @@
           "parent": "i-block",
           "dependencies": [
             "b-button",
-            "b-icon-button",
             "b-components-actions"
           ],
           "libs": [],
