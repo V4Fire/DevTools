@@ -1,6 +1,6 @@
 {
   "name": "@v4fire/devtools-extension",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "scripts": {
     "build": "yarn build:tsconfig && npx webpack --env public-path",
     "build:tsconfig": "yarn build:link-node-modules && node node_modules/@v4fire/core/build/build-tsconfig",
