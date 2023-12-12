@@ -78,14 +78,7 @@ class bComponentsTree extends iBlock implements iSearch<Item> {
 			tree.setActive(value);
 		}
 
-		// It's ugly but we need to scroll to this element
-		const el = tree.unsafe.findItemElement(value);
-
-		if (el != null) {
-			const {clientHeight = 0} = el.querySelector(`.${tree.unsafe.block!.getFullElementName('item-wrapper')}`) ?? {};
-
-			this.search.scrollContainerToElement(wrapper, el, clientHeight);
-		}
+		this.scrollToItem(value);
 	}
 
 	/**
@@ -142,6 +135,23 @@ class bComponentsTree extends iBlock implements iSearch<Item> {
 			if (item.children != null) {
 				yield* this.getSearchMatches(item.children);
 			}
+		}
+	}
+
+	/**
+	 * Find item by it's value and scroll to it
+	 * @param value
+	 */
+	protected scrollToItem(value: string): void {
+		const {tree, wrapper} = this.$refs;
+
+		// It's ugly but we need to scroll to this element
+		const el = tree!.unsafe.findItemElement(value);
+
+		if (el != null) {
+			const {clientHeight = 0} = el.querySelector(`.${tree!.unsafe.block!.getFullElementName('item-wrapper')}`) ?? {};
+
+			this.search.scrollContainerToElement(wrapper!, el, clientHeight);
 		}
 	}
 
