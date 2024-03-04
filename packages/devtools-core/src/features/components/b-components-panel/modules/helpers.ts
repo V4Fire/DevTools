@@ -13,6 +13,32 @@ import { normalizeComponentName } from 'core/helpers';
 import type { Item, ComponentData } from 'features/components/b-components-panel/interface';
 
 /**
+ * An array of {@link ComponentData} items with specific value getter for each item
+ */
+const itemsWithGetters = [
+	{
+		name: 'props',
+		getValue: (data, key) => data.values[key]
+	},
+	{
+		name: 'fields',
+		getValue: (data, key) => data.values[key]
+	},
+	{
+		name: 'computedFields',
+		getValue: (data, key) => data.values[key]
+	},
+	{
+		name: 'mods',
+		getValue: (data, key) => Object.isDictionary(data.values.mods) ? data.values.mods[key] : undefined,
+	},
+	{
+		name: 'systemFields',
+		getValue: (data, key) => data.values[key]
+	},
+];
+
+/**
  * Creates items from component data
  * @param data
  */
@@ -23,13 +49,12 @@ export function createItems(data: ComponentData): Item[] {
 		[block, ...rest] = data.componentName.split('-'),
 		selfRegex = new RegExp(`^(i|${block})-${rest.join('-')}-?`);
 
-	['props', 'fields', 'computedFields', 'systemFields'].forEach((name) => {
+	itemsWithGetters.forEach(({name, getValue}) => {
 		const dict = data[name];
 		const map = new Map<string, Item[]>();
 		const children: Item[] = [];
 
 		Object.keys(dict).forEach((key) => {
-
 			if (key.startsWith('$')) {
 				return;
 			}
@@ -40,7 +65,7 @@ export function createItems(data: ComponentData): Item[] {
 				// Match intermediate classes
 				isSelf = src == null || src.match(selfRegex) != null;
 
-			const [value, valueChildren] = prepareValue(data.values[key], key);
+			const [value, valueChildren] = prepareValue(getValue(data, key), key);
 
 			const item: Item = {
 				label: key,
@@ -63,15 +88,15 @@ export function createItems(data: ComponentData): Item[] {
 		});
 
 		data.hierarchy.forEach((parent) => {
-			const items = map.get(parent);
+			const childItems = map.get(parent);
 
 			map.delete(parent);
 
-			if (items != null) {
+			if (childItems != null) {
 				children.push({
 					label: parent.camelize(false),
 					folded: true,
-					children: items
+					children: childItems
 				});
 			}
 		});

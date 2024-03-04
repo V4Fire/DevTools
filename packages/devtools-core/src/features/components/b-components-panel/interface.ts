@@ -33,6 +33,6 @@ export type ComponentData = {
 	hierarchy: string[];
 
 } & Pick<
-	ComponentMeta, 'componentName' | 'props' | 'fields' | 'computedFields' | 'systemFields'
+	ComponentMeta, 'componentName' | 'props' | 'fields' | 'computedFields' | 'systemFields' | 'mods'
 >;
 
