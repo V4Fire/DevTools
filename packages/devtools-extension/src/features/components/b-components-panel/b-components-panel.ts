@@ -7,12 +7,19 @@
  */
 import { devtoolsEval } from 'core/browser-api';
 
-import { component } from 'components/super/i-block/i-block';
+import iBlock, { component } from 'components/super/i-block/i-block';
 
 import Super from '@super/features/components/b-components-panel/b-components-panel';
 
 @component()
 export default class bComponentsPanel extends Super {
+	override onChangeMod(key: string, value: unknown): void {
+		const {componentId, componentName} = this.componentData;
+
+		devtoolsEval(evalSetComponentMod, [key, value, componentId, componentName])
+			.catch(stderr);
+	}
+
 	protected override onInspect(): void {
 		const {componentId, componentName} = this.componentData;
 
@@ -39,5 +46,19 @@ function evalInspect(componentId: string, componentName: string): void {
 	} else {
 		// eslint-disable-next-line no-alert
 		alert('Component\'s node not found');
+	}
+}
+
+function evalSetComponentMod(key: string, value: unknown, componentId: string, componentName: string) {
+	const node = globalThis.__V4FIRE_DEVTOOLS_BACKEND__.findComponentNode(componentId, componentName);
+
+	if (node == null) {
+		return;
+	}
+
+	const {component} = <{component?: iBlock} & Element>node;
+
+	if (component != null) {
+		void component.setMod(key, value);
 	}
 }

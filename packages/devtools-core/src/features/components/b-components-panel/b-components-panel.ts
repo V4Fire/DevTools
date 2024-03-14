@@ -42,7 +42,7 @@ export default class bComponentsPanel extends iBlock {
 	 */
 	@field<bComponentsPanel>((o) => o.sync.link(
 		'componentData',
-		(val) => createItems(<ComponentData>val)
+		(val) => createItems(o, <ComponentData>val)
 	))
 
 	protected itemsStore: Item[] = [];
@@ -109,6 +109,16 @@ export default class bComponentsPanel extends iBlock {
 				resolvers.set(el.parentValue, resolve);
 			});
 		};
+	}
+
+	/**
+	 * Change selected component mod
+	 *
+	 * @param _key
+	 * @param _value
+	 */
+	onChangeMod(_key: string, _value: unknown): void {
+		// TODO: use inspected app
 	}
 
 	/**

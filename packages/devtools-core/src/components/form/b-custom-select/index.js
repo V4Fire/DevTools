@@ -8,7 +8,5 @@
 
 'use strict';
 
-package('b-components-panel-item')
-	.extends('i-block')
-	.dependencies('b-custom-select', 'b-button')
-	.libs('components/directives/icon');
+package('b-custom-select')
+	.extends('b-select');

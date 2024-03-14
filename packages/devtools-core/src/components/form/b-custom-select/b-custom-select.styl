@@ -1,0 +1,17 @@
+@import "@super/components/form/b-select/b-select.styl"
+
+b-custom-select extends b-select
+	&__dropdown
+		absolute left 0 top 100%
+		border 1px solid black
+		background-color white
+
+	&__value
+		margin-right 4px
+
+	&__wrapper
+		cursor pointer
+
+	&__item_selected_true
+	&__item_marked_true
+		background-color rgba(100, 100, 100, 0.1)

@@ -16,6 +16,12 @@ export default class bComponentsPanelItem extends iBlock {
 	@prop()
 	data: unknown;
 
+	@prop()
+	select?: Dictionary;
+
+	@prop({type: String})
+	warning?: string;
+
 	isFunction(data: unknown): boolean {
 		return String(data) === 'Function' && Object.hasOwnProperty.call(data, 'declaration');
 	}

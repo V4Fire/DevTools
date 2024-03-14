@@ -1,5 +1,5 @@
 {
-  "hash": "58e59f1cca95fb4176b0fe97bf942dff46345e67d15ce46a44d096d980fd702b",
+  "hash": "4d3c9a6bfa7c232f50debfed75f527f04d39cca9bf47099996b47592aa73a6af",
   "data": {
     "%data": "%data:Map",
     "%data:Map": [
@@ -198,25 +198,41 @@
           "declaration": {
             "name": "b-components-panel-item",
             "parent": "i-block",
-            "dependencies": [],
-            "libs": []
+            "dependencies": [
+              "b-custom-select",
+              "b-button"
+            ],
+            "libs": [
+              "components/directives/icon"
+            ]
           },
           "name": "b-components-panel-item",
           "parent": "i-block",
-          "dependencies": [],
-          "libs": [],
+          "dependencies": [
+            "b-custom-select",
+            "b-button"
+          ],
+          "libs": [
+            "components/directives/icon"
+          ],
           "resolvedLibs": {
             "%data": "%data:Set",
-            "%data:Set": []
+            "%data:Set": [
+              "components/directives/icon"
+            ]
           },
           "resolvedOwnLibs": {
             "%data": "%data:Set",
-            "%data:Set": []
+            "%data:Set": [
+              "components/directives/icon"
+            ]
           },
           "type": "block",
           "mixin": false,
           "logic": "node_modules/@v4fire/devtools-core/src/features/components/b-components-panel/modules/b-components-panel-item/b-components-panel-item.ts",
-          "styles": [],
+          "styles": [
+            "node_modules/@v4fire/devtools-core/src/features/components/b-components-panel/modules/b-components-panel-item/b-components-panel-item.styl"
+          ],
           "tpl": "node_modules/@v4fire/devtools-core/src/features/components/b-components-panel/modules/b-components-panel-item/b-components-panel-item.ss",
           "etpl": null
         }
@@ -298,6 +314,40 @@
             "node_modules/@v4fire/devtools-core/src/features/components/b-components-tree/modules/b-components-tree-item/b-components-tree-item.styl"
           ],
           "tpl": "node_modules/@v4fire/devtools-core/src/features/components/b-components-tree/modules/b-components-tree-item/b-components-tree-item.ss",
+          "etpl": null
+        }
+      ],
+      [
+        "b-custom-select",
+        {
+          "index": "node_modules/@v4fire/devtools-core/src/components/form/b-custom-select/index.js",
+          "declaration": {
+            "name": "b-custom-select",
+            "parent": "b-select",
+            "dependencies": [],
+            "libs": []
+          },
+          "name": "b-custom-select",
+          "parent": "b-select",
+          "dependencies": [],
+          "libs": [],
+          "resolvedLibs": {
+            "%data": "%data:Set",
+            "%data:Set": [
+              "components/directives/icon"
+            ]
+          },
+          "resolvedOwnLibs": {
+            "%data": "%data:Set",
+            "%data:Set": []
+          },
+          "type": "block",
+          "mixin": false,
+          "logic": "node_modules/@v4fire/devtools-core/src/components/form/b-custom-select/b-custom-select.ts",
+          "styles": [
+            "node_modules/@v4fire/devtools-core/src/components/form/b-custom-select/b-custom-select.styl"
+          ],
+          "tpl": "node_modules/@v4fire/devtools-core/src/components/form/b-custom-select/b-custom-select.ss",
           "etpl": null
         }
       ],

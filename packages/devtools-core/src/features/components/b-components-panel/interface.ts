@@ -7,6 +7,8 @@
  */
 
 import type { Item as Super, ComponentMeta } from 'components/base/b-tree/b-tree';
+import type { Item as SelectItem } from 'components/form/b-select/b-select';
+import type bSelect from 'components/form/b-select/b-select';
 
 export interface Item extends Super {
 	data?: unknown;
@@ -14,6 +16,13 @@ export interface Item extends Super {
 	path?: string;
 
 	children?: Item[];
+
+	select?: {
+		items: SelectItem[];
+		onActionChange(ctx: bSelect, value: unknown): void;
+	};
+
+	warning?: string;
 }
 
 export type ComponentData = {
