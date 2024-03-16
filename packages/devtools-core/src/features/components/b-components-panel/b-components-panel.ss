@@ -30,6 +30,5 @@
 				:item = 'b-components-panel-item' |
 				:theme = 'pretty' |
 				:cancelable = true |
-				:lazyRender = true |
 				:renderFilter = createTreeRenderFilter()
 			.
