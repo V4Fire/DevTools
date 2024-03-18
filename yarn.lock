@@ -3650,9 +3650,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@v4fire/core@git+https://github.com/V4Fire/Core.git#v4":
+"@v4fire/core@npm:4.0.0-alpha.24":
   version: 4.0.0-alpha.24
-  resolution: "@v4fire/core@https://github.com/V4Fire/Core.git#commit=5585f1e04959ea4318ca496263fc3fb56c19193c"
+  resolution: "@v4fire/core@npm:4.0.0-alpha.24"
   dependencies:
     "@babel/core": 7.17.5
     "@babel/helper-module-transforms": 7.16.7
@@ -3796,7 +3796,7 @@ __metadata:
       optional: true
     xhr2:
       optional: true
-  checksum: 1e651db2f034d4de904199bc53b761a38c9789ddeb641056cfcd17a09e40fed5a598cb067a64a0db17919d81c523f1f416ef9e586f387aa113bd0e95af1b7a55
+  checksum: b82871fdfb42c6543dc494bb9a016e03dddc6f4894e64a50e53a1d464104519d66a5fb38459bf8d4001b09f96119d93451cdb80449cda486f1ca176381fdd1e8
   languageName: node
   linkType: hard
 
@@ -3819,7 +3819,7 @@ __metadata:
   dependencies:
     "@config/config": "npm:config@1.31.0"
     "@v4fire/client": "git+https://github.com/V4Fire/Client.git#v4"
-    "@v4fire/core": "git+https://github.com/V4Fire/Core.git#v4"
+    "@v4fire/core": 4.0.0-alpha.24
     express: ^4.17.1
     express-http-proxy: ^1.6.2
     path-to-regexp: 3.2.0
@@ -3833,7 +3833,7 @@ __metadata:
     "@config/config": "npm:config@1.31.0"
     "@types/chrome": 0.0.248
     "@v4fire/client": "git+https://github.com/V4Fire/Client.git#v4"
-    "@v4fire/core": "git+https://github.com/V4Fire/Core.git#v4"
+    "@v4fire/core": 4.0.0-alpha.24
     "@v4fire/devtools-backend": "workspace:^"
     "@v4fire/devtools-core": "workspace:^"
     copy-webpack-plugin: 11.0.0

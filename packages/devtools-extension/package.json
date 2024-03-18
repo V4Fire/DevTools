@@ -14,7 +14,7 @@
   "dependencies": {
     "@config/config": "npm:config@1.31.0",
     "@v4fire/client": "git+https://github.com/V4Fire/Client.git#v4",
-    "@v4fire/core": "git+https://github.com/V4Fire/Core.git#v4",
+    "@v4fire/core": "4.0.0-alpha.24",
     "@v4fire/devtools-backend": "workspace:^",
     "@v4fire/devtools-core": "workspace:^"
   },
