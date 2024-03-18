@@ -29,6 +29,5 @@
 				:items = items |
 				:item = 'b-components-panel-item' |
 				:theme = 'pretty' |
-				:cancelable = true |
-				:renderFilter = createTreeRenderFilter()
+				:cancelable = true
 			.

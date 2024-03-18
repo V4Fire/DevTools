@@ -70,48 +70,6 @@ export default class bComponentsPanel extends iBlock {
 	}
 
 	/**
-	 * Returns render filter for `bTree`, which delays rendering of children
-	 * for folded items
-	 */
-	createTreeRenderFilter(): RenderFilter {
-		const unfolded = new Set();
-		const resolvers = new Map<unknown, (value: boolean) => void>();
-
-		this.waitRef<bTree>('tree')
-			.then((tree) => this.async.on(
-				tree.unsafe.top.selfEmitter,
-				'fold',
-				(_ctx: unknown, _el: Element, item: Item, folded: boolean) => {
-					if (folded) {
-						unfolded.delete(item.value);
-
-					} else {
-						unfolded.add(item.value);
-
-						resolvers.get(item.value)?.(true);
-						resolvers.delete(item.value);
-					}
-				},
-				{label: $$.foldChange}
-			))
-			.catch(stderr);
-
-		return (ctx, el, i) => {
-			if (ctx.level === 0 && i < ctx.renderChunks) {
-				return true;
-			}
-
-			if (!ctx.folded || unfolded.has(el.parentValue)) {
-				return true;
-			}
-
-			return new Promise<boolean>((resolve) => {
-				resolvers.set(el.parentValue, resolve);
-			});
-		};
-	}
-
-	/**
 	 * Update show empty
 	 */
 	protected onShowEmptyChange(): void {
