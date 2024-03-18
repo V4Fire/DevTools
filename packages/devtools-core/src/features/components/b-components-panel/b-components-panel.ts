@@ -6,18 +6,14 @@
  * https://github.com/V4Fire/DevTools/blob/main/LICENSE
  */
 
-import symbolGenerator from 'core/symbol';
 import iBlock, { component, prop, field, computed } from 'components/super/i-block/i-block';
 
 import type bTree from 'components/base/b-tree/b-tree';
-import type { RenderFilter } from 'components/base/b-tree/b-tree';
 import type { Item, ComponentData } from 'features/components/b-components-panel/interface';
 
 import { createItems } from 'features/components/b-components-panel/modules/helpers';
 
 export * from 'features/components/b-components-panel/interface';
-
-const $$ = symbolGenerator();
 
 @component()
 export default class bComponentsPanel extends iBlock {
