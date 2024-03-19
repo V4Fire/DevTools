@@ -14,7 +14,7 @@
   "dependencies": {
     "@config/config": "npm:config@1.31.0",
     "@v4fire/client": "git+https://github.com/V4Fire/Client.git#v4",
-    "@v4fire/core": "4.0.0-alpha.11",
+    "@v4fire/core": "4.0.0-alpha.24",
     "@v4fire/devtools-backend": "workspace:^",
     "@v4fire/devtools-core": "workspace:^"
   },
@@ -22,7 +22,8 @@
     "@types/chrome": "0.0.248",
     "copy-webpack-plugin": "11.0.0",
     "del-cli": "5.1.0",
-    "gulp-zip": "5.1.0"
+    "gulp-zip": "5.1.0",
+    "jest": "29.7.0"
   },
   "license": "MIT"
 }
