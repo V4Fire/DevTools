@@ -8,12 +8,8 @@
 
 import bSelect, { component, field } from '@v4fire/client/components/form/b-select/b-select';
 import iActiveItems from 'components/traits/i-active-items/i-active-items';
-import Block, { elements } from 'components/friends/block';
 
 export * from '@v4fire/client/components/form/b-select/b-select';
-
-// TODO: remove after fixing in `@v4fire/client` https://github.com/V4Fire/Client/pull/1177
-Block.addToPrototype({elements});
 
 @component({functional: false})
 export default class bCustomSelect extends bSelect {
