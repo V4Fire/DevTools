@@ -17,7 +17,7 @@
 			.
 				< .g-icon v-icon:warning
 
-		< b-custom-select.&__value &
+		< b-dropdown.&__value &
 			v-if = Object.size(field.get('select.items')) > 0 |
 			:v-attrs = select |
 			:icon = 'caret-down' |

@@ -29,5 +29,6 @@
 				:items = items |
 				:item = 'b-components-panel-item' |
 				:theme = 'pretty' |
-				:cancelable = true
+				:cancelable = true |
+				:itemProps = getPanelItemProps
 			.

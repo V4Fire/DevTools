@@ -12,6 +12,7 @@ import type bTree from 'components/base/b-tree/b-tree';
 import type { Item, ComponentData } from 'features/components/b-components-panel/interface';
 
 import { createItems } from 'features/components/b-components-panel/modules/helpers';
+import type bDropdown from 'components/form/b-dropdown/b-dropdown';
 
 export * from 'features/components/b-components-panel/interface';
 
@@ -38,7 +39,7 @@ export default class bComponentsPanel extends iBlock {
 	 */
 	@field<bComponentsPanel>((o) => o.sync.link(
 		'componentData',
-		(val) => createItems(o, <ComponentData>val)
+		(val) => createItems(<ComponentData>val)
 	))
 
 	protected itemsStore: Item[] = [];
@@ -63,6 +64,32 @@ export default class bComponentsPanel extends iBlock {
 				})
 				.filter((item) => (item.children != null && item.children.length > 0) || item.data != null);
 		}
+	}
+
+	/**
+	 * Returns formatted props for panel item
+	 * @param item
+	 */
+	protected getPanelItemProps(item: Item): Dictionary {
+		if (item.availableOptions != null) {
+			return {
+				...item,
+
+				select: {
+					items: item.availableOptions,
+
+					'@actionChange': (_ctx: bDropdown, value: unknown): void => {
+						if (item.label == null) {
+							return;
+						}
+
+						this.onChangeMod(item.label, value);
+					}
+				}
+			};
+		}
+
+		return item;
 	}
 
 	/**

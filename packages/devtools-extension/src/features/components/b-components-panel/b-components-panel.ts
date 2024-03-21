@@ -7,28 +7,31 @@
  */
 import { devtoolsEval } from 'core/browser-api';
 
-import iBlock, { component } from 'components/super/i-block/i-block';
+import iBlock, { component, ComponentElement } from 'components/super/i-block/i-block';
 
 import Super from '@super/features/components/b-components-panel/b-components-panel';
+import type { ComponentQuery } from 'features/components/b-components-panel/interface';
+
+export * from 'features/components/b-components-panel/interface';
 
 @component()
 export default class bComponentsPanel extends Super {
 	override onChangeMod(key: string, value: unknown): void {
 		const {componentId, componentName} = this.componentData;
 
-		devtoolsEval(evalSetComponentMod, [key, value, componentId, componentName])
+		devtoolsEval(evalSetComponentMod, [key, value, {componentId, componentName}])
 			.catch(stderr);
 	}
 
 	protected override onInspect(): void {
 		const {componentId, componentName} = this.componentData;
 
-		devtoolsEval(evalInspect, [componentId, componentName])
+		devtoolsEval(evalInspect, [{componentId, componentName}])
 			.catch(stderr);
 	}
 }
 
-function evalInspect(componentId: string, componentName: string): void {
+function evalInspect(query: ComponentQuery): void {
 	// eslint-disable-next-line @typescript-eslint/method-signature-style
 	const {inspect} = <{inspect?: (el: Element) => void} & Global>globalThis;
 
@@ -38,7 +41,7 @@ function evalInspect(componentId: string, componentName: string): void {
 		return;
 	}
 
-	const node = globalThis.__V4FIRE_DEVTOOLS_BACKEND__.findComponentNode(componentId, componentName);
+	const node = globalThis.__V4FIRE_DEVTOOLS_BACKEND__.findComponentNode(query.componentId, query.componentName);
 
 	if (node != null) {
 		inspect(node);
@@ -49,14 +52,14 @@ function evalInspect(componentId: string, componentName: string): void {
 	}
 }
 
-function evalSetComponentMod(key: string, value: unknown, componentId: string, componentName: string) {
-	const node = globalThis.__V4FIRE_DEVTOOLS_BACKEND__.findComponentNode(componentId, componentName);
+function evalSetComponentMod(key: string, value: unknown, query: ComponentQuery) {
+	const node = globalThis.__V4FIRE_DEVTOOLS_BACKEND__.findComponentNode(query.componentId, query.componentName);
 
 	if (node == null) {
 		return;
 	}
 
-	const {component} = <{component?: iBlock} & Element>node;
+	const {component} = <ComponentElement<iBlock>>node;
 
 	if (component != null) {
 		void component.setMod(key, value);

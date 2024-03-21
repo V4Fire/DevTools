@@ -11,11 +11,10 @@ import { getType } from '@v4fire/devtools-backend';
 import { NBSP, normalizeComponentName } from 'core/helpers';
 
 import type { Item, ComponentData } from 'features/components/b-components-panel/interface';
-import type bComponentsPanel from 'features/components/b-components-panel/b-components-panel';
 
 interface PanelItem {
 	name: string;
-	getValue(ctx: bComponentsPanel, data: ComponentData, key: string): {value: unknown; select?: Item['select']; warning?: Item['warning']};
+	getData(data: ComponentData, key: string): {value: unknown; items?: Item['availableOptions']; warning?: Item['warning']};
 	getDict(data: ComponentData): ComponentData[keyof ComponentData];
 }
 
@@ -25,22 +24,22 @@ interface PanelItem {
 const panelItems: PanelItem[] = [
 	{
 		name: 'props',
-		getValue: (_ctx, data, key) => ({value: data.values[key]}),
+		getData: (data, key) => ({value: data.values[key]}),
 		getDict: (data) => data.props
 	},
 	{
 		name: 'fields',
-		getValue: (_ctx, data, key) => ({value: data.values[key]}),
+		getData: (data, key) => ({value: data.values[key]}),
 		getDict: (data) => data.fields
 	},
 	{
 		name: 'computedFields',
-		getValue: (_ctx, data, key) => ({value: data.values[key]}),
+		getData: (data, key) => ({value: data.values[key]}),
 		getDict: (data) => data.computedFields
 	},
 	{
 		name: 'mods',
-		getValue: (ctx, data, key) => {
+		getData: (data, key) => {
 			let value = Object.isDictionary(data.values.mods) ? data.values.mods[key] : undefined;
 
 			if (key in data.mods && Array.isArray(data.mods[key])) {
@@ -55,12 +54,7 @@ const panelItems: PanelItem[] = [
 					return {label: declFormatted, value: declFormatted};
 				});
 
-				const select = {
-					items,
-					onActionChange: (_, value) => ctx.onChangeMod(key, value)
-				};
-
-				return {value, select};
+				return {value, items};
 			}
 
 			return {value, warning: `Undeclared${NBSP}modifier`};
@@ -69,25 +63,23 @@ const panelItems: PanelItem[] = [
 	},
 	{
 		name: 'systemFields',
-		getValue: (_ctx, data, key) => ({value: data.values[key]}),
+		getData: (data, key) => ({value: data.values[key]}),
 		getDict: (data) => data.systemFields
 	}
 ];
 
 /**
  * Creates items from component data
- *
- * @param ctx
  * @param data
  */
-export function createItems(ctx: bComponentsPanel, data: ComponentData): Item[] {
+export function createItems(data: ComponentData): Item[] {
 	const items: Item[] = [];
 
 	const
 		[block, ...rest] = data.componentName.split('-'),
 		selfRegex = new RegExp(`^(i|${block})-${rest.join('-')}-?`);
 
-	panelItems.forEach(({name, getValue, getDict}) => {
+	panelItems.forEach(({name, getData, getDict}) => {
 		const dict = getDict(data);
 		const map = new Map<string, Item[]>();
 		const children: Item[] = [];
@@ -103,14 +95,14 @@ export function createItems(ctx: bComponentsPanel, data: ComponentData): Item[] 
 				// Match intermediate classes
 				isSelf = src == null || src.match(selfRegex) != null;
 
-			const {value: valueByKey, select, warning} = getValue(ctx, data, key);
+			const {value: valueByKey, items, warning} = getData(data, key);
 			const [value, valueChildren] = prepareValue(valueByKey, key);
 
 			const item: Item = {
 				label: key,
 				data: value,
 				children: valueChildren,
-				select,
+				availableOptions: items,
 				warning
 			};
 

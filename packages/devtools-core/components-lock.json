@@ -1,5 +1,5 @@
 {
-  "hash": "3705834372e15d17aadff21374e59d7ffa9f50b7776f1a0766cf96bbc922464c",
+  "hash": "b1f092ba867cc6f75520d31a06c0b387336890ccc7bbe045022f86c3856f3fa9",
   "data": {
     "%data": "%data:Map",
     "%data:Map": [
@@ -199,7 +199,7 @@
             "name": "b-components-panel-item",
             "parent": "i-block",
             "dependencies": [
-              "b-custom-select",
+              "b-dropdown",
               "b-button"
             ],
             "libs": [
@@ -209,7 +209,7 @@
           "name": "b-components-panel-item",
           "parent": "i-block",
           "dependencies": [
-            "b-custom-select",
+            "b-dropdown",
             "b-button"
           ],
           "libs": [
@@ -318,40 +318,6 @@
         }
       ],
       [
-        "b-custom-select",
-        {
-          "index": "src/components/form/b-custom-select/index.js",
-          "declaration": {
-            "name": "b-custom-select",
-            "parent": "b-select",
-            "dependencies": [],
-            "libs": []
-          },
-          "name": "b-custom-select",
-          "parent": "b-select",
-          "dependencies": [],
-          "libs": [],
-          "resolvedLibs": {
-            "%data": "%data:Set",
-            "%data:Set": [
-              "components/directives/icon"
-            ]
-          },
-          "resolvedOwnLibs": {
-            "%data": "%data:Set",
-            "%data:Set": []
-          },
-          "type": "block",
-          "mixin": false,
-          "logic": "src/components/form/b-custom-select/b-custom-select.ts",
-          "styles": [
-            "src/components/form/b-custom-select/b-custom-select.styl"
-          ],
-          "tpl": "src/components/form/b-custom-select/b-custom-select.ss",
-          "etpl": null
-        }
-      ],
-      [
         "b-directives-ref-dummy",
         {
           "index": "node_modules/@v4fire/client/src/core/component/directives/ref/test/b-directives-ref-dummy/index.js",
@@ -380,6 +346,40 @@
             "node_modules/@v4fire/client/src/core/component/directives/ref/test/b-directives-ref-dummy/b-directives-ref-dummy.styl"
           ],
           "tpl": "node_modules/@v4fire/client/src/core/component/directives/ref/test/b-directives-ref-dummy/b-directives-ref-dummy.ss",
+          "etpl": null
+        }
+      ],
+      [
+        "b-dropdown",
+        {
+          "index": "src/components/form/b-dropdown/index.js",
+          "declaration": {
+            "name": "b-dropdown",
+            "parent": "b-select",
+            "dependencies": [],
+            "libs": []
+          },
+          "name": "b-dropdown",
+          "parent": "b-select",
+          "dependencies": [],
+          "libs": [],
+          "resolvedLibs": {
+            "%data": "%data:Set",
+            "%data:Set": [
+              "components/directives/icon"
+            ]
+          },
+          "resolvedOwnLibs": {
+            "%data": "%data:Set",
+            "%data:Set": []
+          },
+          "type": "block",
+          "mixin": false,
+          "logic": "src/components/form/b-dropdown/b-dropdown.ts",
+          "styles": [
+            "src/components/form/b-dropdown/b-dropdown.styl"
+          ],
+          "tpl": "src/components/form/b-dropdown/b-dropdown.ss",
           "etpl": null
         }
       ],

@@ -1,6 +1,6 @@
 - namespace [%fileName%]
 
-- include '@super/components/form/b-select'|b as placeholder
+- include 'components/form/b-select'|b as placeholder
 
 - template index() extends ['b-select'].index
 	- block input

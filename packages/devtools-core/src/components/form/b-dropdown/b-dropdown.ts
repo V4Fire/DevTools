@@ -12,8 +12,8 @@ import iActiveItems from 'components/traits/i-active-items/i-active-items';
 export * from '@v4fire/client/components/form/b-select/b-select';
 
 @component({functional: false})
-export default class bCustomSelect extends bSelect {
-	@field<bCustomSelect>({
+export default class bDropdown extends bSelect {
+	@field<bDropdown>({
 		unique: true,
 		init: (o) => {
 			o.watch('valueProp', (val) => o.setActive(val, true));

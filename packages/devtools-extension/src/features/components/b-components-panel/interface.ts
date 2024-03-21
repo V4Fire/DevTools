@@ -6,7 +6,6 @@
  * https://github.com/V4Fire/DevTools/blob/main/LICENSE
  */
 
-'use strict';
+import type { ComponentInterface } from 'core/component';
 
-package('b-custom-select')
-	.extends('b-select');
+export type ComponentQuery = Pick<ComponentInterface, 'componentId' | 'componentName'>;
