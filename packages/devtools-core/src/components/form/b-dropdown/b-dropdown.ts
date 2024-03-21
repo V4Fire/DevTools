@@ -22,10 +22,4 @@ export default class bDropdown extends bSelect {
 		}
 	})
 	override activeStore!: iActiveItems['activeStore'];
-
-	override async focus(): Promise<boolean> {
-		await this.open();
-
-		return super.focus();
-	}
 }
