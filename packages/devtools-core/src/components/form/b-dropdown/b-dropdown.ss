@@ -8,5 +8,5 @@
 			{{ value }}
 
 	- block body
-		< button.&__trigger @click = open
+		< button.&__trigger @click = onFocus
 			- super
