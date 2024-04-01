@@ -8,5 +8,8 @@
 			{{ value }}
 
 	- block body
-		< button.&__trigger @click = onFocus
+		< button.&__trigger &
+			@focus = onFocus |
+			@blur = onBlur
+		.
 			- super
