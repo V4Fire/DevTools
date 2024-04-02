@@ -71,19 +71,19 @@ export default class bComponentsPanel extends iBlock {
 	 * @param item
 	 */
 	protected getPanelItemProps(item: Item): Dictionary {
-		if (item.availableOptions != null) {
+		if (item.allowedValues != null) {
 			return {
 				...item,
 
 				select: {
-					items: item.availableOptions,
+					items: item.allowedValues.map((value) => ({label: value, value})),
 
 					'@actionChange': (_ctx: bDropdown, value: unknown): void => {
 						if (item.label == null) {
 							return;
 						}
 
-						this.onChangeMod(item.label, value);
+						this.onItemChangeMod(item.label, value);
 					}
 				}
 			};
@@ -98,7 +98,7 @@ export default class bComponentsPanel extends iBlock {
 	 * @param _key
 	 * @param _value
 	 */
-	onChangeMod(_key: string, _value: unknown): void {
+	protected onItemChangeMod(_key: string, _value: unknown): void {
 		// TODO: use inspected app
 	}
 

@@ -5,18 +5,20 @@
  * Released under the MIT license
  * https://github.com/V4Fire/DevTools/blob/main/LICENSE
  */
+
+import type { ComponentQuery } from '@v4fire/devtools-backend';
+
 import { devtoolsEval } from 'core/browser-api';
 
 import iBlock, { component, ComponentElement } from 'components/super/i-block/i-block';
 
 import Super from '@super/features/components/b-components-panel/b-components-panel';
-import type { ComponentQuery } from 'features/components/b-components-panel/interface';
 
 export * from 'features/components/b-components-panel/interface';
 
 @component()
 export default class bComponentsPanel extends Super {
-	override onChangeMod(key: string, value: unknown): void {
+	protected override onItemChangeMod(key: string, value: unknown): void {
 		const {componentId, componentName} = this.componentData;
 
 		devtoolsEval(evalSetComponentMod, [key, value, {componentId, componentName}])

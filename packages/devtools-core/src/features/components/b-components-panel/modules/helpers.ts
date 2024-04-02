@@ -14,7 +14,7 @@ import type { Item, ComponentData } from 'features/components/b-components-panel
 
 interface PanelItem {
 	name: string;
-	getData(data: ComponentData, key: string): {value: unknown; items?: Item['availableOptions']; warning?: Item['warning']};
+	getData(data: ComponentData, key: string): {value: unknown; allowedValues?: Item['allowedValues']; warning?: Item['warning']};
 	getDict(data: ComponentData): ComponentData[keyof ComponentData];
 }
 
@@ -43,7 +43,7 @@ const panelItems: PanelItem[] = [
 			let value = Object.isDictionary(data.values.mods) ? data.values.mods[key] : undefined;
 
 			if (key in data.mods && Array.isArray(data.mods[key])) {
-				const items = data.mods[key]!.map((decl) => {
+				const allowedValues = data.mods[key]!.map((decl) => {
 					let declFormatted = String(decl);
 
 					if (Array.isArray(decl)) {
@@ -51,10 +51,10 @@ const panelItems: PanelItem[] = [
 						value ??= declFormatted;
 					}
 
-					return {label: declFormatted, value: declFormatted};
+					return declFormatted;
 				});
 
-				return {value, items};
+				return {value, allowedValues};
 			}
 
 			return {value, warning: `Undeclared${NBSP}modifier`};
@@ -95,14 +95,14 @@ export function createItems(data: ComponentData): Item[] {
 				// Match intermediate classes
 				isSelf = src == null || src.match(selfRegex) != null;
 
-			const {value: valueByKey, items, warning} = getData(data, key);
+			const {value: valueByKey, allowedValues, warning} = getData(data, key);
 			const [value, valueChildren] = prepareValue(valueByKey, key);
 
 			const item: Item = {
 				label: key,
 				data: value,
 				children: valueChildren,
-				availableOptions: items,
+				allowedValues,
 				warning
 			};
 

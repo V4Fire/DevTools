@@ -6,10 +6,10 @@
  * https://github.com/V4Fire/DevTools/blob/main/LICENSE
  */
 
-import bSelect, { component, field } from '@v4fire/client/components/form/b-select/b-select';
+import bSelect, { component, field } from 'components/form/b-select/b-select';
 import iActiveItems from 'components/traits/i-active-items/i-active-items';
 
-export * from '@v4fire/client/components/form/b-select/b-select';
+export * from 'components/form/b-select/b-select';
 
 @component({functional: false})
 export default class bDropdown extends bSelect {

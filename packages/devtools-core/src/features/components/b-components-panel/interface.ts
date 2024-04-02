@@ -20,7 +20,7 @@ export interface Item extends Super {
 
 	children?: Item[];
 
-	availableOptions?: ItemOption[];
+	allowedValues?: string[];
 
 	warning?: string;
 }
