@@ -20,7 +20,6 @@
 		< b-dropdown.&__value &
 			v-if = Object.size(field.get('select.items')) > 0 |
 			:v-attrs = select |
-			:icon = 'caret-down' |
 			:cancellable = false |
 			:value = data
 		.
