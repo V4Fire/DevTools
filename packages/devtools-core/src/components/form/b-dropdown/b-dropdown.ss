@@ -9,6 +9,7 @@
 
 	- block body
 		< button.&__trigger &
+			@click = toggle |
 			@focus = onFocus |
 			@blur = onBlur
 		.

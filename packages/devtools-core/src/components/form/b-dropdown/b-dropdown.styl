@@ -3,6 +3,7 @@
 b-dropdown extends b-select
 	&__dropdown
 		absolute left 0 top 100%
+		overflow-x hidden
 		border 1px solid black
 		background-color white
 
@@ -14,6 +15,14 @@ b-dropdown extends b-select
 
 	&__wrapper
 		cursor inherit
+
+	&__icon
+		height 1em
+		font-size 0.875rem
+		transition transform 0.15s
+
+	&_opened_true ^[0]__icon
+		transform rotate(-180deg)
 
 	&__item_selected_true
 	&__item_marked_true

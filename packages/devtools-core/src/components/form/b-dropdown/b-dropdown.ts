@@ -13,6 +13,8 @@ export * from 'components/form/b-select/b-select';
 
 @component({functional: false})
 export default class bDropdown extends bSelect {
+	override readonly icon: string = 'caret-down';
+
 	@field<bDropdown>({
 		unique: true,
 		init: (o) => {
@@ -22,4 +24,11 @@ export default class bDropdown extends bSelect {
 		}
 	})
 	override activeStore!: iActiveItems['activeStore'];
+
+	/**
+	 * Overriding the `onFocus` because dropdown shouldn't be opened on focus
+	 */
+	protected override onFocus(): void {
+		this.setMod('focused', 'true');
+	}
 }
