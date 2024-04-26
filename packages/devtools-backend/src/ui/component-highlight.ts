@@ -6,6 +6,7 @@
  * https://github.com/V4Fire/DevTools/blob/main/LICENSE
  */
 
+import type { ComponentQuery } from '../interface';
 import findComponentNode from '../search/find-component-node';
 
 interface HideOptions {
@@ -26,11 +27,10 @@ class ComponentHighlight {
 	/**
 	 * Show highlight for the component
 	 *
-	 * @param componentId
-	 * @param componentName
+	 * @param query
 	 */
-	show(componentId: string, componentName: string): void {
-		const node = findComponentNode<HTMLElement>(componentId, componentName);
+	show(query: ComponentQuery): void {
+		const node = findComponentNode<HTMLElement>(query);
 
 		if (node == null) {
 			return;

@@ -43,7 +43,7 @@ function evalInspect(query: ComponentQuery): void {
 		return;
 	}
 
-	const node = globalThis.__V4FIRE_DEVTOOLS_BACKEND__.findComponentNode(query.componentId, query.componentName);
+	const node = globalThis.__V4FIRE_DEVTOOLS_BACKEND__.findComponentNode(query);
 
 	if (node != null) {
 		inspect(node);
@@ -55,7 +55,7 @@ function evalInspect(query: ComponentQuery): void {
 }
 
 function evalSetComponentMod(key: string, value: unknown, query: ComponentQuery) {
-	const node = globalThis.__V4FIRE_DEVTOOLS_BACKEND__.findComponentNode(query.componentId, query.componentName);
+	const node = globalThis.__V4FIRE_DEVTOOLS_BACKEND__.findComponentNode(query);
 
 	if (node == null) {
 		return;

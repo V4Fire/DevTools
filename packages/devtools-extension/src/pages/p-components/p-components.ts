@@ -142,7 +142,7 @@ function evalComponentMeta(value: string, name?: string): Nullable<string> {
 		'LANG_PACKS'
 	]);
 
-	const node = globalThis.__V4FIRE_DEVTOOLS_BACKEND__.findComponentNode(value, name);
+	const node = globalThis.__V4FIRE_DEVTOOLS_BACKEND__.findComponentNode({componentId: value, componentName: name});
 
 	if (node == null) {
 		return null;

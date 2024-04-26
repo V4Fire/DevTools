@@ -27,8 +27,7 @@ class ComponentLocate {
 			component = e.target instanceof Element ? findComponent(e.target) : null;
 
 			if (component != null) {
-				const {componentId, componentName} = component;
-				componentHighlight.show(componentId, componentName);
+				componentHighlight.show(component);
 
 			} else {
 				componentHighlight.hide();

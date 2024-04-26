@@ -6,13 +6,15 @@
  * https://github.com/V4Fire/DevTools/blob/main/LICENSE
  */
 
+import type { ComponentQuery } from '../interface';
+
 /**
  * Find component DOM node
  *
- * @param id - component id
- * @param name - component name
+ * @param query - component query
  */
-export default function findComponentNode<T extends Element>(id: string, name?: string): T | null {
+export default function findComponentNode<T extends Element>(query: ComponentQuery): T | null {
+	const {componentId: id, componentName: name} = query;
 	let node = Array.prototype.find.call(
 		document.querySelectorAll(`.i-block-helper.${id}`),
 		(node) => node.component?.componentId === id
