@@ -19,5 +19,5 @@ export interface ComponentQuery {
 	/**
 	 * The component name in dash-style without special postfixes like `-functional`
 	 */
-	readonly componentName: string;
+	readonly componentName?: string;
 }

@@ -9,4 +9,4 @@
 export * from './serialize';
 export * from './search';
 export * from './ui';
-export * from './core/component';
+export * from './interface';

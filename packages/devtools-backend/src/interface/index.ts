@@ -6,4 +6,4 @@
  * https://github.com/V4Fire/DevTools/blob/main/LICENSE
  */
 
-export * from './interface';
+export * from './component';
