@@ -8,9 +8,65 @@
 
 import { getType } from '@v4fire/devtools-backend';
 
-import { normalizeComponentName } from 'core/helpers';
+import { NBSP, normalizeComponentName } from 'core/helpers';
 
 import type { Item, ComponentData } from 'features/components/b-components-panel/interface';
+
+interface PanelItem {
+	name: string;
+	getData(data: ComponentData, key: string): {value: unknown; allowedValues?: Item['allowedValues']; warning?: Item['warning']};
+	getDict(data: ComponentData): ComponentData[keyof ComponentData];
+}
+
+/**
+ * The panel items that should display for the selected component
+ */
+const panelItems: PanelItem[] = [
+	{
+		name: 'props',
+		getData: (data, key) => ({value: data.values[key]}),
+		getDict: (data) => data.props
+	},
+	{
+		name: 'fields',
+		getData: (data, key) => ({value: data.values[key]}),
+		getDict: (data) => data.fields
+	},
+	{
+		name: 'computedFields',
+		getData: (data, key) => ({value: data.values[key]}),
+		getDict: (data) => data.computedFields
+	},
+	{
+		name: 'mods',
+		getData: (data, key) => {
+			let value = Object.isDictionary(data.values.mods) ? data.values.mods[key] : undefined;
+
+			if (key in data.mods && Array.isArray(data.mods[key])) {
+				const allowedValues = data.mods[key]!.map((decl) => {
+					let declFormatted = String(decl);
+
+					if (Array.isArray(decl)) {
+						declFormatted = String(decl[0]);
+						value ??= declFormatted;
+					}
+
+					return declFormatted;
+				});
+
+				return {value, allowedValues};
+			}
+
+			return {value, warning: `Undeclared${NBSP}modifier`};
+		},
+		getDict: (data) => Object.mixin({}, {}, data.values.mods, data.mods)
+	},
+	{
+		name: 'systemFields',
+		getData: (data, key) => ({value: data.values[key]}),
+		getDict: (data) => data.systemFields
+	}
+];
 
 /**
  * Creates items from component data
@@ -23,13 +79,12 @@ export function createItems(data: ComponentData): Item[] {
 		[block, ...rest] = data.componentName.split('-'),
 		selfRegex = new RegExp(`^(i|${block})-${rest.join('-')}-?`);
 
-	['props', 'fields', 'computedFields', 'systemFields'].forEach((name) => {
-		const dict = data[name];
+	panelItems.forEach(({name, getData, getDict}) => {
+		const dict = getDict(data);
 		const map = new Map<string, Item[]>();
 		const children: Item[] = [];
 
 		Object.keys(dict).forEach((key) => {
-
 			if (key.startsWith('$')) {
 				return;
 			}
@@ -40,12 +95,15 @@ export function createItems(data: ComponentData): Item[] {
 				// Match intermediate classes
 				isSelf = src == null || src.match(selfRegex) != null;
 
-			const [value, valueChildren] = prepareValue(data.values[key], key);
+			const {value: valueByKey, allowedValues, warning} = getData(data, key);
+			const [value, valueChildren] = prepareValue(valueByKey, key);
 
 			const item: Item = {
 				label: key,
 				data: value,
-				children: valueChildren
+				children: valueChildren,
+				allowedValues,
+				warning
 			};
 
 			if (isSelf) {
@@ -63,15 +121,15 @@ export function createItems(data: ComponentData): Item[] {
 		});
 
 		data.hierarchy.forEach((parent) => {
-			const items = map.get(parent);
+			const childItems = map.get(parent);
 
 			map.delete(parent);
 
-			if (items != null) {
+			if (childItems != null) {
 				children.push({
 					label: parent.camelize(false),
 					folded: true,
-					children: items
+					children: childItems
 				});
 			}
 		});

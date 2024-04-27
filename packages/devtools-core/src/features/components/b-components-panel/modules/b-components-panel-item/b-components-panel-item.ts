@@ -7,6 +7,9 @@
  */
 
 import iBlock, { component, prop } from 'components/super/i-block/i-block';
+import type { PanelItemSelect } from 'features/components/b-components-panel/modules/b-components-panel-item/interface';
+
+export * from 'features/components/b-components-panel/modules/b-components-panel-item/interface';
 
 @component()
 export default class bComponentsPanelItem extends iBlock {
@@ -15,6 +18,12 @@ export default class bComponentsPanelItem extends iBlock {
 
 	@prop()
 	data: unknown;
+
+	@prop({type: Array})
+	select?: PanelItemSelect;
+
+	@prop({type: String})
+	warning?: string;
 
 	isFunction(data: unknown): boolean {
 		return String(data) === 'Function' && Object.hasOwnProperty.call(data, 'declaration');

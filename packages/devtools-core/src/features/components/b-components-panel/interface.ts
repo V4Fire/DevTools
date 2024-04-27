@@ -8,12 +8,21 @@
 
 import type { Item as Super, ComponentMeta } from 'components/base/b-tree/b-tree';
 
+export interface ItemOption {
+	label: string;
+	value: unknown;
+}
+
 export interface Item extends Super {
 	data?: unknown;
 
 	path?: string;
 
 	children?: Item[];
+
+	allowedValues?: string[];
+
+	warning?: string;
 }
 
 export type ComponentData = {
@@ -33,6 +42,6 @@ export type ComponentData = {
 	hierarchy: string[];
 
 } & Pick<
-	ComponentMeta, 'componentName' | 'props' | 'fields' | 'computedFields' | 'systemFields'
+	ComponentMeta, 'componentName' | 'props' | 'fields' | 'computedFields' | 'systemFields' | 'mods'
 >;
 

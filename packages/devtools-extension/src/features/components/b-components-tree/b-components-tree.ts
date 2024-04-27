@@ -6,6 +6,7 @@
  * https://github.com/V4Fire/DevTools/blob/main/LICENSE
  */
 
+import type { ComponentQuery } from '@v4fire/devtools-backend';
 import { devtoolsEval } from 'core/browser-api';
 
 import { component, hook, system } from 'components/super/i-block/i-block';
@@ -31,7 +32,7 @@ export default class bComponentsTree extends Super {
 			if (item != null) {
 				devtoolsEval(
 					evalHighlightActive,
-					[this.highlightedComponentId !== componentId, componentId, item.componentName]
+					[this.highlightedComponentId !== componentId, {componentId, componentName: item.componentName}]
 				)
 					.catch(stderr);
 			}
@@ -45,7 +46,7 @@ export default class bComponentsTree extends Super {
 	 */
 	protected override onItemMouseEnter(item: Item): void {
 		this.highlightedComponentId = item.value;
-		devtoolsEval(evalShowComponentHighlight, [item.value, item.componentName]).catch(stderr);
+		devtoolsEval(evalShowComponentHighlight, [{componentId: item.value, componentName: item.componentName}]).catch(stderr);
 	}
 
 	/**
@@ -56,21 +57,21 @@ export default class bComponentsTree extends Super {
 	}
 }
 
-function evalHighlightActive(autoHide: boolean, ...args: [string, string]): void {
+function evalHighlightActive(autoHide: boolean, query: ComponentQuery): void {
 	const backend = globalThis.__V4FIRE_DEVTOOLS_BACKEND__;
-	const node = backend.findComponentNode(...args);
+	const node = backend.findComponentNode(query);
 	// @ts-expect-error Non-standard API
 	node?.scrollIntoViewIfNeeded(false);
 
-	backend.componentHighlight.show(...args);
+	backend.componentHighlight.show(query);
 
 	if (autoHide) {
 		backend.componentHighlight.hide({delay: 1500, animate: true});
 	}
 }
 
-function evalShowComponentHighlight(...args: [string, string]): void {
-	globalThis.__V4FIRE_DEVTOOLS_BACKEND__.componentHighlight.show(...args);
+function evalShowComponentHighlight(query: ComponentQuery): void {
+	globalThis.__V4FIRE_DEVTOOLS_BACKEND__.componentHighlight.show(query);
 }
 
 function evalHideComponentHighlight(): void {

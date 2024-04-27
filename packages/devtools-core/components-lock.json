@@ -1,5 +1,5 @@
 {
-  "hash": "3a340c935c646da7e210253371ed8f9eaceabbefb4db0a3a4ac1f84a6b251ac2",
+  "hash": "b1f092ba867cc6f75520d31a06c0b387336890ccc7bbe045022f86c3856f3fa9",
   "data": {
     "%data": "%data:Map",
     "%data:Map": [
@@ -198,25 +198,41 @@
           "declaration": {
             "name": "b-components-panel-item",
             "parent": "i-block",
-            "dependencies": [],
-            "libs": []
+            "dependencies": [
+              "b-dropdown",
+              "b-button"
+            ],
+            "libs": [
+              "components/directives/icon"
+            ]
           },
           "name": "b-components-panel-item",
           "parent": "i-block",
-          "dependencies": [],
-          "libs": [],
+          "dependencies": [
+            "b-dropdown",
+            "b-button"
+          ],
+          "libs": [
+            "components/directives/icon"
+          ],
           "resolvedLibs": {
             "%data": "%data:Set",
-            "%data:Set": []
+            "%data:Set": [
+              "components/directives/icon"
+            ]
           },
           "resolvedOwnLibs": {
             "%data": "%data:Set",
-            "%data:Set": []
+            "%data:Set": [
+              "components/directives/icon"
+            ]
           },
           "type": "block",
           "mixin": false,
           "logic": "src/features/components/b-components-panel/modules/b-components-panel-item/b-components-panel-item.ts",
-          "styles": [],
+          "styles": [
+            "src/features/components/b-components-panel/modules/b-components-panel-item/b-components-panel-item.styl"
+          ],
           "tpl": "src/features/components/b-components-panel/modules/b-components-panel-item/b-components-panel-item.ss",
           "etpl": null
         }
@@ -330,6 +346,40 @@
             "node_modules/@v4fire/client/src/core/component/directives/ref/test/b-directives-ref-dummy/b-directives-ref-dummy.styl"
           ],
           "tpl": "node_modules/@v4fire/client/src/core/component/directives/ref/test/b-directives-ref-dummy/b-directives-ref-dummy.ss",
+          "etpl": null
+        }
+      ],
+      [
+        "b-dropdown",
+        {
+          "index": "src/components/form/b-dropdown/index.js",
+          "declaration": {
+            "name": "b-dropdown",
+            "parent": "b-select",
+            "dependencies": [],
+            "libs": []
+          },
+          "name": "b-dropdown",
+          "parent": "b-select",
+          "dependencies": [],
+          "libs": [],
+          "resolvedLibs": {
+            "%data": "%data:Set",
+            "%data:Set": [
+              "components/directives/icon"
+            ]
+          },
+          "resolvedOwnLibs": {
+            "%data": "%data:Set",
+            "%data:Set": []
+          },
+          "type": "block",
+          "mixin": false,
+          "logic": "src/components/form/b-dropdown/b-dropdown.ts",
+          "styles": [
+            "src/components/form/b-dropdown/b-dropdown.styl"
+          ],
+          "tpl": "src/components/form/b-dropdown/b-dropdown.ss",
           "etpl": null
         }
       ],

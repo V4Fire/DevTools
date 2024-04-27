@@ -142,7 +142,7 @@ function evalComponentMeta(value: string, name?: string): Nullable<string> {
 		'LANG_PACKS'
 	]);
 
-	const node = globalThis.__V4FIRE_DEVTOOLS_BACKEND__.findComponentNode(value, name);
+	const node = globalThis.__V4FIRE_DEVTOOLS_BACKEND__.findComponentNode({componentId: value, componentName: name});
 
 	if (node == null) {
 		return null;
@@ -154,7 +154,7 @@ function evalComponentMeta(value: string, name?: string): Nullable<string> {
 		throw new Error('DOM node doesn\'t have component property');
 	}
 
-	const {componentName, props, fields, computedFields, systemFields} = component.unsafe.meta;
+	const {componentName, props, fields, computedFields, systemFields, mods} = component.unsafe.meta;
 
 	const values = {};
 
@@ -174,7 +174,17 @@ function evalComponentMeta(value: string, name?: string): Nullable<string> {
 		parent = parent.parentMeta;
 	}
 
-	const result = {componentId: value, componentName, props, fields, computedFields, systemFields, hierarchy, values};
+	const result = {
+		componentId: value,
+		componentName,
+		props,
+		fields,
+		computedFields,
+		systemFields,
+		mods,
+		hierarchy,
+		values
+	};
 
 	return globalThis.__V4FIRE_DEVTOOLS_BACKEND__.serialize(
 		result,
