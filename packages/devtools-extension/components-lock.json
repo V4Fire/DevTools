@@ -1,5 +1,5 @@
 {
-  "hash": "63d5c3bbc40479cff0829239c37b43c0a2a5a98e14bf6983e5d3a703cf1515e1",
+  "hash": "398a79b12df1052d97203698367e124d36f6f6ebb93797a2514ed4cfab86fe72",
   "data": {
     "%data": "%data:Map",
     "%data:Map": [
@@ -11,19 +11,27 @@
             "name": "b-bottom-slide",
             "parent": "i-block",
             "dependencies": [],
-            "libs": []
+            "libs": [
+              "components/directives/on-resize"
+            ]
           },
           "name": "b-bottom-slide",
           "parent": "i-block",
           "dependencies": [],
-          "libs": [],
+          "libs": [
+            "components/directives/on-resize"
+          ],
           "resolvedLibs": {
             "%data": "%data:Set",
-            "%data:Set": []
+            "%data:Set": [
+              "components/directives/on-resize"
+            ]
           },
           "resolvedOwnLibs": {
             "%data": "%data:Set",
-            "%data:Set": []
+            "%data:Set": [
+              "components/directives/on-resize"
+            ]
           },
           "type": "block",
           "mixin": false,
@@ -108,6 +116,38 @@
             "node_modules/@v4fire/client/src/components/form/b-checkbox/b-checkbox.styl"
           ],
           "tpl": "node_modules/@v4fire/client/src/components/form/b-checkbox/b-checkbox.ss",
+          "etpl": null
+        }
+      ],
+      [
+        "b-component-interface-dummy",
+        {
+          "index": "node_modules/@v4fire/client/src/core/component/interface/component/test/b-component-interface-dummy/index.js",
+          "declaration": {
+            "name": "b-component-interface-dummy",
+            "parent": "i-block",
+            "dependencies": [],
+            "libs": []
+          },
+          "name": "b-component-interface-dummy",
+          "parent": "i-block",
+          "dependencies": [],
+          "libs": [],
+          "resolvedLibs": {
+            "%data": "%data:Set",
+            "%data:Set": []
+          },
+          "resolvedOwnLibs": {
+            "%data": "%data:Set",
+            "%data:Set": []
+          },
+          "type": "block",
+          "mixin": false,
+          "logic": "node_modules/@v4fire/client/src/core/component/interface/component/test/b-component-interface-dummy/b-component-interface-dummy.ts",
+          "styles": [
+            "node_modules/@v4fire/client/src/core/component/interface/component/test/b-component-interface-dummy/b-component-interface-dummy.styl"
+          ],
+          "tpl": "node_modules/@v4fire/client/src/core/component/interface/component/test/b-component-interface-dummy/b-component-interface-dummy.ss",
           "etpl": null
         }
       ],
@@ -1244,6 +1284,38 @@
             "node_modules/@v4fire/client/src/components/base/b-router/b-router.styl"
           ],
           "tpl": "node_modules/@v4fire/client/src/components/base/b-router/b-router.ss",
+          "etpl": null
+        }
+      ],
+      [
+        "b-scroll-element-dummy",
+        {
+          "index": "node_modules/@v4fire/client/src/components/base/b-dynamic-page/test/b-scroll-element-dummy/index.js",
+          "declaration": {
+            "name": "b-scroll-element-dummy",
+            "parent": "b-dummy",
+            "dependencies": [],
+            "libs": []
+          },
+          "name": "b-scroll-element-dummy",
+          "parent": "b-dummy",
+          "dependencies": [],
+          "libs": [],
+          "resolvedLibs": {
+            "%data": "%data:Set",
+            "%data:Set": []
+          },
+          "resolvedOwnLibs": {
+            "%data": "%data:Set",
+            "%data:Set": []
+          },
+          "type": "block",
+          "mixin": false,
+          "logic": "node_modules/@v4fire/client/src/components/base/b-dynamic-page/test/b-scroll-element-dummy/b-scroll-element-dummy.ts",
+          "styles": [
+            "node_modules/@v4fire/client/src/components/base/b-dynamic-page/test/b-scroll-element-dummy/b-scroll-element-dummy.styl"
+          ],
+          "tpl": "node_modules/@v4fire/client/src/components/base/b-dynamic-page/test/b-scroll-element-dummy/b-scroll-element-dummy.ss",
           "etpl": null
         }
       ],
