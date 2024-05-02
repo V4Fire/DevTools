@@ -10,7 +10,7 @@ import symbolGenerator from 'core/symbol';
 import iDynamicPage, { component, field, watch } from 'components/super/i-dynamic-page/i-dynamic-page';
 
 import type { Item } from 'components/base/b-tree/b-tree';
-import type { ComponentData } from 'features/components/b-components-panel';
+import type { ComponentData } from 'features/components/b-components-panel/b-components-panel';
 import type bComponentsTree from 'features/components/b-components-tree/b-components-tree';
 import type bComponentsPanel from 'features/components/b-components-panel/b-components-panel';
 
