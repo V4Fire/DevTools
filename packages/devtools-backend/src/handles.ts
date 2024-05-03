@@ -6,8 +6,7 @@
  * https://github.com/V4Fire/DevTools/blob/main/LICENSE
  */
 
-export * from './serialize';
-export * from './search';
-export * from './ui';
-export * from './interface';
-export * from './handles';
+/**
+ * This map is used by `DevtoolsHandle`
+ */
+export const handles = new Map<string, unknown>();
