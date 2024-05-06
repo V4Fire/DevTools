@@ -96,7 +96,7 @@ export default class ComponentHandle extends DevtoolsHandle<iBlock> {
 			const {component} = <ComponentElement>node;
 
 			if (component == null) {
-				throw new Error('DOM node doesn\'t have component property');
+				throw new Error("DOM node doesn't have component property");
 			}
 
 			const {componentName, props, fields, computedFields, systemFields, mods} = component.unsafe.meta;
