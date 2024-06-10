@@ -55,6 +55,10 @@ export default class pComponents extends iDynamicPage {
 		this.selectedComponent = component;
 		this.selectedComponentData = null;
 
+		void component.evaluate((ctx) => {
+			globalThis.$c = ctx;
+		});
+
 		const load = this.async.throttle(async () => {
 			try {
 				await this.loadSelectedComponentData();
