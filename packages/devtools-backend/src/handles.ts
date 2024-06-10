@@ -6,7 +6,7 @@
  * https://github.com/V4Fire/DevTools/blob/main/LICENSE
  */
 
-/// <reference types="@v4fire/devtools-core"/>
-
-declare const
-	browser: typeof chrome;
+/**
+ * This map is used by `DevtoolsHandle`
+ */
+export const handles = new Map<string, unknown>();

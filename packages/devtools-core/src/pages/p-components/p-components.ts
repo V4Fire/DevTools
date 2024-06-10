@@ -7,10 +7,11 @@
  */
 
 import symbolGenerator from 'core/symbol';
+import type { ComponentHandle } from 'core/inspect';
 import iDynamicPage, { component, field, watch } from 'components/super/i-dynamic-page/i-dynamic-page';
 
 import type { Item } from 'components/base/b-tree/b-tree';
-import type { ComponentData } from 'features/components/b-components-panel';
+import type { ComponentData } from 'features/components/b-components-panel/b-components-panel';
 import type bComponentsTree from 'features/components/b-components-tree/b-components-tree';
 import type bComponentsPanel from 'features/components/b-components-panel/b-components-panel';
 
@@ -32,10 +33,10 @@ export default class pComponents extends iDynamicPage {
 	components: Item[] = [];
 
 	/**
-	 * Selected component id
+	 * Selected component handle
 	 */
 	@field()
-	selectedComponentId: string | null = null;
+	selectedComponent: ComponentHandle | null = null;
 
 	/**
 	 * Selected component meta
@@ -47,18 +48,23 @@ export default class pComponents extends iDynamicPage {
 	 * Handle component select
 	 *
 	 * @param _
-	 * @param componentId
+	 * @param component
 	 */
 	@watch('?$refs.components:change')
-	onComponentSelect(_: unknown, componentId: string): void {
-		this.selectedComponentId = componentId;
+	onComponentSelect(_: unknown, component: ComponentHandle): void {
+		this.selectedComponent = component;
 		this.selectedComponentData = null;
+
+		void component.evaluate((ctx) => {
+			globalThis.$c = ctx;
+		});
 
 		const load = this.async.throttle(async () => {
 			try {
 				await this.loadSelectedComponentData();
 			} catch (error) {
-				// TODO: show alert
+				// eslint-disable-next-line no-alert
+				globalThis.alert(`Failed to load data, reason: ${error.message}`);
 				stderr(error);
 			}
 		}, 1000, {label: $$.loadSelectedComponentMeta});
@@ -69,8 +75,16 @@ export default class pComponents extends iDynamicPage {
 	/**
 	 * Loads selected component data
 	 */
-	loadSelectedComponentData(): CanPromise<void> {
-		// Override
+	async loadSelectedComponentData(): Promise<void> {
+		const data = await this.selectedComponent?.getData();
+
+		if (data == null) {
+			// eslint-disable-next-line no-alert
+			globalThis.alert('No data');
+
+		} else {
+			this.selectedComponentData = data;
+		}
 	}
 
 }

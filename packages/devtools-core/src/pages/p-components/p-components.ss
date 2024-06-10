@@ -9,10 +9,11 @@
 				ref = components |
 				:items = components
 			.
-			< template v-if = selectedComponentId
+			< template v-if = selectedComponent
 				< template v-if = selectedComponentData != null
 					< b-components-panel &
 						ref = panel |
+						:componentHandle = selectedComponent |
 						:componentData = selectedComponentData
 					.
 				< . v-else

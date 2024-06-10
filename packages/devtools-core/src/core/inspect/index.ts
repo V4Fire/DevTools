@@ -6,7 +6,5 @@
  * https://github.com/V4Fire/DevTools/blob/main/LICENSE
  */
 
-/// <reference types="@v4fire/devtools-core"/>
-
-declare const
-	browser: typeof chrome;
+export { default as DevtoolsHandle } from 'core/inspect/devtools-handle';
+export { default as ComponentHandle } from 'core/inspect/component-handle';

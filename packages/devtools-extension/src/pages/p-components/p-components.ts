@@ -6,12 +6,11 @@
  * https://github.com/V4Fire/DevTools/blob/main/LICENSE
  */
 
-import { deserialize } from '@v4fire/devtools-backend';
 import { devtoolsEval } from 'core/browser-api';
 
 import type iBlock from 'components/super/i-block/i-block';
 
-import Super, { component, hook, ComponentInterface } from '@super/pages/p-components/p-components';
+import Super, { component, hook } from '@super/pages/p-components/p-components';
 
 import type { Item } from 'features/components/b-components-tree/b-components-tree';
 
@@ -27,23 +26,6 @@ export default class pComponents extends Super {
 				// eslint-disable-next-line no-alert
 				globalThis.alert(error.message);
 			});
-	}
-
-	override async loadSelectedComponentData(): Promise<void> {
-		const value = this.selectedComponentId!;
-		// FIXME: bad encapsulation
-		const item = this.$refs.components?.$refs.tree?.getItemByValue(value);
-
-		const serializedData = await devtoolsEval(evalComponentMeta, [value, <string>item?.componentName]);
-
-		if (serializedData == null) {
-			// TODO: show custom toast or alert in devtools
-			// eslint-disable-next-line no-alert
-			globalThis.alert('No data');
-			return;
-		}
-
-		this.selectedComponentData = deserialize(serializedData);
 	}
 }
 
@@ -130,64 +112,4 @@ function evalComponentsTree(): Item[] {
 	const root = map.values().next().value;
 
 	return root != null ? [root] : [];
-}
-
-// TODO: create container type
-function evalComponentMeta(value: string, name?: string): Nullable<string> {
-	const restricted = new Set([
-		'r',
-		'self',
-		'unsafe',
-		'router',
-		'LANG_PACKS'
-	]);
-
-	const node = globalThis.__V4FIRE_DEVTOOLS_BACKEND__.findComponentNode({componentId: value, componentName: name});
-
-	if (node == null) {
-		return null;
-	}
-
-	const {component} = <{component?: ComponentInterface} & Element>node;
-
-	if (component == null) {
-		throw new Error('DOM node doesn\'t have component property');
-	}
-
-	const {componentName, props, fields, computedFields, systemFields, mods} = component.unsafe.meta;
-
-	const values = {};
-
-	[props, fields, computedFields, systemFields].forEach((dict) => {
-		Object.keys(dict).forEach((key) => {
-			if (!restricted.has(key)) {
-				values[key] = component[key];
-			}
-		});
-	});
-
-	const hierarchy: string[] = [];
-
-	let parent = component.unsafe.meta.parentMeta;
-	while (parent != null) {
-		hierarchy.push(parent.componentName);
-		parent = parent.parentMeta;
-	}
-
-	const result = {
-		componentId: value,
-		componentName,
-		props,
-		fields,
-		computedFields,
-		systemFields,
-		mods,
-		hierarchy,
-		values
-	};
-
-	return globalThis.__V4FIRE_DEVTOOLS_BACKEND__.serialize(
-		result,
-		(key, value) => key.startsWith('$') || restricted.has(key) || value === globalThis || value === document || value === console
-	);
 }

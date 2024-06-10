@@ -13,10 +13,16 @@ import { browserAPI } from 'core/browser-api';
  * @param func
  * @param args
  */
-function devtoolsEval<F extends (...args: any) => any>(func: F, args?: Parameters<F>): Promise<ReturnType<F>>;
+function devtoolsEval<F extends (...args: any) => JSONLikeValue | Array<Dictionary<unknown>> | void>(
+	func: F,
+	args?: Parameters<F>
+): Promise<ReturnType<F>>;
 
 /**
  * Promisified version of `chrome.devtools.inspectedWindow.eval`
+ * Prefer using the content scripts instead of devtools eval.
+ *
+ * @see https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/API/devtools/inspectedWindow/eval
  * @param expression
  */
 function devtoolsEval<T = unknown>(expression: string): Promise<T>;
