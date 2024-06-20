@@ -1,0 +1,15 @@
+@import "components/super/i-block/i-block.styl"
+
+b-components-tree extends i-block
+	&__wrapper
+		position relative
+		overflow auto
+
+		.b-tree__node_active_true
+			> .b-tree__item-wrapper
+				background-color rgba(100, 100, 100, 0.1)
+
+	&__input
+		width 100%
+		padding 8px 16px
+		border-bottom solid 1px black

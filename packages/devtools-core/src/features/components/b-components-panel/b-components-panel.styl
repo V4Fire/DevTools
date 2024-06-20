@@ -1,0 +1,23 @@
+@import "components/super/i-block/i-block.styl"
+
+b-components-panel extends i-block
+	&__header
+		display flex
+		justify-content space-between
+		align-items center
+		padding 8px
+		border-bottom solid 1px black
+
+		&-actions
+			display flex
+			gap 4px
+			line-height 1
+
+	&__body
+		flex-grow 1
+		overflow auto
+		padding 4px 0
+		word-break break-word
+
+		.b-tree__node_level_0
+			padding 4px 8px 8px 4px

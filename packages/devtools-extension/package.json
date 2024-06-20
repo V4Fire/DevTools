@@ -1,0 +1,29 @@
+{
+  "name": "@v4fire/devtools-extension",
+  "version": "0.1.0",
+  "scripts": {
+    "build": "yarn build:tsconfig && npx webpack --env public-path",
+    "build:tsconfig": "yarn build:link-node-modules && node node_modules/@v4fire/core/build/build-tsconfig",
+    "build:link-node-modules": "node ../devtools-core/build/link-node-modules",
+    "build:store": "yarn clean && yarn build --env e=production --env es=es2022 --env target=web && npx gulp zip",
+    "dev": "yarn build:tsconfig && npx webpack --watch --env public-path --env managed-libs=\"@v4fire/devtools-backend\"",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "clean": "npx del-cli ./dist/client"
+  },
+  "packageManager": "yarn@3.6.4",
+  "dependencies": {
+    "@config/config": "npm:config@1.31.0",
+    "@v4fire/client": "4.0.0-beta.94",
+    "@v4fire/core": "4.0.0-alpha.33",
+    "@v4fire/devtools-backend": "workspace:^",
+    "@v4fire/devtools-core": "workspace:^"
+  },
+  "devDependencies": {
+    "@types/chrome": "0.0.248",
+    "copy-webpack-plugin": "11.0.0",
+    "del-cli": "5.1.0",
+    "gulp-zip": "5.1.0",
+    "jest": "29.7.0"
+  },
+  "license": "MIT"
+}

@@ -1,0 +1,13 @@
+- namespace [%fileName%]
+
+- template index()
+	< html
+		< head
+			< link rel="stylesheet" type="text/css" href="/p-popup-enabled_style.css"
+		< body
+			< p
+				< b
+					V4Fire is detected on this page.
+				< br
+
+				Open devtools and look for V4Fire panel.
