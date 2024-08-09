@@ -39,17 +39,18 @@ function evalComponentsTree(): Item[] {
 	let minRenderCounter = Number.MAX_SAFE_INTEGER;
 
 	nodes.forEach(({component}) => {
-		const {$renderCounter} = component.unsafe;
+		const renderCounter = getRenderCounter(component);
 
-		if ($renderCounter < minRenderCounter) {
-			minRenderCounter = $renderCounter;
+		if (renderCounter < minRenderCounter) {
+			minRenderCounter = renderCounter;
 		}
 	});
 
 	const map = new Map();
 
 	const createDescriptor = (component: iBlock) => {
-		const {meta, $renderCounter} = component.unsafe;
+		const {meta} = component.unsafe;
+		const renderCounter = getRenderCounter(component);
 
 		const descriptor: Item = {
 			value: component.componentId,
@@ -58,9 +59,9 @@ function evalComponentsTree(): Item[] {
 
 			// Specific props
 			componentName: meta.componentName,
-			renderCounterProp: $renderCounter,
+			renderCounterProp: renderCounter,
 			isFunctionalProp: component.isFunctional,
-			showWarning: $renderCounter > minRenderCounter
+			showWarning: renderCounter > minRenderCounter
 		};
 
 		return descriptor;
@@ -112,4 +113,14 @@ function evalComponentsTree(): Item[] {
 	const root = map.values().next().value;
 
 	return root != null ? [root] : [];
+
+	/**
+	 * Get render counter of the component with support for the v4fire@3.0.0
+	 * @param component
+	 */
+	function getRenderCounter(component: iBlock): number {
+		const {$renderCounter, renderCounter} = <{$renderCounter?: number; renderCounter?: number}>component.unsafe;
+
+		return $renderCounter ?? renderCounter ?? 0;
+	}
 }
