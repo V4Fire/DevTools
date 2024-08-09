@@ -77,7 +77,8 @@ function mountDevToolsWhenV4FireHasLoaded() {
 		}
 
 		if (shouldUpdateRoot) {
-			devtoolsEval(() => new Promise((resolve) => globalThis.requestIdleCallback(resolve)))
+			// TODO: Wait for requestIdleCallback in page context
+			devtoolsEval(() => undefined)
 				.then(() => {
 					setRootPlaceholder(null);
 					shouldUpdateRoot = false;

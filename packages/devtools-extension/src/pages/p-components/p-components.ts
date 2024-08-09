@@ -6,12 +6,11 @@
  * https://github.com/V4Fire/DevTools/blob/main/LICENSE
  */
 
-import { deserialize } from '@v4fire/devtools-backend';
 import { devtoolsEval } from 'core/browser-api';
 
 import type iBlock from 'components/super/i-block/i-block';
 
-import Super, { component, hook, ComponentInterface } from '@super/pages/p-components/p-components';
+import Super, { component, hook } from '@super/pages/p-components/p-components';
 
 import type { Item } from 'features/components/b-components-tree/b-components-tree';
 
@@ -28,23 +27,6 @@ export default class pComponents extends Super {
 				globalThis.alert(error.message);
 			});
 	}
-
-	override async loadSelectedComponentData(): Promise<void> {
-		const value = this.selectedComponentId!;
-		// FIXME: bad encapsulation
-		const item = this.$refs.components?.$refs.tree?.getItemByValue(value);
-
-		const serializedData = await devtoolsEval(evalComponentMeta, [value, <string>item?.componentName]);
-
-		if (serializedData == null) {
-			// TODO: show custom toast or alert in devtools
-			// eslint-disable-next-line no-alert
-			globalThis.alert('No data');
-			return;
-		}
-
-		this.selectedComponentData = deserialize(serializedData);
-	}
 }
 
 function evalComponentsTree(): Item[] {
@@ -57,17 +39,18 @@ function evalComponentsTree(): Item[] {
 	let minRenderCounter = Number.MAX_SAFE_INTEGER;
 
 	nodes.forEach(({component}) => {
-		const {$renderCounter} = component.unsafe;
+		const renderCounter = getRenderCounter(component);
 
-		if ($renderCounter < minRenderCounter) {
-			minRenderCounter = $renderCounter;
+		if (renderCounter < minRenderCounter) {
+			minRenderCounter = renderCounter;
 		}
 	});
 
 	const map = new Map();
 
 	const createDescriptor = (component: iBlock) => {
-		const {meta, $renderCounter} = component.unsafe;
+		const {meta} = component.unsafe;
+		const renderCounter = getRenderCounter(component);
 
 		const descriptor: Item = {
 			value: component.componentId,
@@ -76,9 +59,9 @@ function evalComponentsTree(): Item[] {
 
 			// Specific props
 			componentName: meta.componentName,
-			renderCounterProp: $renderCounter,
+			renderCounterProp: renderCounter,
 			isFunctionalProp: component.isFunctional,
-			showWarning: $renderCounter > minRenderCounter
+			showWarning: renderCounter > minRenderCounter
 		};
 
 		return descriptor;
@@ -130,64 +113,14 @@ function evalComponentsTree(): Item[] {
 	const root = map.values().next().value;
 
 	return root != null ? [root] : [];
-}
 
-// TODO: create container type
-function evalComponentMeta(value: string, name?: string): Nullable<string> {
-	const restricted = new Set([
-		'r',
-		'self',
-		'unsafe',
-		'router',
-		'LANG_PACKS'
-	]);
+	/**
+	 * Get render counter of the component with support for the v4fire@3.0.0
+	 * @param component
+	 */
+	function getRenderCounter(component: iBlock): number {
+		const {$renderCounter, renderCounter} = <{$renderCounter?: number; renderCounter?: number}>component.unsafe;
 
-	const node = globalThis.__V4FIRE_DEVTOOLS_BACKEND__.findComponentNode({componentId: value, componentName: name});
-
-	if (node == null) {
-		return null;
+		return $renderCounter ?? renderCounter ?? 0;
 	}
-
-	const {component} = <{component?: ComponentInterface} & Element>node;
-
-	if (component == null) {
-		throw new Error('DOM node doesn\'t have component property');
-	}
-
-	const {componentName, props, fields, computedFields, systemFields, mods} = component.unsafe.meta;
-
-	const values = {};
-
-	[props, fields, computedFields, systemFields].forEach((dict) => {
-		Object.keys(dict).forEach((key) => {
-			if (!restricted.has(key)) {
-				values[key] = component[key];
-			}
-		});
-	});
-
-	const hierarchy: string[] = [];
-
-	let parent = component.unsafe.meta.parentMeta;
-	while (parent != null) {
-		hierarchy.push(parent.componentName);
-		parent = parent.parentMeta;
-	}
-
-	const result = {
-		componentId: value,
-		componentName,
-		props,
-		fields,
-		computedFields,
-		systemFields,
-		mods,
-		hierarchy,
-		values
-	};
-
-	return globalThis.__V4FIRE_DEVTOOLS_BACKEND__.serialize(
-		result,
-		(key, value) => key.startsWith('$') || restricted.has(key) || value === globalThis || value === document || value === console
-	);
 }

@@ -9,6 +9,7 @@ exclusive APIs', such as: `chrome.runtime`, `chrome.devtools`, etc.
 ## Table of contents <!-- omit in toc -->
 
 - [Quick Start](#quick-start)
+- [Interaction with the inspected application](#interaction-with-the-inspected-application)
 
 ## Quick Start
 
@@ -17,3 +18,60 @@ exclusive APIs', such as: `chrome.runtime`, `chrome.devtools`, etc.
 3. `yarn dev`
 4. Open new terminal and run `yarn start`
 5. Open browser at `http://localhost:3333`
+
+## Interaction with the inspected application
+
+```mermaid
+classDiagram
+  direction TB
+  %% V4Fire Types
+  class ComponentInterface
+  <<interface>>ComponentInterface
+
+  %% Devtools Types
+  class ComponentData {
+    string componentId
+    string componentName
+    Dictionary values
+    string[] hierarchy
+    %% other props are omitted
+  }
+
+  class DevtoolsHandle~Target~ {
+    -Nullable~string~ id
+    evaluate~T~((Target ctx) => T) Promise~T~
+    dispose() Promise~void~
+  }
+
+  class ComponentHandle~ComponentInterface~ {
+    highlight(boolean autoHide) void
+    getData() Promise~ComponentData~
+    setMod(string key, string value) Promise~boolean~
+    subscribe(Function callback) Function
+  }
+
+  ComponentHandle o-- ComponentInterface
+  ComponentHandle --|> DevtoolsHandle
+  ComponentHandle o-- ComponentData
+
+  class TreeItem {
+    string value
+    string label
+    string componentName
+    number renderCounterProp
+    boolean isFunctionalProp
+    TreeItem[] children
+  }
+
+  class InspectedApp {
+    Components components
+  }
+  <<interface>> InspectedApp
+
+  class Components {
+    tree() Promise~TreeItem[]~
+  }
+
+  Components o-- TreeItem
+  InspectedApp *-- Components
+```

@@ -10,3 +10,4 @@ export * from './serialize';
 export * from './search';
 export * from './ui';
 export * from './interface';
+export * from './handles';

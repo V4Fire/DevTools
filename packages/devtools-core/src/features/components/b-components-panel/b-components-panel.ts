@@ -6,6 +6,8 @@
  * https://github.com/V4Fire/DevTools/blob/main/LICENSE
  */
 
+import type { ComponentHandle } from 'core/inspect';
+
 import iBlock, { component, prop, field, computed } from 'components/super/i-block/i-block';
 
 import type bTree from 'components/base/b-tree/b-tree';
@@ -21,6 +23,12 @@ export default class bComponentsPanel extends iBlock {
 	override readonly $refs!: iBlock['$refs'] & {
 		tree?: bTree;
 	};
+
+	/**
+	 * Component's handle
+	 */
+	@prop(Object)
+	componentHandle!: ComponentHandle;
 
 	/**
 	 * Component's data
@@ -95,11 +103,11 @@ export default class bComponentsPanel extends iBlock {
 	/**
 	 * Change selected component mod
 	 *
-	 * @param _key
-	 * @param _value
+	 * @param key
+	 * @param value
 	 */
-	protected onItemChangeMod(_key: string, _value: unknown): void {
-		// TODO: use inspected app
+	protected onItemChangeMod(key: string, value: unknown): void {
+		this.componentHandle.setMod(key, value).catch(stderr);
 	}
 
 	/**
@@ -113,6 +121,26 @@ export default class bComponentsPanel extends iBlock {
 	 * Inspect component's node
 	 */
 	protected onInspect(): void {
-		// TODO: use inspected app
+		// FIXME: think for the better encapsulation
+		this.componentHandle.evaluate((ctx) => {
+			// eslint-disable-next-line @typescript-eslint/method-signature-style
+			const {inspect} = <{inspect?: (el: Element) => void} & Global>globalThis;
+
+			if (typeof inspect !== 'function') {
+				// eslint-disable-next-line no-alert
+				alert('Browser doesn\'t provide inspect util');
+				return;
+			}
+
+			const node = globalThis.__V4FIRE_DEVTOOLS_BACKEND__.findComponentNode(ctx);
+
+			if (node != null) {
+				inspect(node);
+
+			} else {
+				// eslint-disable-next-line no-alert
+				alert('Component\'s node not found');
+			}
+		}).catch(stderr);
 	}
 }

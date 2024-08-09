@@ -8,8 +8,9 @@
 
 import { debounce } from 'core/functools';
 import { derive } from 'core/functools/trait';
+import { ComponentHandle } from 'core/inspect';
 
-import iBlock, { component, prop, field, system, watch } from 'components/super/i-block/i-block';
+import iBlock, { component, prop, field, system, watch, hook } from 'components/super/i-block/i-block';
 
 import Search, { SearchDirection, SearchMatch } from 'components/traits/i-search/search';
 import iSearch from 'components/traits/i-search/i-search';
@@ -59,6 +60,32 @@ class bComponentsTree extends iBlock implements iSearch<Item> {
 	))
 
 	search!: Search<Item>;
+
+	@system<bComponentsTree>((o) => o.sync.link<bComponentsTree['items'], Map<string, ComponentHandle>>('items', (value) => {
+		const stack = [...value];
+		const handles = new Map();
+
+		while (stack.length > 0) {
+			// NOTE: order is not important
+			const item = stack.pop()!;
+			const {value: componentId, componentName} = item;
+			handles.set(componentId, new ComponentHandle({componentId, componentName}));
+
+			if (item.children != null) {
+				stack.push(...item.children);
+			}
+		}
+
+		return handles;
+	}))
+
+	componentHandles!: Map<string, ComponentHandle>;
+
+	/**
+	 * Id of highlighted component
+	 */
+	@system()
+	highlightedComponentId: string | null = null;
 
 	/**
 	 * Makes item active and scrolls to it if needed
@@ -156,13 +183,14 @@ class bComponentsTree extends iBlock implements iSearch<Item> {
 	}
 
 	/**
+	 * Listens for change in component tree
 	 *
 	 * @param _
 	 * @param componentId
 	 */
 	@watch('?$refs.tree:change')
 	protected onTreeChange(_: unknown, componentId: string): void {
-		this.emit('change', componentId);
+		this.emit('change', this.componentHandles.get(componentId));
 	}
 
 	/**
@@ -180,23 +208,31 @@ class bComponentsTree extends iBlock implements iSearch<Item> {
 		}
 	}
 
+	@hook('mounted')
+	protected init(): void {
+		this.async.on(this.selfEmitter, 'change', (_: unknown, component: ComponentHandle) => {
+			component.highlight(this.highlightedComponentId !== component.componentId);
+		});
+	}
+
 	/**
 	 * Handle item mouseenter event
 	 *
 	 * @param item
-	 * @param event
+	 * @param _event
 	 */
-	protected onItemMouseEnter(item: Item, event: MouseEvent): void {
-		// TODO: use engine to highlight the component node
+	protected onItemMouseEnter(item: Item, _event: MouseEvent): void {
+		this.highlightedComponentId = item.value;
+		this.componentHandles.get(item.value)?.highlight(false);
 	}
 
 	/**
 	 * Handle item mouseleave event
 	 *
-	 * @param item
-	 * @param event
+	 * @param _item
+	 * @param _event
 	 */
-	protected onItemMouseLeave(item: Item, event: MouseEvent): void {
+	protected onItemMouseLeave(_item: Item, _event: MouseEvent): void {
 		// TODO: use engine to remove highlight from the component node
 	}
 }

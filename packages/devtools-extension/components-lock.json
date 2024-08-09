@@ -223,7 +223,7 @@
           },
           "type": "block",
           "mixin": false,
-          "logic": "src/features/components/b-components-panel/b-components-panel.ts",
+          "logic": "node_modules/@v4fire/devtools-core/src/features/components/b-components-panel/b-components-panel.ts",
           "styles": [
             "node_modules/@v4fire/devtools-core/src/features/components/b-components-panel/b-components-panel.styl"
           ],
